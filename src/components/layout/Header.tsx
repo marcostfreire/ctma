@@ -32,14 +32,14 @@ export default function Header() {
         window.removeEventListener('scroll', controlNavbar);
       };
     }
-  }, [controlNavbar]);
-  const navigationLinks = [
+  }, [controlNavbar]);  const navigationLinks = [
     { href: "/", label: "Home" },
     { href: "/sobre-nos", label: "Sobre Nós" },
     { href: "/cursos", label: "Cursos" },
     { href: "/projetos", label: "Projetos" },
     { href: "/credenciamento", label: "Credenciamento" },
     { href: "/blog", label: "Blog" },
+    { href: "/faq", label: "FAQ" },
     { href: "/contato", label: "Contato" },
   ];return (
     <header

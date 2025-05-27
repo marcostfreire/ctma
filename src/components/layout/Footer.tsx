@@ -21,6 +21,7 @@ export default function Footer() {
               <li><Link href="/projetos" className="hover:text-ctma-white transition-colors">Projetos</Link></li>
               <li><Link href="/credenciamento" className="hover:text-ctma-white transition-colors">Credenciamento</Link></li>
               <li><Link href="/blog" className="hover:text-ctma-white transition-colors">Blog</Link></li>
+              <li><Link href="/faq" className="hover:text-ctma-white transition-colors">FAQ</Link></li>
               <li><Link href="/contato" className="hover:text-ctma-white transition-colors">Contato</Link></li>
             </ul>
           </div>
