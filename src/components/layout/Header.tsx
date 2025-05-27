@@ -95,20 +95,19 @@ export default function Header() {
           >
             <div className="max-w-7xl mx-auto px-4 pt-3 pb-4 space-y-2 sm:px-6 lg:px-8">
               {navigationLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block px-3 py-2.5 rounded-md text-base font-medium text-ctma-azul-marinho hover:text-ctma-azul-jeans hover:bg-ctma-cinza-azulado-claro/50 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="pt-3">
+                <div key={link.href} className="border-b border-ctma-cinza-azulado-claro last:border-0">
+                  <Link
+                    href={link.href}
+                    className="block text-ctma-azul-marinho hover:text-ctma-azul-jeans py-3 text-base font-medium transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </div>
+              ))}              {/* Mobile CTA Button */}
+              <div className="pt-2">
                 <Link
                   href="/cursos"
-                  className="block bg-ctma-azul-jeans text-ctma-white px-3 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
-                  onClick={() => setIsMenuOpen(false)}
+                  className="block bg-ctma-azul-jeans text-ctma-white text-center px-4 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
                 >
                   TORNE-SE UM CAPELÃO
                 </Link>

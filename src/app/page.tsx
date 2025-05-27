@@ -123,7 +123,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/cursos"
-                className="bg-transparent text-ctma-azul-jeans border-2 border-ctma-azul-jeans px-8 py-3 rounded-lg text-lg font-semibold hover:bg-ctma-azul-jeans hover:text-ctma-white transition-all duration-200 ease-in-out transform hover:scale-105"
+                className="bg-transparent text-ctma-azul-jeans border-2 border-ctma-azul-jeans px-8 py-3 rounded-lg text-lg font-semibold hover:bg-[#3E567B] hover:text-ctma-white hover:border-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
               >
                 CONHEÇA NOSSOS CURSOS
               </Link>
