@@ -33,15 +33,15 @@ export default function Header() {
       };
     }
   }, [controlNavbar]);
-
   const navigationLinks = [
     { href: "/", label: "Home" },
     { href: "/sobre-nos", label: "Sobre Nós" },
     { href: "/cursos", label: "Cursos" },
+    { href: "/projetos", label: "Projetos" },
     { href: "/credenciamento", label: "Credenciamento" },
     { href: "/blog", label: "Blog" },
     { href: "/contato", label: "Contato" },
-  ];  return (
+  ];return (
     <header
       className={`bg-white text-ctma-azul-marinho shadow-lg sticky top-0 z-[9999] transition-transform duration-300 ease-in-out ${
         showHeader ? "translate-y-0" : "-translate-y-full"

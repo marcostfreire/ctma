@@ -1,9 +1,9 @@
 // C:\Users\Marcos\Documents\VS Code\clientes\ctma\ctmaweb\src\app\cursos\page.tsx
 import Link from 'next/link';
-import Image from 'next/image'; // Para usar imagens dos cursos
+import Image from 'next/image';
 import type { Metadata } from 'next';
-// Importe ícones de lucide-react conforme necessário (ex: para a lista "Por que CTMA")
-// import { Globe, Users, ShieldCheck, MapPin, Network } from 'lucide-react';
+// Se precisar de ícones para a seção "Por Que a CTMA?", pode importá-los:
+// import { Globe, Users, ShieldCheck, MapPin, Network, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Nossos Cursos - CTMA',
@@ -20,25 +20,102 @@ export default function CursosPage() {
     { title: "Comunidade Global de Capelães", description: "Faça parte de uma rede vibrante de profissionais atuantes em todos os continentes. Conecte-se, colabore e cresça ao lado de quem compartilha do seu propósito." /* icon: Network */ },
   ];
 
+  // Dados para Cursos Principais (Capelania, Diplomacia, Líder Global, Monitor)
+  const cursosPrincipais = [
+    {
+      id: 'capelania-internacional',
+      title: 'Curso de Capelania Internacional – Presencial e Online',
+      subtitle: 'Torne-se um verdadeiro embaixador da fé e da compaixão.',
+      image: '/images/cursos/capelania-internacional.jpg',
+      imageAlt: 'Curso de Capelania Internacional CTMA',
+      features: [
+        'Imersão Total: Mais de 40 horas de conteúdo prático e profundamente espiritual.',
+        'Recursos Completos: Manual abrangente, aulas gravadas para revisão ilimitada e acesso vitalício à plataforma.',
+        'Aulas ao Vivo com Líderes Mundiais: Aprenda e interaja com os maiores nomes da capelania internacional.',
+        'Certificação Global: Credencial válida nos EUA e em nossos países parceiros.',
+        'Integração Imediata: Seja incluído no nosso banco exclusivo de capelães ativos da CTMA, pronto para atuar.'
+      ],
+      buttonText: 'Quero Ser um Capelão Internacional: Inscreva-se Agora',
+      buttonLink: '/cursos/capelania-internacional' // Link para landing page específica
+    },
+    {
+      id: 'diplomacia-civil',
+      title: 'Curso de Diplomacia Civil Cristã',
+      subtitle: 'Posicione-se como um líder de influência cristã em ambientes estratégicos.',
+      image: '/images/cursos/diplomacia-civil.jpg',
+      imageAlt: 'Curso de Diplomacia Civil Cristã CTMA',
+      features: [
+        'Habilidades de Elite: Desenvolva sua inteligência emocional e aprenda a comunicação diplomática para representar a fé com sabedoria e graça.',
+        'Acesso Exclusivo: Participe de fóruns internacionais e eventos especiais, ampliando sua rede de contatos e oportunidades.',
+        'Seja a Voz da Fé: Prepare-se para atuar em ambientes de alto impacto, onde sua influência pode moldar o futuro.'
+      ],
+      buttonText: 'Desenvolva Sua Influência: Saiba Mais',
+      buttonLink: '/cursos/diplomacia-civil' // Link para landing page específica
+    },
+    {
+      id: 'lider-global',
+      title: 'Curso de Líder Global',
+      subtitle: 'Desenvolva seu potencial máximo para liderar com inteligência, propósito e impacto em escala mundial.',
+      image: '/images/cursos/lider-global.jpg',
+      imageAlt: 'Curso de Líder Global CTMA',
+      features: [
+        'Inteligência Essencial: Capacite-se em inteligência emocional e espiritual para decisões mais assertivas e relacionamentos mais profundos.',
+        'Estratégias de Alto Nível: Aprenda a formular e executar estratégias visionárias que transformam equipes e comunidades, com foco em resultados globais.',
+        'Comunicação Intercultural: Domine a inteligência intercultural para atuar com eficácia, respeito e sensibilidade em diversos contextos culturais, construindo pontes e não barreiras.',
+        'Liderança Transformadora: Posicione-se como um líder que inspira, mobiliza e gera um legado duradouro, expandindo o Reino de Deus com excelência.'
+      ],
+      buttonText: 'Torne-se um Líder Global: Saiba Mais',
+      buttonLink: '/cursos/lider-global' // Link para landing page específica
+    },
+    {
+      id: 'monitor-internacional',
+      title: 'Curso de Monitor Internacional',
+      subtitle: 'Capacite-se para formar novos líderes e expandir o impacto da CTMA em sua região.',
+      image: '/images/cursos/monitor-internacional.jpg',
+      imageAlt: 'Curso de Monitor Internacional CTMA',
+      features: [
+        'Forme Novos Líderes: Seja um multiplicador dos cursos da CTMA, capacitando capelães e diplomatas em sua comunidade.',
+        'Desenvolva Habilidades de Ensino: Aprenda a aplicar a metodologia CTMA em cursos presenciais e online, com apoio e recursos da organização.',
+        'Expanda sua Influência: Torne-se um representante da CTMA em sua região, impactando vidas e comunidades.',
+        'Empreenda com Propósito: Gere receita ao formar novos líderes, com um modelo de parceria que recompensa seu trabalho.'
+      ],
+      buttonText: 'Torne-se um Monitor Internacional: Saiba Mais',
+      buttonLink: '/cursos/monitor-internacional' // Link para landing page específica
+    }
+  ];
+
   // Dados para Cursos de Capelania Especializada
   const capelaniasEspecializadas = [
-    "Capelania Hospitalar: Leve conforto e esperança onde a dor é mais sentida.",
-    "Capelania Prisional: Transforme vidas por trás das grades.",
-    "Capelania em Catástrofes: Seja o alento em momentos de maior desespero.",
-    "Capelania Familiar: Fortaleça lares e restaure relacionamentos.",
-    "Capelania Educacional: Molde mentes e corações nas novas gerações.",
-    "Capelania para Idosos: Acolha e valorize a sabedoria da terceira idade.",
-    "Capelania Infantil: Leve alegria e esperança aos pequenos."
+    { titulo: "Capelania Hospitalar", descricao: "Leve conforto e esperança onde a dor é mais sentida." },
+    { titulo: "Capelania Prisional", descricao: "Transforme vidas por trás das grades." },
+    { titulo: "Capelania em Catástrofes", descricao: "Seja o alento em momentos de maior desespero." },
+    { titulo: "Capelania Familiar", descricao: "Fortaleça lares e restaure relacionamentos." },
+    { titulo: "Capelania Educacional", descricao: "Molde mentes e corações nas novas gerações." },
+    { titulo: "Capelania para Idosos", descricao: "Acolha e valorize a sabedoria da terceira idade." },
+    { titulo: "Capelania Infantil", descricao: "Leve alegria e esperança aos pequenos." }
   ];
-  // Dados para Depoimentos da Cursos Page
-  const depoimentosCursosPage = [
-    { 
-      quote: "Antes da CTMA, eu me sentia perdida. Hoje, sirvo em abrigos e hospitais com autoridade, propósito e uma cobertura espiritual que nunca imaginei ter. Minha vida nunca mais foi a mesma.", 
-      author: "Ana Carolina, Capelã CTMA – São Paulo, Brasil.",
-      image: "/images/testimonials/ana-carolina.jpg",
-      imageAlt: "Ana Carolina - Capelã CTMA"
+
+  // Interface para o tipo de depoimento
+  interface Depoimento {
+    quote: string;
+    author: string;
+    image?: string;
+    imageAlt?: string;
+  }
+
+  // Dados para Depoimentos da Cursos Page (conforme web.md)
+  const depoimentosCursosPage: Depoimento[] = [
+    {
+      quote: "Antes da CTMA, eu me sentia perdida. Hoje, sirvo em abrigos e hospitais com autoridade, propósito e uma cobertura espiritual que nunca imaginei ter. Minha vida nunca mais foi a mesma.",
+      author: "Maria Silva, Capelã CTMA – Massachusetts, EUA.",
+      // image: "/images/testimonials/maria-silva.jpg", // Adicionar esta imagem se disponível
+      // imageAlt: "Maria Silva - Capelã CTMA"
     },
-    { quote: "O suporte que recebo mesmo após o curso é impressionante. Não sou apenas um aluno; faço parte de algo maior, uma família global de capelães que transforma o mundo. É uma honra!", author: "Pr. Anderson Nogueira, Capelão CTMA – Luanda, Angola." }
+    {
+      quote: "O suporte que recebo mesmo após o curso é impressionante. Não sou apenas um aluno; faço parte de algo maior, uma família global de capelães que transforma o mundo. É uma honra!",
+      author: "Pr. Anderson Nogueira, Capelão CTMA – Luanda, Angola."
+      // Sem imagem especificada no web.md para este depoimento
+    }
   ];
 
   // Dados para Jornada em 5 Passos
@@ -48,40 +125,6 @@ export default function CursosPage() {
     { step: 3, title: "Acesso Exclusivo", description: "Receba seu login para nossa plataforma de ensino com todo o material." },
     { step: 4, title: "Aprenda e Conecte-se", description: "Participe das aulas (presenciais ou online) e interaja com mentores e colegas." },
     { step: 5, title: "Certificação e Missão", description: "Receba seu certificado e identidade oficial, integrando-se à nossa rede global de apoio e ação missionária." }
-  ];
-
-  // Dados dos cursos principais com imagens
-  const cursosData = [
-    {
-      id: 'capelania-internacional',
-      title: 'Curso de Capelania Internacional – Presencial e Online',
-      subtitle: 'Torne-se um verdadeiro embaixador da fé e da compaixão.',
-      image: '/images/cursos/capelania-internacional.jpg', // Adicione esta imagem
-      imageAlt: 'Capelania Internacional CTMA',
-      features: [
-        'Imersão Total: Mais de 40 horas de conteúdo prático e profundamente espiritual.',
-        'Recursos Completos: Manual abrangente, aulas gravadas para revisão ilimitada e acesso vitalício à plataforma.',
-        'Aulas ao Vivo com Líderes Mundiais: Aprenda e interaja com os maiores nomes da capelania internacional.',
-        'Certificação Global: Credencial válida nos EUA e em nossos países parceiros.',
-        'Integração Imediata: Seja incluído no nosso banco exclusivo de capelães ativos da CTMA, pronto para atuar.'
-      ],
-      buttonText: 'Quero Ser um Capelão Internacional: Inscreva-se Agora',
-      buttonLink: '/cursos/capelania-internacional'
-    },
-    {
-      id: 'diplomacia-civil',
-      title: 'Curso de Diplomacia Civil Cristã',
-      subtitle: 'Lidere com sabedoria e represente os valores do Reino em ambientes seculares.',
-      image: '/images/cursos/diplomacia-civil.jpg', // Adicione esta imagem
-      imageAlt: 'Diplomacia Civil Cristã CTMA',
-      features: [
-        'Formação Única: Seja preparado para representar princípios cristãos em contextos diplomáticos e governamentais.',
-        'Rede Internacional: Conecte-se com líderes cristãos em posições de influência ao redor do mundo.',
-        'Protocolo e Etiqueta: Domine as nuances culturais e diplomáticas necessárias para o sucesso em qualquer ambiente.'
-      ],
-      buttonText: 'Quero Ser um Diplomata Civil Cristão: Inscreva-se',
-      buttonLink: '/cursos/diplomacia-civil'
-    }
   ];
 
   return (
@@ -96,7 +139,7 @@ export default function CursosPage() {
             Na CTMA, você é preparado para ir além: para acolher, consolar e ser um farol de esperança em momentos de crise, representando o amor de Deus com excelência. Receba certificação internacional, suporte contínuo e reconhecimento global (EUA e mais de 20 países).
           </p>
           <Link
-            href="#cursos-inicio" // Ancora para a seção de listagem de cursos
+            href="#cursos-inicio"
             className="inline-block bg-ctma-accent-red text-ctma-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105"
           >
             Quero Atender ao Chamado: Comece Aqui
@@ -117,7 +160,7 @@ export default function CursosPage() {
               // const Icon = item.icon; // Descomente e importe os ícones se quiser usar
               return (
                 <li key={index} className="flex items-start">
-                  {/* {Icon && (
+                  {/* {Icon && ( // Exemplo de como usar ícone
                     <div className="flex-shrink-0 mr-4 mt-1 p-2 bg-ctma-azul-jeans/10 rounded-full">
                       <Icon size={24} className="text-ctma-azul-jeans" />
                     </div>
@@ -151,115 +194,44 @@ export default function CursosPage() {
           </div>
 
           <div className="space-y-16">
-            {/* Card do Curso de Capelania Internacional */}
-            <div className="bg-ctma-white p-6 sm:p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-              <div className="md:flex md:items-start md:gap-8">
-                <div className="md:w-1/3 mb-6 md:mb-0">
-                  <Image src="/images/cursos/capelania-internacional.jpg" alt="Capelania Internacional" width={400} height={260} className="rounded-lg object-cover w-full"/>
-                </div>
-                <div className="md:flex-1">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-ctma-azul-jeans mb-3">
-                    Curso de Capelania Internacional – Presencial e Online
-                  </h3>
-                  <p className="text-ctma-cinza-ardosia mb-4">
-                    Torne-se um verdadeiro embaixador da fé e da compaixão.
-                  </p>
-                  <ul className="space-y-2 text-sm text-ctma-cinza-ardosia mb-6 list-disc list-inside pl-5">
-                    <li><span className="font-medium text-ctma-azul-marinho">Imersão Total:</span> Mais de 40 horas de conteúdo prático e profundamente espiritual.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Recursos Completos:</span> Manual abrangente, aulas gravadas para revisão ilimitada e acesso vitalício à plataforma.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Aulas ao Vivo com Líderes Mundiais:</span> Aprenda e interaja com os maiores nomes da capelania internacional.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Certificação Global:</span> Credencial válida nos EUA e em nossos países parceiros.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Integração Imediata:</span> Seja incluído no nosso banco exclusivo de capelães ativos da CTMA, pronto para atuar.</li>
-                  </ul>
-                  <Link
-                    href="/cursos/capelania-internacional" // Ajustar link para a landing page específica
-                    className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
-                  >
-                    Quero Ser um Capelão Internacional: Inscreva-se Agora
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Card do Curso de Diplomacia Civil Cristã */}
-            <div className="bg-ctma-white p-6 sm:p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-              <div className="md:flex md:items-start md:gap-8">
-                <div className="md:w-1/3 mb-6 md:mb-0">
-                  <Image src="/images/cursos/diplomacia-civil.jpg" alt="Diplomacia Civil Cristã" width={400} height={260} className="rounded-lg object-cover w-full"/>
-                </div>
-                <div className="md:flex-1">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-ctma-azul-jeans mb-3">
-                    Curso de Diplomacia Civil Cristã
-                  </h3>
-                  <p className="text-ctma-cinza-ardosia mb-4">
-                    Posicione-se como um líder de influência cristã em ambientes estratégicos.
-                  </p>
-                  <ul className="space-y-2 text-sm text-ctma-cinza-ardosia mb-6 list-disc list-inside pl-5">
-                    <li><span className="font-medium text-ctma-azul-marinho">Habilidades de Elite:</span> Desenvolva sua inteligência emocional e aprenda a comunicação diplomática para representar a fé com sabedoria e graça.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Acesso Exclusivo:</span> Participe de fóruns internacionais e eventos especiais, ampliando sua rede de contatos e oportunidades.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Seja a Voz da Fé:</span> Prepare-se para atuar em ambientes de alto impacto, onde sua influência pode moldar o futuro.</li>
-                  </ul>
-                  <Link
-                    href="/cursos/diplomacia-civil" // Ajustar link
-                    className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
-                  >
-                    Desenvolva Sua Influência: Saiba Mais
-                  </Link>
+            {/* Cards dos Cursos Principais */}
+            {cursosPrincipais.map((curso) => (
+              <div key={curso.id} className="bg-ctma-white p-6 sm:p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                <div className="md:flex md:items-start md:gap-8">
+                  <div className="md:w-1/3 mb-6 md:mb-0">
+                    {/* Adicione a imagem real na pasta public/images/cursos/ */}
+                    <Image
+                      src={curso.image}
+                      alt={curso.imageAlt}
+                      width={400}
+                      height={260}
+                      className="rounded-lg object-cover w-full h-auto aspect-[400/260]"
+                      onError={(e) => (e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI2MCIgdmlld0JveD0iMCAwIDQwMCAyNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNjAiIGZpbGw9IiNjM2NhZDEiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiMxMDFiMzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZW0gZG8gQ3Vyc288L3RleHQ+PC9zdmc+')} // Fallback simples
+                    />
+                    <p className="text-xs text-ctma-cinza-ardosia mt-1 text-center md:text-left">Imagem: {curso.imageAlt}. Substitua por imagem real em {curso.image}</p>
+                  </div>
+                  <div className="md:flex-1">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-ctma-azul-jeans mb-2">
+                      {curso.title}
+                    </h3>
+                    <p className="text-ctma-cinza-ardosia mb-4">
+                      {curso.subtitle}
+                    </p>
+                    <ul className="space-y-2 text-sm text-ctma-cinza-ardosia mb-6 list-disc list-inside pl-1">
+                      {curso.features.map((feature, index) => (
+                        <li key={index}><span className="font-medium text-ctma-azul-marinho">{feature.split(':')[0]}:</span>{feature.split(':').slice(1).join(':')}</li>
+                      ))}
+                    </ul>
+                    <Link
+                      href={curso.buttonLink}
+                      className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
+                    >
+                      {curso.buttonText}
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Card do Curso de Líder Global */}
-            <div className="bg-ctma-white p-6 sm:p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-              <div className="md:flex md:items-start md:gap-8">
-                <div className="md:flex-1">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-ctma-azul-jeans mb-3">
-                    Curso de Líder Global
-                  </h3>
-                  <p className="text-ctma-cinza-ardosia mb-4">
-                    Desenvolva seu potencial máximo para liderar com inteligência, propósito e impacto em escala mundial.
-                  </p>
-                  <ul className="space-y-2 text-sm text-ctma-cinza-ardosia mb-6 list-disc list-inside pl-5">
-                    <li><span className="font-medium text-ctma-azul-marinho">Inteligência Essencial:</span> Capacite-se em inteligência emocional e espiritual para decisões mais assertivas e relacionamentos mais profundos.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Estratégias de Alto Nível:</span> Aprenda a formular e executar estratégias visionárias que transformam equipes e comunidades, com foco em resultados globais.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Comunicação Intercultural:</span> Domine a inteligência intercultural para atuar com eficácia, respeito e sensibilidade em diversos contextos culturais, construindo pontes e não barreiras.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Liderança Transformadora:</span> Posicione-se como um líder que inspira, mobiliza e gera um legado duradouro, expandindo o Reino de Deus com excelência.</li>
-                  </ul>
-                  <Link
-                    href="/cursos/lider-global" // Ajustar link
-                    className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
-                  >
-                    Torne-se um Líder Global: Saiba Mais
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Card do Curso de Monitor Internacional */}
-            <div className="bg-ctma-white p-6 sm:p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-              <div className="md:flex md:items-start md:gap-8">
-                <div className="md:flex-1">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-ctma-azul-jeans mb-3">
-                    Curso de Monitor Internacional
-                  </h3>
-                  <p className="text-ctma-cinza-ardosia mb-4">
-                    Capacite-se para formar novos líderes e expandir o impacto da CTMA em sua região.
-                  </p>
-                  <ul className="space-y-2 text-sm text-ctma-cinza-ardosia mb-6 list-disc list-inside pl-5">
-                    <li><span className="font-medium text-ctma-azul-marinho">Forme Novos Líderes:</span> Seja um multiplicador dos cursos da CTMA, capacitando capelães e diplomatas em sua comunidade.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Desenvolva Habilidades de Ensino:</span> Aprenda a aplicar a metodologia CTMA em cursos presenciais e online, com apoio e recursos da organização.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Expanda sua Influência:</span> Torne-se um representante da CTMA em sua região, impactando vidas e comunidades.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Empreenda com Propósito:</span> Gere receita ao formar novos líderes, com um modelo de parceria que recompensa seu trabalho.</li>
-                  </ul>
-                  <Link
-                    href="/cursos/monitor-internacional" // Ajustar link
-                    className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
-                  >
-                    Torne-se um Monitor Internacional: Saiba Mais
-                  </Link>
-                </div>
-              </div>
-            </div>
+            ))}
 
             {/* Subseção Cursos de Capelania Especializada */}
             <div className="bg-ctma-white p-6 sm:p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
@@ -270,15 +242,12 @@ export default function CursosPage() {
                 Aprofunde seu impacto em áreas específicas e torne-se uma referência.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                {capelaniasEspecializadas.map((especializacao, index) => {
-                  const [titulo, descricao] = especializacao.split(': ');
-                  return (
-                    <div key={index} className="p-4 border border-ctma-cinza-azulado-claro/50 rounded-lg bg-ctma-cinza-azulado-claro/20">
-                      <h4 className="font-semibold text-ctma-azul-marinho mb-1">{titulo}:</h4>
-                      <p className="text-sm text-ctma-cinza-ardosia">{descricao}</p>
-                    </div>
-                  );
-                })}
+                {capelaniasEspecializadas.map((especializacao, index) => (
+                  <div key={index} className="p-4 border border-ctma-cinza-azulado-claro/50 rounded-lg bg-ctma-cinza-azulado-claro/20">
+                    <h4 className="font-semibold text-ctma-azul-marinho mb-1">{especializacao.titulo}:</h4>
+                    <p className="text-sm text-ctma-cinza-ardosia">{especializacao.descricao}</p>
+                  </div>
+                ))}
               </div>
               <div className="text-center md:text-left">
                 <Link
@@ -301,26 +270,39 @@ export default function CursosPage() {
               Vozes que Inspiram: Depoimentos Reais
             </h2>
             <p className="text-lg text-ctma-cinza-ardosia">
-              O impacto da CTMA é visível na vida de nossos capelães. Veja o que eles estão realizando:
+              Descubra como nossos ex-alunos estão transformando vidas ao redor do mundo.
             </p>
-          </div>          <div className="space-y-10">
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {depoimentosCursosPage.map((depoimento, index) => (
-              <blockquote key={index} className="p-6 bg-ctma-cinza-azulado-claro/30 rounded-lg shadow-md border-l-4 border-ctma-azul-jeans">
-                <div className="flex flex-col items-center text-center">
-                  {depoimento.image && (
+              <blockquote key={index} className="bg-ctma-cinza-azulado-claro/30 p-6 rounded-lg text-center">
+                <div className="flex justify-center mb-4">
+                  {depoimento.image ? (
                     <div className="mb-4">
-                      <Image 
-                        src={depoimento.image} 
-                        alt={depoimento.imageAlt || 'Depoimento'} 
-                        width={80} 
-                        height={80} 
+                      <Image
+                        src={depoimento.image}
+                        alt={depoimento.imageAlt || `Depoimento de ${depoimento.author.split(',')[0]}`}
+                        width={80}
+                        height={80}
                         className="rounded-full object-cover"
+                        onError={(e) => {
+                          // Fallback para iniciais se a imagem falhar ao carregar
+                          const initials = depoimento.author.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase();
+                          const parent = e.currentTarget.parentElement;
+                          if (parent) {
+                            parent.innerHTML = `<div class="w-20 h-20 bg-ctma-cinza-ardosia rounded-full flex items-center justify-center text-ctma-white text-2xl font-semibold">${initials}</div>`;
+                          }
+                        }}
                       />
                     </div>
+                  ) : (
+                    <div className="mb-4 w-20 h-20 bg-ctma-azul-jeans text-ctma-white rounded-full flex items-center justify-center text-2xl font-semibold">
+                      {depoimento.author.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}
+                    </div>
                   )}
-                  <p className="text-lg italic text-ctma-cinza-ardosia mb-4">&ldquo;{depoimento.quote}&rdquo;</p>
-                  <footer className="text-sm font-semibold text-ctma-azul-marinho">{depoimento.author}</footer>
                 </div>
+                <p className="text-lg italic text-ctma-cinza-ardosia mb-4">&ldquo;{depoimento.quote}&rdquo;</p>
+                <footer className="text-sm font-semibold text-ctma-azul-marinho">{depoimento.author}</footer>
               </blockquote>
             ))}
           </div>
@@ -353,7 +335,7 @@ export default function CursosPage() {
           </ol>
           <div className="text-center mt-12">
             <Link
-              href="#cursos-inicio" // Link para o início da listagem de cursos
+              href="#cursos-inicio"
               className="inline-block bg-ctma-azul-jeans text-ctma-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
             >
               Sim, Quero Começar Minha Jornada Agora!
@@ -372,7 +354,7 @@ export default function CursosPage() {
             Você foi chamado para mais do que viver para si. Você foi chamado para servir, para ser a diferença, para impactar. O mundo precisa de capelães preparados, e o próximo pode ser você. Junte-se à CTMA e atue com excelência, honra e propósito onde vidas estão sendo esquecidas. Sinta a plenitude de um chamado que ecoa por todos os continentes.
           </p>
           <Link
-            href="#cursos-inicio" // Link para o início da listagem de cursos
+            href="#cursos-inicio"
             className="inline-block bg-ctma-accent-red text-ctma-white px-12 py-5 rounded-lg text-xl font-semibold shadow-xl hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-400 focus:ring-opacity-50"
           >
             Atenda ao Chamado: Junte-se à CTMA Hoje!
@@ -390,7 +372,7 @@ export default function CursosPage() {
             Nossa equipe de conselheiros está pronta para te ajudar a encontrar o curso perfeito e esclarecer todas as suas perguntas.
           </p>
           <Link
-            href="/contato" // Link para a página de contato
+            href="/contato"
             className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
           >
             Fale com um Consultor CTMA Agora

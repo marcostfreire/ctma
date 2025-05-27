@@ -14,11 +14,11 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 className="text-lg font-semibold text-ctma-white mb-3">Links Úteis</h3>
-            <ul className="space-y-2">
+            <h3 className="text-lg font-semibold text-ctma-white mb-3">Links Úteis</h3>            <ul className="space-y-2">
               <li><Link href="/sobre-nos" className="hover:text-ctma-white transition-colors">Sobre Nós</Link></li>
               <li><Link href="/missao-visao-valores" className="hover:text-ctma-white transition-colors">Missão, Visão, Valores</Link></li>
               <li><Link href="/cursos" className="hover:text-ctma-white transition-colors">Cursos</Link></li>
+              <li><Link href="/projetos" className="hover:text-ctma-white transition-colors">Projetos</Link></li>
               <li><Link href="/credenciamento" className="hover:text-ctma-white transition-colors">Credenciamento</Link></li>
               <li><Link href="/blog" className="hover:text-ctma-white transition-colors">Blog</Link></li>
               <li><Link href="/contato" className="hover:text-ctma-white transition-colors">Contato</Link></li>
