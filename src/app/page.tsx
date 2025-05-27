@@ -104,9 +104,8 @@ const diferenciaisData = [
 
 export default function HomePage() {
   return (
-    <main>
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-ctma-azul-marinho to-ctma-cinza-ardosia min-h-screen flex items-center">
+    <main>      {/* Hero Section */}
+      <section className="relative isolate bg-gradient-to-r from-ctma-azul-marinho to-ctma-cinza-ardosia min-h-screen flex items-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="max-w-4xl mx-auto text-center text-ctma-white">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
@@ -198,7 +197,50 @@ export default function HomePage() {
                   </div>
                 </div>
               );
-            })}
+            })}          </div>
+        </div>
+      </section>
+
+      {/* Seção Próximos Passos (Chamada Final para Ação) */}
+      <section className="py-16 sm:py-24 bg-ctma-azul-marinho">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl xl:max-w-5xl text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-ctma-white mb-6">
+            Seu Chamado te Espera. Sua Jornada Começa Agora.
+          </h2>
+          <p className="text-lg text-ctma-cinza-azulado-claro leading-relaxed mb-10">
+            Pronto para dar o próximo passo e se capacitar para uma vida de impacto, especialmente em momentos onde a ajuda é mais urgente? Escolha seu caminho na CTMA e comece a transformar realidades.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+            <Link
+              href="/cursos/capelao"
+              className="block w-full bg-ctma-azul-jeans text-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
+            >
+              QUERO SER UM CAPELÃO
+            </Link>
+            <Link
+              href="/cursos/diplomata-civil"
+              className="block w-full bg-ctma-azul-jeans text-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
+            >
+              QUERO SER UM DIPLOMATA CIVIL
+            </Link>
+            <Link
+              href="/cursos/monitor-internacional"
+              className="block w-full bg-ctma-azul-jeans text-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
+            >
+              QUERO SER UM MONITOR INTERNACIONAL
+            </Link>
+            <Link
+              href="/cursos"
+              className="block w-full sm:col-span-2 lg:col-auto lg:col-start-1 lg:col-end-3 bg-ctma-white text-ctma-azul-marinho px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-ctma-cinza-azulado-claro transition-colors duration-200 ease-in-out border border-ctma-cinza-azulado-claro"
+            >
+              VER TODOS OS CURSOS E PROGRAMAS
+            </Link>
+            <Link
+              href="/doacao"
+              className="block w-full lg:col-start-3 lg:col-end-4 bg-transparent text-ctma-white border-2 border-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-ctma-white hover:text-ctma-azul-marinho transition-colors duration-200 ease-in-out"
+            >
+              FAÇA UMA DOAÇÃO E TRANSFORME VIDAS
+            </Link>
           </div>
         </div>
       </section>

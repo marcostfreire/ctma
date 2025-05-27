@@ -43,7 +43,7 @@ export default function Header() {
     { href: "/contato", label: "Contato" },
   ];  return (
     <header
-      className={`bg-ctma-white text-ctma-azul-marinho shadow-md sticky top-0 z-50 transition-transform duration-300 ease-in-out ${
+      className={`bg-ctma-white text-ctma-azul-marinho shadow-md sticky top-0 z-[1000] transition-transform duration-300 ease-in-out ${
         showHeader ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -91,7 +91,7 @@ export default function Header() {
         </div>        {/* Mobile Menu */}
         {isMenuOpen && (
           <div
-            className="lg:hidden absolute top-full left-0 right-0 w-full bg-ctma-white shadow-xl z-40 border-t border-ctma-cinza-azulado-claro/50"
+            className="lg:hidden absolute top-full left-0 right-0 w-full bg-ctma-white shadow-xl z-[999] border-t border-ctma-cinza-azulado-claro/50"
           >
             <div className="max-w-7xl mx-auto px-4 pt-3 pb-4 space-y-2 sm:px-6 lg:px-8">
               {navigationLinks.map((link) => (
