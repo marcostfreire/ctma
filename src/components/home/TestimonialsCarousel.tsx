@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
@@ -90,9 +91,8 @@ export default function TestimonialsCarousel() {
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4">
-                  <div className="bg-ctma-white rounded-lg shadow-lg p-6 h-full">
-                    <Quote className="text-ctma-accent-red mb-4" size={32} />                    <p className="text-ctma-cinza-ardosia mb-6 leading-relaxed italic">
+                <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4">                  <div className="bg-ctma-white rounded-lg shadow-lg p-6 h-full">
+                    <Quote className="text-ctma-azul-jeans mb-4" size={32} /><p className="text-ctma-cinza-ardosia mb-6 leading-relaxed italic">
                       &ldquo;{testimonial.content}&rdquo;
                     </p>
                     <div className="flex items-center">
@@ -114,12 +114,10 @@ export default function TestimonialsCarousel() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Navigation Buttons */}
+          </div>          {/* Navigation Buttons */}
           <div className="flex justify-center items-center mt-8 gap-4">
             <button
-              className="bg-ctma-azul-marinho text-ctma-white p-2 rounded-full hover:bg-ctma-cinza-ardosia transition-colors"
+              className="bg-ctma-azul-jeans text-ctma-white p-2 rounded-full hover:bg-[#3E567B] transition-colors"
               onClick={scrollPrev}
               aria-label="Testemunho anterior"
             >
@@ -133,7 +131,7 @@ export default function TestimonialsCarousel() {
                   key={index}
                   className={`w-3 h-3 rounded-full transition-colors ${
                     index === selectedIndex
-                      ? 'bg-ctma-azul-marinho'
+                      ? 'bg-ctma-azul-jeans'
                       : 'bg-ctma-cinza-ardosia'
                   }`}
                   onClick={() => scrollTo(index)}
@@ -143,23 +141,20 @@ export default function TestimonialsCarousel() {
             </div>
 
             <button
-              className="bg-ctma-azul-marinho text-ctma-white p-2 rounded-full hover:bg-ctma-cinza-ardosia transition-colors"
+              className="bg-ctma-azul-jeans text-ctma-white p-2 rounded-full hover:bg-[#3E567B] transition-colors"
               onClick={scrollNext}
               aria-label="Próximo testemunho"
             >
               <ChevronRight size={24} />
             </button>
           </div>
-        </div>
-
-        {/* Call to Action */}
+        </div>        {/* Call to Action */}
         <div className="text-center mt-12">
           <p className="text-ctma-cinza-ardosia mb-6">
             Você também pode fazer parte dessa jornada de transformação.
-          </p>
-          <button className="bg-ctma-accent-red text-ctma-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+          </p>          <Link href="/cursos" className="inline-block bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105">
             INICIE SUA JORNADA HOJE
-          </button>
+          </Link>
         </div>
       </div>
     </section>

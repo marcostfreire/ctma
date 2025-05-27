@@ -115,17 +115,16 @@ export default function HomePage() {
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-ctma-cinza-azulado-claro">
               Formamos capelães, diplomatas civis e líderes para um impacto global de compaixão, paz e esperança, especialmente em momentos de crise e desastres.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            </p>            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/cursos"
-                className="bg-ctma-accent-red text-ctma-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-red-700 transition-colors"
+                className="bg-ctma-azul-jeans text-ctma-white px-8 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
               >
                 TORNE-SE UM CAPELÃO
               </Link>
               <Link
                 href="/cursos"
-                className="bg-transparent border-2 border-ctma-white text-ctma-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-ctma-white hover:text-ctma-azul-marinho transition-colors"
+                className="bg-transparent text-ctma-azul-jeans border-2 border-ctma-azul-jeans px-8 py-3 rounded-lg text-lg font-semibold hover:bg-ctma-azul-jeans hover:text-ctma-white transition-all duration-200 ease-in-out transform hover:scale-105"
               >
                 CONHEÇA NOSSOS CURSOS
               </Link>
@@ -142,13 +141,12 @@ export default function HomePage() {
           </h2>
           <p className="text-lg text-ctma-cinza-ardosia leading-relaxed mb-8">
             A CTMA (Chaplain Training Management Agency) é mais que uma instituição, somos um movimento global com sede em Orlando, Flórida (EUA), impulsionado pela fé, compaixão e misericórdia. Acreditamos que a liderança ética e a ação humanitária, inspiradas pelo amor de Cristo, são capazes de responder às maiores necessidades humanas em qualquer parte do mundo, especialmente em tempos de crise e emergência. Nossa essência é clara: Servir com excelência, liderar com propósito e transformar vidas pelo amor de Cristo.
-          </p>
-          <Link
+          </p>          <Link
             href="/sobre-nos"
-            className="inline-block bg-transparent hover:bg-ctma-cinza-azulado-claro text-ctma-azul-marinho font-semibold hover:text-ctma-azul-marinho py-3 px-8 border border-ctma-azul-marinho hover:border-transparent rounded-md transition-colors"
+            className="inline-block bg-transparent text-ctma-azul-jeans border-2 border-ctma-azul-jeans font-semibold hover:bg-ctma-azul-jeans hover:text-ctma-white py-3 px-8 rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105"
           >
             SAIBA MAIS SOBRE A CTMA
-          </Link>        </div>
+          </Link></div>
       </section>
 
       {/* Seção Nossos Pilares de Impacto */}
@@ -165,12 +163,10 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             {pilaresData.map((pilar) => {
               const Icone = pilar.icon;
-              return (
-                <div key={pilar.id} className="bg-ctma-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-xl transition-shadow duration-300">
-                  <Icone size={40} className="text-ctma-accent-red mb-4 self-start" />
+              return (                <div key={pilar.id} className="bg-ctma-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-xl transition-shadow duration-300">
+                  <Icone size={40} className="text-ctma-azul-jeans mb-4 self-start" />
                   <h3 className="text-xl font-semibold text-ctma-azul-marinho mb-3">{pilar.title}</h3>
-                  <p className="text-ctma-cinza-ardosia text-sm leading-relaxed flex-grow mb-4">{pilar.description}</p>
-                  <Link href={pilar.link} className="text-ctma-accent-red hover:underline font-medium mt-auto self-start inline-flex items-center">
+                  <p className="text-ctma-cinza-ardosia text-sm leading-relaxed flex-grow mb-4">{pilar.description}</p>                  <Link href={pilar.link} className="text-ctma-azul-jeans hover:text-ctma-azul-marinho hover:underline font-medium mt-auto self-start inline-flex items-center transition-colors duration-200">
                     {pilar.linkText} <ArrowRight size={16} className="ml-1" />
                   </Link>
                 </div>
@@ -192,10 +188,9 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 mt-12">
             {diferenciaisData.map((diferencial) => {
               const Icone = diferencial.icon;
-              return (
-                <div key={diferencial.id} className="flex flex-col items-center text-center md:flex-row md:text-left md:items-start">
-                  <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6 p-3 rounded-full bg-ctma-accent-red/10">
-                    <Icone size={32} className="text-ctma-accent-red" />
+              return (                <div key={diferencial.id} className="flex flex-col items-center text-center md:flex-row md:text-left md:items-start">
+                  <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6 p-3 rounded-full bg-ctma-azul-jeans/10">
+                    <Icone size={32} className="text-ctma-azul-jeans" />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2 text-ctma-azul-marinho">{diferencial.title}</h3>

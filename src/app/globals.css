@@ -2,7 +2,9 @@
 
 :root {
   --background: #FFFFFF; /* ctma-white */
-  --foreground: #101B35; /* ctma-azul-marinho */
+  --foreground: #101B35; /* ctma-azul-marinho para texto padrão */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 /* Custom CSS variables for Tailwind theme */
@@ -21,6 +23,6 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background); /* Garante fundo branco */
+  color: var(--color-foreground);   /* Garante texto azul marinho */
 }
