@@ -43,9 +43,15 @@ export default function Header() {
     { href: "/contato", label: "Contato" },
   ];  return (
     <header
-      className={`bg-ctma-white text-ctma-azul-marinho shadow-md sticky top-0 z-[1000] transition-transform duration-300 ease-in-out ${
+      className={`bg-white text-ctma-azul-marinho shadow-lg sticky top-0 z-[9999] transition-transform duration-300 ease-in-out ${
         showHeader ? "translate-y-0" : "-translate-y-full"
       }`}
+      style={{ 
+        backgroundColor: '#FFFFFF', 
+        opacity: 1,
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none'
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">          {/* Logo */}
