@@ -1,5 +1,106 @@
 import Link from "next/link";
 import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
+import { GraduationCap, Briefcase, Users, ShieldCheck, AlertTriangle, Network, HeartHandshake, ArrowRight, Award, Users2, Globe, Handshake, Laptop, HeartPulse } from 'lucide-react';
+
+// Dados dos Pilares de Impacto
+const pilaresData = [
+  { 
+    id: 1, 
+    icon: GraduationCap, 
+    title: "Formação de Capelães Internacionais", 
+    description: "Capacitamos vocacionados para serem a voz da esperança e o apoio espiritual em hospitais, prisões, escolas, zonas de desastre, e comunidades vulneráveis, com sensibilidade e compromisso cristão.", 
+    link: "/cursos/capelao-internacional", 
+    linkText: "Saiba Mais" 
+  },
+  { 
+    id: 2, 
+    icon: Briefcase, 
+    title: "Capacitação de Diplomatas Civis Internacionais", 
+    description: "Preparamos líderes para a mediação de conflitos, cooperação global e representação ética cristã em cenários internacionais, promovendo a paz e a justiça, inclusive em contextos de crise humanitária.", 
+    link: "/cursos/diplomata-civil", 
+    linkText: "Saiba Mais" 
+  },
+  { 
+    id: 3, 
+    icon: Users, 
+    title: "Formação de Líderes Globais de Excelência", 
+    description: "Desenvolvemos alta liderança cristã, integrando princípios bíblicos com gestão estratégica para influenciar positivamente organizações e sociedades, preparando-as também para responder a desafios imprevistos.", 
+    link: "/lideranca-global", 
+    linkText: "Saiba Mais" 
+  },
+  { 
+    id: 4, 
+    icon: ShieldCheck, 
+    title: "Credenciamento Internacional de Organizações", 
+    description: "Oferecemos o selo Padrão Global de Excelência CTMA para ONGs, capelanias e projetos sociais. Este credenciamento garante que as organizações parceiras sigam rigorosos padrões de ética, transparência e eficácia, ampliando seu reconhecimento e credibilidade globais.", 
+    link: "/credenciamento", 
+    linkText: "Saiba Mais" 
+  },
+  { 
+    id: 5, 
+    icon: AlertTriangle, 
+    title: "Resposta a Emergências e Desastres", 
+    description: "Mobilizamos equipes de capelães e diplomatas para oferecer suporte espiritual e humanitário imediato em cenários de catástrofes naturais, guerras e crises. Somos a primeira linha de consolo e auxílio em momentos de extrema vulnerabilidade.", 
+    link: "/resposta-emergencias", 
+    linkText: "Saiba Mais" 
+  },
+  { 
+    id: 6, 
+    icon: Network, 
+    title: "Rede de Monitores Internacionais CTMA", 
+    description: "Certificamos representantes oficiais para expandir nossa missão, coordenar treinamentos e projetos localmente em todos os continentes, prontos para mobilizar recursos em situações críticas.", 
+    link: "/cursos/monitor-internacional", 
+    linkText: "Saiba Mais" 
+  },
+  { 
+    id: 7, 
+    icon: HeartHandshake, 
+    title: "Programa de Experiência, Missões e Doação Global", 
+    description: "Conectamos fé, ação e generosidade, proporcionando vivências missionárias e acesso a projetos da CTMA em todo o mundo. Recebemos doações, como uma ONG 501(c)(3), e canalizamos esses recursos com total transparência e contabilidade auditada para projetos credenciados.", 
+    link: "/programas/experiencia-missoes-doacao", 
+    linkText: "Saiba Mais" 
+  },
+];
+
+// Dados dos Diferenciais
+const diferenciaisData = [
+  { 
+    id: 1, 
+    icon: Award, 
+    title: "Padrão Global de Excelência", 
+    description: "Formação com rigor acadêmico e sensibilidade prática, reconhecida mundialmente, com preparo específico para crises." 
+  },
+  { 
+    id: 2, 
+    icon: Users2, 
+    title: "Corpo Docente Experiente", 
+    description: "Instrutores internacionais com vasta experiência ministerial e profissional, incluindo atuação em emergências." 
+  },
+  { 
+    id: 3, 
+    icon: Globe, 
+    title: "Rede Global de Apoio", 
+    description: "Conecte-se a uma comunidade de capelães, diplomatas e líderes em todos os continentes, pronta para atuar em conjunto em qualquer necessidade." 
+  },
+  { 
+    id: 4, 
+    icon: Handshake, 
+    title: "Missão com Propósito", 
+    description: "Faça parte de algo maior, impactando vidas e construindo o Reino de Deus, especialmente em momentos de vulnerabilidade extrema." 
+  },
+  { 
+    id: 5, 
+    icon: Laptop, 
+    title: "Flexibilidade de Ensino", 
+    description: "Programas híbridos, online e presenciais, adaptados à sua realidade." 
+  },
+  { 
+    id: 6, 
+    icon: HeartPulse, 
+    title: "Valores Cristãos Inegociáveis", 
+    description: "Fé, compaixão, integridade e liderança servidora como base de tudo." 
+  },
+];
 
 export default function HomePage() {
   return (
@@ -47,12 +148,65 @@ export default function HomePage() {
             className="inline-block bg-transparent hover:bg-ctma-cinza-azulado-claro text-ctma-azul-marinho font-semibold hover:text-ctma-azul-marinho py-3 px-8 border border-ctma-azul-marinho hover:border-transparent rounded-md transition-colors"
           >
             SAIBA MAIS SOBRE A CTMA
-          </Link>
-        </div>
+          </Link>        </div>
       </section>
 
-      {/* Seção de Testemunhos */}
+      {/* Seção Nossos Pilares de Impacto */}
+      <section className="py-16 sm:py-24 bg-ctma-cinza-azulado-claro">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-ctma-azul-marinho mb-6">
+              Construindo Pontes de Esperança e Conhecimento: Nossos 7 Pilares
+            </h2>
+            <p className="text-lg text-ctma-cinza-ardosia max-w-3xl mx-auto leading-relaxed">
+              Através de sete pilares estratégicos, a CTMA cria um ecossistema completo para capacitar e mobilizar líderes, impactando diretamente comunidades e nações. Veja como operamos para cumprir nossa missão global:
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {pilaresData.map((pilar) => {
+              const Icone = pilar.icon;
+              return (
+                <div key={pilar.id} className="bg-ctma-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-xl transition-shadow duration-300">
+                  <Icone size={40} className="text-ctma-accent-red mb-4 self-start" />
+                  <h3 className="text-xl font-semibold text-ctma-azul-marinho mb-3">{pilar.title}</h3>
+                  <p className="text-ctma-cinza-ardosia text-sm leading-relaxed flex-grow mb-4">{pilar.description}</p>
+                  <Link href={pilar.link} className="text-ctma-accent-red hover:underline font-medium mt-auto self-start inline-flex items-center">
+                    {pilar.linkText} <ArrowRight size={16} className="ml-1" />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>      {/* Seção de Testemunhos */}
       <TestimonialsCarousel />
+
+      {/* Seção Por Que Escolher a CTMA */}
+      <section className="py-16 sm:py-24 bg-ctma-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-ctma-azul-marinho mb-6">
+              CTMA: Excelência, Ética e Impacto Global
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 mt-12">
+            {diferenciaisData.map((diferencial) => {
+              const Icone = diferencial.icon;
+              return (
+                <div key={diferencial.id} className="flex flex-col items-center text-center md:flex-row md:text-left md:items-start">
+                  <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6 p-3 rounded-full bg-ctma-accent-red/10">
+                    <Icone size={32} className="text-ctma-accent-red" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2 text-ctma-azul-marinho">{diferencial.title}</h3>
+                    <p className="text-ctma-cinza-ardosia text-sm">{diferencial.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
