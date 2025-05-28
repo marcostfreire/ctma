@@ -1,0 +1,502 @@
+'use client';
+
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+interface UserProfile {
+  name: string;
+  email: string;
+  phone?: string;
+  bio?: string;
+  avatar?: string;
+  joinDate: string;
+}
+
+interface Enrollment {
+  id: string;
+  courseName: string;
+  enrollDate: string;
+  status: 'active' | 'completed' | 'pending';
+  progress: number;
+}
+
+interface Donation {
+  id: string;
+  amount: number;
+  date: string;
+  type: string;
+  status: 'completed' | 'pending' | 'failed';
+}
+
+export default function DashboardPage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'courses' | 'donations'>('overview');
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
+  const [donations, setDonations] = useState<Donation[]>([]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+      return;
+    }
+
+    if (user) {
+      // Mock data - in a real app, you'd fetch this from your database
+      setUserProfile({
+        name: user.user_metadata?.name || user.email?.split('@')[0] || 'Usuário',
+        email: user.email || '',
+        joinDate: user.created_at || new Date().toISOString(),
+        phone: user.user_metadata?.phone || '',
+        bio: user.user_metadata?.bio || '',
+        avatar: user.user_metadata?.avatar || ''
+      });
+
+      // Mock enrollments
+      setEnrollments([
+        {
+          id: '1',
+          courseName: 'Capelão Internacional',
+          enrollDate: '2024-01-15',
+          status: 'active',
+          progress: 65
+        },
+        {
+          id: '2',
+          courseName: 'Diplomata Civil',
+          enrollDate: '2023-11-20',
+          status: 'completed',
+          progress: 100
+        }
+      ]);
+
+      // Mock donations
+      setDonations([
+        {
+          id: '1',
+          amount: 10000, // R$ 100,00
+          date: '2024-01-20',
+          type: 'Contribuição Especial',
+          status: 'completed'
+        },
+        {
+          id: '2',
+          amount: 5000, // R$ 50,00
+          date: '2024-01-05',
+          type: 'Contribuição Padrão',
+          status: 'completed'
+        }
+      ]);
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(amount / 100);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('pt-BR');
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'bg-blue-100 text-blue-800';
+      case 'completed':
+        return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'failed':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'Ativo';
+      case 'completed':
+        return 'Concluído';
+      case 'pending':
+        return 'Pendente';
+      case 'failed':
+        return 'Falhado';
+      default:
+        return 'Desconhecido';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-gray-800">Minha Conta</h1>
+            <div className="flex items-center space-x-4">
+              <span className="text-gray-600">Bem-vindo, {userProfile?.name}</span>
+              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-semibold">
+                  {userProfile?.name?.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="lg:w-64">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <nav className="space-y-2">
+                <button
+                  onClick={() => setActiveTab('overview')}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                    activeTab === 'overview'
+                      ? 'bg-blue-100 text-blue-700 font-medium'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span>Visão Geral</span>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('profile')}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                    activeTab === 'profile'
+                      ? 'bg-blue-100 text-blue-700 font-medium'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span>Perfil</span>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('courses')}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                    activeTab === 'courses'
+                      ? 'bg-blue-100 text-blue-700 font-medium'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>Meus Cursos</span>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('donations')}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                    activeTab === 'donations'
+                      ? 'bg-blue-100 text-blue-700 font-medium'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                    </svg>
+                    <span>Doações</span>
+                  </div>
+                </button>
+              </nav>
+
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <Link
+                  href="/cursos"
+                  className="block bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Explorar Cursos
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1">
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                {/* Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">Cursos Matriculados</p>
+                        <p className="text-2xl font-bold text-gray-900">{enrollments.length}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">Cursos Concluídos</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {enrollments.filter(e => e.status === 'completed').length}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">Total Doado</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {formatCurrency(donations.reduce((total, d) => total + d.amount, 0))}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recent Activity */}
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Atividade Recente</h3>
+                  <div className="space-y-4">
+                    {enrollments.slice(0, 3).map((enrollment) => (
+                      <div key={enrollment.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-800">{enrollment.courseName}</p>
+                            <p className="text-sm text-gray-600">
+                              Matriculado em {formatDate(enrollment.enrollDate)}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(enrollment.status)}`}>
+                            {getStatusText(enrollment.status)}
+                          </span>
+                          <p className="text-sm text-gray-600 mt-1">{enrollment.progress}% concluído</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'profile' && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-6">Informações do Perfil</h3>
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Nome Completo
+                      </label>
+                      <input
+                        type="text"
+                        defaultValue={userProfile?.name}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        E-mail
+                      </label>
+                      <input
+                        type="email"
+                        defaultValue={userProfile?.email}
+                        disabled
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Telefone
+                    </label>
+                    <input
+                      type="tel"
+                      defaultValue={userProfile?.phone}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Bio
+                    </label>
+                    <textarea
+                      rows={4}
+                      defaultValue={userProfile?.bio}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Conte um pouco sobre você..."
+                    />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Salvar Alterações
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {activeTab === 'courses' && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-6">Meus Cursos</h3>
+                <div className="space-y-4">
+                  {enrollments.map((enrollment) => (
+                    <div key={enrollment.id} className="border border-gray-200 rounded-lg p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-xl font-semibold text-gray-800">{enrollment.courseName}</h4>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(enrollment.status)}`}>
+                          {getStatusText(enrollment.status)}
+                        </span>
+                      </div>
+                      
+                      <div className="mb-4">
+                        <div className="flex justify-between text-sm text-gray-600 mb-2">
+                          <span>Progresso</span>
+                          <span>{enrollment.progress}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div 
+                            className="bg-blue-600 h-2 rounded-full transition-all"
+                            style={{ width: `${enrollment.progress}%` }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-gray-600 mb-4">
+                        Matriculado em: {formatDate(enrollment.enrollDate)}
+                      </div>
+
+                      <div className="flex space-x-4">
+                        {enrollment.status === 'active' && (
+                          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Continuar Curso
+                          </button>
+                        )}
+                        {enrollment.status === 'completed' && (
+                          <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            Ver Certificado
+                          </button>
+                        )}
+                        <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                          Detalhes do Curso
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'donations' && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-6">Histórico de Doações</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Data</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Tipo</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Valor</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Status</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {donations.map((donation) => (
+                        <tr key={donation.id} className="border-b border-gray-100">
+                          <td className="py-4 px-4 text-gray-600">{formatDate(donation.date)}</td>
+                          <td className="py-4 px-4 text-gray-800">{donation.type}</td>
+                          <td className="py-4 px-4 font-semibold text-gray-800">
+                            {formatCurrency(donation.amount)}
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(donation.status)}`}>
+                              {getStatusText(donation.status)}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                              Ver Recibo
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-6 text-center">
+                  <Link
+                    href="/doar"
+                    className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Fazer Nova Doação
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

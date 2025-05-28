@@ -4,13 +4,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { Menu, X } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, logout } = useAuth();
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setShowUserMenu(false);
   };
 
   // Lógica para controlar a visibilidade do header no scroll
@@ -32,7 +41,7 @@ export default function Header() {
         window.removeEventListener('scroll', controlNavbar);
       };
     }
-  }, [controlNavbar]);  const navigationLinks = [
+  }, [controlNavbar]);const navigationLinks = [
     { href: "/", label: "Home" },
     { href: "/sobre-nos", label: "Sobre Nós" },
     { href: "/cursos", label: "Cursos" },
@@ -77,15 +86,66 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-          </nav>          {/* Desktop CTA Button */}
-          <div className="hidden lg:flex">
+          </nav>
+
+          {/* Desktop CTA Button */}
+          <div className="hidden lg:flex items-center space-x-4">
             <Link
-              href="/cursos"
-              className="bg-ctma-azul-jeans text-ctma-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
+              href="/doar"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
             >
-              TORNE-SE UM CAPELÃO
+              Doar
             </Link>
-          </div>          {/* Mobile Menu Button */}
+            
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 text-ctma-azul-marinho hover:text-ctma-azul-jeans"
+                >
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold">
+                      {user.email?.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">{user.email?.split('@')[0]}</span>
+                </button>
+                
+                {showUserMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <Link
+                      href="/dashboard"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      Minha Conta
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Sair
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link
+                  href="/login"
+                  className="text-ctma-azul-marinho hover:text-ctma-azul-jeans px-3 py-2 text-sm font-medium"
+                >
+                  Entrar
+                </Link>
+                <Link
+                  href="/registro"
+                  className="bg-ctma-azul-jeans text-ctma-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#3E567B] transition-colors"
+                >
+                  Cadastrar
+                </Link>
+              </div>
+            )}
+          </div>{/* Mobile Menu Button */}
           <div className="lg:hidden">            <button
             onClick={toggleMenu}
             className="text-ctma-azul-marinho hover:text-ctma-azul-jeans focus:outline-none focus:text-ctma-azul-jeans"
@@ -105,15 +165,85 @@ export default function Header() {
                   <Link
                     href={link.href}
                     className="block text-ctma-azul-marinho hover:text-ctma-azul-jeans py-3 text-base font-medium transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
                   </Link>
                 </div>
-              ))}              {/* Mobile CTA Button */}
-              <div className="pt-2">
+              ))}
+
+              {/* Mobile User Menu */}
+              {user ? (
+                <>
+                  <div className="border-b border-ctma-cinza-azulado-claro">
+                    <div className="flex items-center py-3">
+                      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white text-sm font-semibold">
+                          {user.email?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <span className="text-ctma-azul-marinho font-medium">
+                        {user.email?.split('@')[0]}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="border-b border-ctma-cinza-azulado-claro">
+                    <Link
+                      href="/dashboard"
+                      className="block text-ctma-azul-marinho hover:text-ctma-azul-jeans py-3 text-base font-medium transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Minha Conta
+                    </Link>
+                  </div>
+                  <div className="border-b border-ctma-cinza-azulado-claro">
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="block w-full text-left text-ctma-azul-marinho hover:text-ctma-azul-jeans py-3 text-base font-medium transition-colors"
+                    >
+                      Sair
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="border-b border-ctma-cinza-azulado-claro">
+                    <Link
+                      href="/login"
+                      className="block text-ctma-azul-marinho hover:text-ctma-azul-jeans py-3 text-base font-medium transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Entrar
+                    </Link>
+                  </div>
+                  <div className="border-b border-ctma-cinza-azulado-claro">
+                    <Link
+                      href="/registro"
+                      className="block text-ctma-azul-marinho hover:text-ctma-azul-jeans py-3 text-base font-medium transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Cadastrar
+                    </Link>
+                  </div>
+                </>
+              )}
+
+              {/* Mobile CTA Buttons */}
+              <div className="pt-2 space-y-2">
+                <Link
+                  href="/doar"
+                  className="block bg-green-600 text-white text-center px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Fazer Doação
+                </Link>
                 <Link
                   href="/cursos"
                   className="block bg-ctma-azul-jeans text-ctma-white text-center px-4 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   TORNE-SE UM CAPELÃO
                 </Link>

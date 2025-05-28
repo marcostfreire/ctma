@@ -1,13 +1,7 @@
 "use client"; // Necessário para useState
 import { useState } from 'react';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HelpCircle, ChevronDown, ChevronUp, BookOpen, Users } from 'lucide-react';
-
-export const metadata: Metadata = {
-    title: 'FAQ - Perguntas Frequentes - CTMA',
-    description: 'Encontre respostas para as perguntas mais frequentes sobre a CTMA, nossos cursos, credenciamento, e o Curso de Monitor Internacional.',
-};
 
 // Estrutura para os itens do FAQ
 interface FaqItemProps {

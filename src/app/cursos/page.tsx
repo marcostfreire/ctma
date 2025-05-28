@@ -1,14 +1,9 @@
+"use client";
 // C:\Users\Marcos\Documents\VS Code\clientes\ctma\ctmaweb\src\app\cursos\page.tsx
 import Link from 'next/link';
 import Image from 'next/image';
-import type { Metadata } from 'next';
 // Se precisar de ícones para a seção "Por Que a CTMA?", pode importá-los:
 // import { Globe, Users, ShieldCheck, MapPin, Network, CheckCircle } from 'lucide-react';
-
-export const metadata: Metadata = {
-  title: 'Nossos Cursos - CTMA',
-  description: 'Explore os cursos de Capelania, Diplomacia Civil, Liderança Global e mais, oferecidos pela CTMA. Capacite-se para um impacto global.',
-};
 
 export default function CursosPage() {
   // Dados para "Por Que a CTMA?"

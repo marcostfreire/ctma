@@ -10,7 +10,6 @@ import {
     Star, 
     Clock, 
     BookOpen, 
-    Video,
     Phone,
     Mail,
     MapPin,

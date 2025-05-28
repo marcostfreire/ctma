@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -104,11 +102,8 @@ export default function BlogPage() {
     ? posts 
     : posts.filter(post => post.category === selectedCategory);
   const featuredPost = posts.find(post => post.featured);
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-20">
         <div className="container mx-auto px-4">
@@ -332,11 +327,8 @@ export default function BlogPage() {
           </p>
           <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
             Enviar Proposta de Artigo
-          </button>
-        </div>
+          </button>        </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
