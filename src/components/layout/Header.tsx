@@ -69,10 +69,10 @@ export default function Header() {
               <Image
                 src="/images/logo-2.jpeg"
                 alt="CTMA Logo"
-                width={120}
-                height={40}
+                width={150} // Aumentado de 120 para 150
+                height={50} // Aumentado de 40 para 50
                 priority
-                className="object-contain h-8 lg:h-12 w-auto"
+                className="object-contain h-12 lg:h-16 w-auto" // Ajustadas as classes de altura
               />
             </Link>
           </div>          {/* Desktop Navigation */}

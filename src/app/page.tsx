@@ -110,7 +110,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto text-center text-ctma-white">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
               Chaplain Training Management Agency
-              <span className="block text-ctma-cinza-azulado-claro">CTMA</span>
+              <span className="block text-ctma-cinza-azulado-claro mt-3">CTMA</span>
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-ctma-cinza-azulado-claro">
               Formamos capelães, diplomatas civis e líderes para um impacto global de compaixão, paz e esperança, especialmente em momentos de crise e desastres.

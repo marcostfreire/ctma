@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
 export default function CredenciamentoPage() {
@@ -99,7 +98,6 @@ export default function CredenciamentoPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <Header />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-20">
