@@ -1,4 +1,66 @@
-# 🌟 CTMA Website - Comissão de Trabalho Missionário e Assistência
+# 🚀 CTMA Website - CONFIGURAÇÃO PARA O CLIENTE
+
+## ⚠️ LEIA ISTO PRIMEIRO - SEM ESSA CONFIGURAÇÃO O SITE NÃO FUNCIONA!
+
+Este é um projeto Next.js completo que requer configuração de serviços externos para funcionar.
+
+## 📋 LISTA DE VERIFICAÇÃO - CONFIGURAÇÃO OBRIGATÓRIA
+
+### ✅ 1. Instalar Dependências
+```bash
+npm install
+```
+
+### ✅ 2. Configurar Variáveis de Ambiente
+1. **Renomeie** `.env.example` para `.env.local`
+2. **Preencha** todas as credenciais (instruções no `MANUAL_CLIENTE.md`)
+
+### ✅ 3. Configurar Banco de Dados Supabase
+1. Execute os comandos SQL do arquivo `supabase_setup.sql`
+2. Torne-se administrador após o primeiro registro
+
+### ✅ 4. Executar o Projeto
+```bash
+npm run dev
+```
+
+## 📚 DOCUMENTAÇÃO COMPLETA
+
+- **📖 MANUAL_CLIENTE.md** - Tutorial completo passo-a-passo
+- **🗄️ supabase_setup.sql** - Comandos SQL para configurar o banco
+- **⚙️ .env.example** - Modelo para suas variáveis de ambiente
+
+## 🛠️ SERVIÇOS NECESSÁRIOS
+
+Você precisará criar contas nestes serviços:
+
+- **🗄️ Supabase** - Banco de dados e autenticação
+- **💳 Stripe** - Processamento de pagamentos  
+- **📧 Resend** - Envio de e-mails transacionais
+
+## 🎯 O QUE VOCÊ ESTÁ RECEBENDO
+
+✅ **16 páginas** completas e funcionais  
+✅ **Sistema de autenticação** (login, registro, perfis)  
+✅ **Pagamentos integrados** (cursos e doações)  
+✅ **Painel administrativo** para gerenciar usuários  
+✅ **E-mails automáticos** de confirmação  
+✅ **Design responsivo** e profissional  
+
+## 📊 ACESSAR O PAINEL ADMIN
+
+Após configurar tudo: `http://localhost:3000/admin`
+
+## 🔧 SUPORTE
+
+Se tiver problemas, consulte primeiro:
+1. `MANUAL_CLIENTE.md` - Manual completo
+2. Verifique se todas as variáveis de ambiente estão corretas
+3. Confirme se executou os comandos SQL do Supabase
+
+---
+
+**💡 DICA:** Leia PRIMEIRO o arquivo `MANUAL_CLIENTE.md` antes de começar!
 
 ## 🎯 Sobre o Projeto
 
