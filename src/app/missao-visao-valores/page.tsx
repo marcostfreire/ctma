@@ -88,7 +88,7 @@ export default function MissaoVisaoValoresPage() {
       descricao: "Adaptação completa para ensino online durante a pandemia global"
     },
     {
-      ano: "2023",
+      ano: "2025",
       evento: "500+ Profissionais",
       descricao: "Marca histórica de 500 profissionais credenciados em 50+ países"
     }

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Mail, MapPin } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react'; // Adicionado Phone aqui
 
 export const metadata: Metadata = {
     title: 'Contato - CTMA',
@@ -59,7 +59,7 @@ export default function ContatoPage() {
                                                 Chaplain Training Management Agency - CTMA
                                             </p>
                                             <p className="text-ctma-cinza-ardosia">
-                                                Orlando, Flórida, EUA
+                                                5950 Lakehurst, Dr Suite 106, Orlando-Fl
                                             </p>
                                             <p className="text-sm text-ctma-cinza-ardosia mt-1">
                                                 (Visitas apenas com agendamento prévio)
@@ -67,32 +67,21 @@ export default function ContatoPage() {
                                         </div>
                                     </div>
 
-                                    {/* Opcional: Adicionar Telefone/WhatsApp se fornecido no web.md */}
-                                    {/* 
                                     <div className="flex items-start">
                                         <div className="flex-shrink-0 mr-4 mt-1 p-3 bg-ctma-azul-jeans/10 rounded-full">
                                             <Phone size={24} className="text-ctma-azul-jeans" />
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-semibold text-ctma-azul-marinho">Telefone / WhatsApp</h3>
+                                            <h3 className="text-lg font-semibold text-ctma-azul-marinho">Telefone</h3>
                                             <p className="text-ctma-cinza-ardosia">
                                                 Para um contato mais direto:
                                             </p>
-                                            <a href="tel:+1XXXXXXXXXX" className="text-ctma-azul-jeans hover:text-ctma-azul-marinho hover:underline">
-                                                +1 (XXX) XXX-XXXX (EUA)
-                                            </a>
-                                            <br />
-                                            <a 
-                                                href="https://wa.me/5511999999999" // Substituir pelo número correto
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                className="text-ctma-azul-jeans hover:text-ctma-azul-marinho hover:underline inline-flex items-center"
-                                            >
-                                                <MessageSquare size={18} className="mr-1.5" /> WhatsApp Brasil (Exemplo)
+                                            <a href="tel:+16892763285" className="text-ctma-azul-jeans hover:text-ctma-azul-marinho hover:underline">
+                                                +1 689 276 3285 (EUA)
                                             </a>
                                         </div>
                                     </div>
-                                    */}
+                                    
                                 </div>
                             </div>
 

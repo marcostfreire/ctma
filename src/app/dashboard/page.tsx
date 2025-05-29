@@ -67,7 +67,7 @@ export default function DashboardPage() {
         {
           id: '2',
           courseName: 'Diplomata Civil',
-          enrollDate: '2023-11-20',
+          enrollDate: '2025-11-20',
           status: 'completed',
           progress: 100
         }

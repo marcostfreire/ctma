@@ -17,7 +17,7 @@ export default function PoliticaDePrivacidadePage() {
               Política de Privacidade
             </h1>
             <p className="text-lg text-green-100">
-              Última atualização: 15 de dezembro de 2023 | Vigência: LGPD Lei 13.709/2018
+              Última atualização: 28 de maio de 2025 | Vigência: LGPD Lei 13.709/2018
             </p>
           </div>
         </div>
@@ -426,8 +426,8 @@ export default function PoliticaDePrivacidadePage() {
             {/* Data de vigência */}
             <div className="text-center py-8 border-t border-gray-200">
               <p className="text-gray-600">
-                <strong>Última atualização:</strong> 15 de dezembro de 2023<br/>
-                <strong>Vigência:</strong> Esta política está em vigor desde 15 de dezembro de 2023<br/>
+                <strong>Última atualização:</strong> 28 de maio de 2025<br/>
+                <strong>Vigência:</strong> Esta política está em vigor desde 28 de maio de 2025<br/>
                 <strong>Versão:</strong> 2.1 | <strong>Conformidade:</strong> LGPD Lei 13.709/2018
               </p>
             </div>

@@ -17,7 +17,7 @@ export default function TermosDeUsoPage() {
               Termos de Uso
             </h1>
             <p className="text-lg text-blue-100">
-              Última atualização: 15 de dezembro de 2023
+              Última atualização: 28 de maio de 2025
             </p>
           </div>
         </div>
@@ -260,8 +260,8 @@ export default function TermosDeUsoPage() {
             {/* Data de vigência */}
             <div className="text-center py-8 border-t border-gray-200">
               <p className="text-gray-600">
-                <strong>Última atualização:</strong> 15 de dezembro de 2023<br/>
-                <strong>Vigência:</strong> Estes termos estão em vigor desde 15 de dezembro de 2023
+                <strong>Última atualização:</strong> 28 de maio de 2025<br/>
+                <strong>Vigência:</strong> Estes termos estão em vigor desde 28 de maio de 2025
               </p>
             </div>
 

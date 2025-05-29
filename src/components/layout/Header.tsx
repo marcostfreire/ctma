@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import LanguageSwitcher from "./LanguageSwitcher"; // Importado aqui
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -88,8 +89,9 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Desktop CTA Button */}
+          {/* Desktop Right Side: Language Switcher, CTA Button, Auth */}
           <div className="hidden lg:flex items-center space-x-4">
+            <LanguageSwitcher /> {/* Adicionado aqui */}
             <Link
               href="/doar"
               className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
@@ -146,7 +148,9 @@ export default function Header() {
               </div>
             )}
           </div>{/* Mobile Menu Button */}
-          <div className="lg:hidden">            <button
+          <div className="lg:hidden flex items-center space-x-3"> {/* Adicionado flex e space-x-3 */}
+            <LanguageSwitcher /> {/* Adicionado aqui para mobile, antes do botão de menu */}
+            <button
             onClick={toggleMenu}
             className="text-ctma-azul-marinho hover:text-ctma-azul-jeans focus:outline-none focus:text-ctma-azul-jeans"
             aria-label="Toggle menu"
@@ -160,6 +164,13 @@ export default function Header() {
             className="lg:hidden absolute top-full left-0 right-0 w-full bg-ctma-white shadow-xl z-[999] border-t border-ctma-cinza-azulado-claro/50"
           >
             <div className="max-w-7xl mx-auto px-4 pt-3 pb-4 space-y-2 sm:px-6 lg:px-8">
+              {/* Language Switcher no Menu Mobile - pode ser ajustado conforme o design preferido */}
+              {/* Opção 1: Acima dos links de navegação 
+              <div className="border-b border-ctma-cinza-azulado-claro pb-2 mb-2">
+                <LanguageSwitcher />
+              </div>
+              */}
+
               {navigationLinks.map((link) => (
                 <div key={link.href} className="border-b border-ctma-cinza-azulado-claro last:border-0">
                   <Link
@@ -171,6 +182,13 @@ export default function Header() {
                   </Link>
                 </div>
               ))}
+
+              {/* Opção 2: Abaixo dos links de navegação, antes do menu do usuário. Mais discreto. */}
+              <div className="border-b border-ctma-cinza-azulado-claro py-2">
+                <div className="flex justify-start px-0"> {/* Ajuste para alinhar à esquerda se necessário */}
+                  {/* <LanguageSwitcher />  // Removido daqui para colocar ao lado do botão de menu hamburguer */}
+                </div>
+              </div>
 
               {/* Mobile User Menu */}
               {user ? (

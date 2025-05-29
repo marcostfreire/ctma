@@ -113,7 +113,7 @@ export default function HomePage() {
               <span className="block text-ctma-cinza-azulado-claro mt-3">CTMA</span>
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-ctma-cinza-azulado-claro">
-              Formamos capelães, diplomatas civis e líderes para um impacto global de compaixão, paz e esperança, especialmente em momentos de crise e desastres.
+              Formamos capelães, diplomatas civis e líderes para um impacto global de compaixão, paz e esperança.
             </p>            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/cursos"

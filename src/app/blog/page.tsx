@@ -14,7 +14,7 @@ export default function BlogPage() {
       excerpt: "Durante a pandemia, capelães desempenharam um papel fundamental no apoio emocional e espiritual. Analisamos as principais lições aprendidas e como isso moldou a profissão.",
       category: "Capelania",
       author: "Dr. Maria Santos",
-      date: "15 de Dezembro, 2023",
+      date: "28 de maio, 2025",
       readTime: "8 min",
       image: "/api/placeholder/600/400",
       featured: true
@@ -25,7 +25,7 @@ export default function BlogPage() {
       excerpt: "A diplomacia civil emerge como ferramenta essencial para resolver conflitos locais e promover diálogo entre comunidades divididas.",
       category: "Diplomacia",
       author: "Carlos Rodriguez",
-      date: "12 de Dezembro, 2023",
+      date: "12 de Dezembro, 2025",
       readTime: "6 min",
       image: "/api/placeholder/600/400",
       featured: false
@@ -36,7 +36,7 @@ export default function BlogPage() {
       excerpt: "Como as novas tecnologias estão transformando o trabalho de monitores internacionais e quais são os dilemas éticos envolvidos.",
       category: "Direitos Humanos",
       author: "Ana Carolina Silva",
-      date: "10 de Dezembro, 2023",
+      date: "10 de Dezembro, 2025",
       readTime: "10 min",
       image: "/api/placeholder/600/400",
       featured: false
@@ -47,7 +47,7 @@ export default function BlogPage() {
       excerpt: "Mais uma turma de capelães, diplomatas civis e monitores recebe credenciamento oficial da CTMA, expandindo nossa rede global de profissionais.",
       category: "Notícias",
       author: "Equipe CTMA",
-      date: "8 de Dezembro, 2023",
+      date: "8 de Dezembro, 2025",
       readTime: "4 min",
       image: "/api/placeholder/600/400",
       featured: false
@@ -58,7 +58,7 @@ export default function BlogPage() {
       excerpt: "Novos protocolos desenvolvidos pela CTMA estabelecem diretrizes para cuidado espiritual e emocional em ambientes hospitalares.",
       category: "Capelania",
       author: "Dr. João Pereira",
-      date: "5 de Dezembro, 2023",
+      date: "5 de Dezembro, 2025",
       readTime: "7 min",
       image: "/api/placeholder/600/400",
       featured: false
@@ -69,7 +69,7 @@ export default function BlogPage() {
       excerpt: "Diplomata civil credenciado pela CTMA medeia com sucesso conflito entre comunidades rurais, estabelecendo acordo duradouro.",
       category: "Casos de Sucesso",
       author: "Pedro Oliveira",
-      date: "3 de Dezembro, 2023",
+      date: "3 de Dezembro, 2025",
       readTime: "5 min",
       image: "/api/placeholder/600/400",
       featured: false
@@ -80,7 +80,7 @@ export default function BlogPage() {
       excerpt: "Monitores certificados pela CTMA participam de missão de observação eleitoral, contribuindo para transparência democrática na região.",
       category: "Direitos Humanos",
       author: "Equipe Internacional",
-      date: "1 de Dezembro, 2023",
+      date: "1 de Dezembro, 2025",
       readTime: "9 min",
       image: "/api/placeholder/600/400",
       featured: false
@@ -91,7 +91,7 @@ export default function BlogPage() {
       excerpt: "Participe do nosso próximo webinar sobre capelania militar, explorando desafios únicos e competências necessárias para esta área especializada.",
       category: "Notícias",
       author: "Departamento de Educação",
-      date: "28 de Novembro, 2023",
+      date: "28 de Novembro, 2025",
       readTime: "3 min",
       image: "/api/placeholder/600/400",
       featured: false

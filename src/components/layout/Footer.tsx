@@ -7,7 +7,7 @@ export default function Footer() {
   const socialLinks = [
     { label: "LinkedIn", icon: Linkedin, href: "#" },
     { label: "Facebook", icon: Facebook, href: "#" },
-    { label: "Instagram", icon: Instagram, href: "#" },
+    { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/chaplain.usa.ctma" },
     { label: "YouTube", icon: Youtube, href: "#" },
   ];  return (
     <footer className="bg-ctma-azul-marinho text-ctma-cinza-azulado-claro py-12">
@@ -27,7 +27,8 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-ctma-white mb-3">Contato</h3>
-            <p>Sede: Orlando, Flórida, EUA</p>
+            <p>5950 Lakehurst, Dr Suite 106, Orlando-Fl</p>
+            <p>Telefone: <a href="tel:+16892763285" className="hover:text-ctma-white transition-colors">+1 689 276 3285</a></p>
             <p>E-mail: <a href="mailto:contato@ctma.org" className="hover:text-ctma-white transition-colors">contato@ctma.org</a></p>
             <div className="mt-4">
               <h3 className="text-lg font-semibold text-ctma-white mb-2">Siga-nos</h3>
