@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'; // Importar o componente Image
 
 export default function LiderGlobalPage() {
   const [formData, setFormData] = useState({
@@ -32,8 +33,16 @@ export default function LiderGlobalPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-900 via-blue-900 to-blue-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-gray-900 via-blue-900 to-blue-800 text-white py-20">
+        <Image
+          src="/images/banners/lider-global.jpg"
+          alt="Banner Curso Líder Global"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          className="opacity-30"
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Curso de Líder Global CTMA

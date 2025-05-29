@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Footer from '@/components/layout/Footer';
+import Image from 'next/image'; // Importar o componente Image
 
 export default function CredenciamentoPage() {
   const [selectedStep, setSelectedStep] = useState(1);
@@ -100,8 +101,16 @@ export default function CredenciamentoPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-20">
+        <Image
+          src="/images/banners/credenciamento.jpg"
+          alt="Banner Credenciamento"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          className="opacity-30"
+        />
+        <div className="relative container mx-auto px-4 z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold mb-6">
               Credenciamento CTMA

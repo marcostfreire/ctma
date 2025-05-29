@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // Importar o componente Image
 import { 
     Heart, 
     Globe, 
@@ -47,7 +48,15 @@ export default function CapelaointernacionalPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-ctma-azul-marinho to-ctma-azul-jeans text-ctma-white relative overflow-hidden">
+            <section className="relative py-16 sm:py-20 md:py-24 bg-gradient-to-br from-ctma-azul-marinho to-ctma-azul-jeans text-ctma-white overflow-hidden">
+                <Image
+                    src="/images/banners/capelao-internacional.jpg"
+                    alt="Banner Curso Capelão Internacional"
+                    layout="fill"
+                    objectFit="cover"
+                    quality={100}
+                    className="opacity-30"
+                />
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSI0Ii8+PC9nPjwvZz48L3N2Zz4=')] repeat"></div>
