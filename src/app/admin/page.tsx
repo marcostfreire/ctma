@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/app/lib/supabaseClient';
 
@@ -76,19 +76,7 @@ export default function AdminPage() {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-      return;
-    }
-
-    // Check if user is admin (implement proper role checking)
-    // For now, assume authenticated users can access admin
-    if (user) {
-      loadAdminData();
-    }
-  }, [user, loading, router]);
-    const loadAdminData = async () => {
+  const loadAdminData = useCallback(async () => {
     try {
       setIsLoadingData(true);
       setError(null);
@@ -143,11 +131,11 @@ export default function AdminPage() {
       // Calcular estatísticas
       const completedEnrollments = enrollmentsResult.data?.filter(e => e.status === 'completed') || [];
       const completedDonations = donationsResult.data?.filter(d => d.status === 'completed') || [];
-      
+
       const enrollmentRevenue = completedEnrollments.reduce((sum, enrollment) => {
         return sum + (enrollment.courses?.price || 0);
       }, 0);
-      
+
       const donationRevenue = completedDonations.reduce((sum, donation) => {
         return sum + donation.amount;
       }, 0);
@@ -161,7 +149,7 @@ export default function AdminPage() {
 
       // Criar atividades recentes
       const activities: RecentActivity[] = [];
-      
+
       // Adicionar matrículas recentes
       completedEnrollments.slice(0, 3).forEach(enrollment => {
         activities.push({
@@ -199,22 +187,23 @@ export default function AdminPage() {
 
       // Ordenar por data mais recente
       activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      setRecentActivity(activities.slice(0, 5));    } catch (error: unknown) {
+      setRecentActivity(activities.slice(0, 5));
+    } catch (error: unknown) {
       console.error('Erro ao carregar dados admin:', error);
       const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
       setError(`Erro ao carregar dados: ${errorMessage}`);
-      
+
       // Fallback para dados mockados se houver erro de conexão
       loadMockData();
     } finally {
       setIsLoadingData(false);
     }
-  };
+  }, [router, user]);
 
   const loadMockData = () => {
     // Dados mockados como fallback durante desenvolvimento
     console.log('🔧 Usando dados mockados - Configure as credenciais do Supabase para dados reais');
-    
+
     setStats({
       totalUsers: 1247,
       totalEnrollments: 856,
@@ -248,6 +237,10 @@ export default function AdminPage() {
       }
     ]);
   };
+
+  useEffect(() => {
+    loadAdminData();
+  }, [loadAdminData]);
 
   if (loading) {
     return (
@@ -342,11 +335,10 @@ export default function AdminPage() {
               <nav className="space-y-2">
                 <button
                   onClick={() => setActiveTab('dashboard')}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                    activeTab === 'dashboard'
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'dashboard'
                       ? 'bg-blue-100 text-blue-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -358,11 +350,10 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActiveTab('users')}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                    activeTab === 'users'
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'users'
                       ? 'bg-blue-100 text-blue-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -374,11 +365,10 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActiveTab('courses')}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                    activeTab === 'courses'
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'courses'
                       ? 'bg-blue-100 text-blue-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -390,11 +380,10 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActiveTab('donations')}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                    activeTab === 'donations'
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'donations'
                       ? 'bg-blue-100 text-blue-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -406,11 +395,10 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActiveTab('content')}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                    activeTab === 'content'
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'content'
                       ? 'bg-blue-100 text-blue-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -523,7 +511,7 @@ export default function AdminPage() {
                     </div>
                   )}
                 </div>
-                
+
                 {isLoadingData ? (
                   <div className="flex justify-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -545,11 +533,10 @@ export default function AdminPage() {
                             <td className="py-3 px-4">{user.full_name || 'Nome não informado'}</td>
                             <td className="py-3 px-4">{user.email}</td>
                             <td className="py-3 px-4">
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                user.role === 'admin' 
-                                  ? 'bg-red-100 text-red-800' 
+                              <span className={`px-2 py-1 rounded text-xs font-medium ${user.role === 'admin'
+                                  ? 'bg-red-100 text-red-800'
                                   : 'bg-blue-100 text-blue-800'
-                              }`}>
+                                }`}>
                                 {user.role === 'admin' ? 'Administrador' : 'Usuário'}
                               </span>
                             </td>
@@ -560,7 +547,7 @@ export default function AdminPage() {
                         ))}
                       </tbody>
                     </table>
-                    
+
                     {users.length === 0 && (
                       <div className="text-center py-8 text-gray-500">
                         Nenhum usuário encontrado
@@ -581,7 +568,7 @@ export default function AdminPage() {
                     </div>
                   )}
                 </div>
-                
+
                 {isLoadingData ? (
                   <div className="flex justify-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -609,7 +596,7 @@ export default function AdminPage() {
                           </div>
                         ))}
                       </div>
-                      
+
                       {courses.length === 0 && (
                         <div className="text-center py-4 text-gray-500">
                           Nenhum curso cadastrado
@@ -648,15 +635,14 @@ export default function AdminPage() {
                                   {enrollment.courses?.name}
                                 </td>
                                 <td className="py-3 px-4">
-                                  <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                    enrollment.status === 'completed' 
+                                  <span className={`px-2 py-1 rounded text-xs font-medium ${enrollment.status === 'completed'
                                       ? 'bg-green-100 text-green-800'
                                       : enrollment.status === 'pending'
-                                      ? 'bg-yellow-100 text-yellow-800'
-                                      : 'bg-red-100 text-red-800'
-                                  }`}>
-                                    {enrollment.status === 'completed' ? 'Concluída' : 
-                                     enrollment.status === 'pending' ? 'Pendente' : 'Cancelada'}
+                                        ? 'bg-yellow-100 text-yellow-800'
+                                        : 'bg-red-100 text-red-800'
+                                    }`}>
+                                    {enrollment.status === 'completed' ? 'Concluída' :
+                                      enrollment.status === 'pending' ? 'Pendente' : 'Cancelada'}
                                   </span>
                                 </td>
                                 <td className="py-3 px-4 text-gray-600">
@@ -669,7 +655,7 @@ export default function AdminPage() {
                             ))}
                           </tbody>
                         </table>
-                        
+
                         {enrollments.length === 0 && (
                           <div className="text-center py-8 text-gray-500">
                             Nenhuma matrícula encontrada
@@ -692,7 +678,7 @@ export default function AdminPage() {
                     </div>
                   )}
                 </div>
-                
+
                 {isLoadingData ? (
                   <div className="flex justify-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -719,15 +705,14 @@ export default function AdminPage() {
                               {formatCurrency(donation.amount)}
                             </td>
                             <td className="py-3 px-4">
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                donation.status === 'completed' 
+                              <span className={`px-2 py-1 rounded text-xs font-medium ${donation.status === 'completed'
                                   ? 'bg-green-100 text-green-800'
                                   : donation.status === 'pending'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : 'bg-red-100 text-red-800'
-                              }`}>
-                                {donation.status === 'completed' ? 'Confirmada' : 
-                                 donation.status === 'pending' ? 'Pendente' : 'Cancelada'}
+                                    ? 'bg-yellow-100 text-yellow-800'
+                                    : 'bg-red-100 text-red-800'
+                                }`}>
+                                {donation.status === 'completed' ? 'Confirmada' :
+                                  donation.status === 'pending' ? 'Pendente' : 'Cancelada'}
                               </span>
                             </td>
                             <td className="py-3 px-4 text-gray-600">
@@ -740,7 +725,7 @@ export default function AdminPage() {
                         ))}
                       </tbody>
                     </table>
-                    
+
                     {donations.length === 0 && (
                       <div className="text-center py-8 text-gray-500">
                         Nenhuma doação encontrada
