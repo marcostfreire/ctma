@@ -1,12 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Fallback para desenvolvimento se não houver configuração real
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://localhost:54321'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dev-key'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-// Verificar se estamos usando valores reais
-const isProduction = supabaseUrl !== 'https://localhost:54321' && supabaseAnonKey !== 'dev-key'
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables')
+}
 
-export const supabase = isProduction 
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null // Para desenvolvimento sem Supabase real
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)

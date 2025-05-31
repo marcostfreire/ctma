@@ -59,6 +59,23 @@ interface Donation {
   created_at: string;
 }
 
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author_name: string;
+  author_id?: string;
+  image_url?: string;
+  featured: boolean;
+  published: boolean;
+  read_time: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export default function AdminPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -69,11 +86,11 @@ export default function AdminPage() {
     totalDonations: 0,
     totalRevenue: 0
   });
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);  const [users, setUsers] = useState<User[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [donations, setDonations] = useState<Donation[]>([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const loadAdminData = useCallback(async () => {
@@ -99,10 +116,8 @@ export default function AdminPage() {
         setError('Acesso negado. Usuário não é administrador.');
         router.push('/');
         return;
-      }
-
-      // Buscar dados reais do Supabase
-      const [usersResult, coursesResult, enrollmentsResult, donationsResult] = await Promise.all([
+      }      // Buscar dados reais do Supabase
+      const [usersResult, coursesResult, enrollmentsResult, donationsResult, blogPostsResult] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('courses').select('*').order('created_at', { ascending: false }),
         supabase
@@ -113,20 +128,21 @@ export default function AdminPage() {
             courses:course_id(name, price)
           `)
           .order('created_at', { ascending: false }),
-        supabase.from('donations').select('*').order('created_at', { ascending: false })
-      ]);
-
-      // Verificar erros nas consultas
+        supabase.from('donations').select('*').order('created_at', { ascending: false }),
+        supabase.from('blog_posts').select('*').order('created_at', { ascending: false })
+      ]);      // Verificar erros nas consultas
       if (usersResult.error) throw usersResult.error;
       if (coursesResult.error) throw coursesResult.error;
       if (enrollmentsResult.error) throw enrollmentsResult.error;
       if (donationsResult.error) throw donationsResult.error;
+      if (blogPostsResult.error) throw blogPostsResult.error;
 
       // Atualizar estados com dados reais
       setUsers(usersResult.data || []);
       setCourses(coursesResult.data || []);
       setEnrollments(enrollmentsResult.data || []);
       setDonations(donationsResult.data || []);
+      setBlogPosts(blogPostsResult.data || []);
 
       // Calcular estatísticas
       const completedEnrollments = enrollmentsResult.data?.filter(e => e.status === 'completed') || [];
@@ -734,29 +750,115 @@ export default function AdminPage() {
                   </div>
                 )}
               </div>
-            )}
-
-            {activeTab === 'content' && (
+            )}            {activeTab === 'content' && (
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                    Gestão de Conteúdo
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Funcionalidade para gerenciar blog e conteúdos será implementada na versão 2.0
-                  </p>
-                  <button
-                    onClick={() => setActiveTab('dashboard')}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-gray-800">Gestão de Blog</h3>
+                  <button 
+                    onClick={() => window.open('/blog', '_blank')}
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                   >
-                    Voltar ao Dashboard
+                    Ver Blog
                   </button>
                 </div>
+
+                {isLoadingData ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
+                    <p className="text-gray-600 mt-2">Carregando posts...</p>
+                  </div>
+                ) : error ? (
+                  <div className="text-center py-8">
+                    <p className="text-red-600">{error}</p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {/* Estatísticas dos Posts */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <p className="text-sm font-medium text-blue-600">Total de Posts</p>
+                        <p className="text-2xl font-bold text-blue-900">{blogPosts.length}</p>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg">
+                        <p className="text-sm font-medium text-green-600">Publicados</p>
+                        <p className="text-2xl font-bold text-green-900">{blogPosts.filter(p => p.published).length}</p>
+                      </div>
+                      <div className="bg-yellow-50 p-4 rounded-lg">
+                        <p className="text-sm font-medium text-yellow-600">Rascunhos</p>
+                        <p className="text-2xl font-bold text-yellow-900">{blogPosts.filter(p => !p.published).length}</p>
+                      </div>
+                      <div className="bg-purple-50 p-4 rounded-lg">
+                        <p className="text-sm font-medium text-purple-600">Em Destaque</p>
+                        <p className="text-2xl font-bold text-purple-900">{blogPosts.filter(p => p.featured).length}</p>
+                      </div>
+                    </div>
+
+                    {/* Lista de Posts */}
+                    <div className="overflow-x-auto">
+                      <table className="w-full table-auto">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700">Título</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700">Categoria</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700">Autor</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700">Data</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {blogPosts.map((post) => (
+                            <tr key={post.id} className="border-b hover:bg-gray-50">
+                              <td className="py-3 px-4">
+                                <div>
+                                  <div className="font-medium text-gray-800">{post.title}</div>
+                                  {post.featured && (
+                                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Destaque</span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                                  {post.category}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-gray-600">{post.author_name}</td>
+                              <td className="py-3 px-4">
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                  post.published 
+                                    ? 'bg-green-100 text-green-800' 
+                                    : 'bg-gray-100 text-gray-800'
+                                }`}>
+                                  {post.published ? 'Publicado' : 'Rascunho'}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-gray-600">
+                                {formatDate(post.created_at)}
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex space-x-2">
+                                  <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                    Editar
+                                  </button>
+                                  <button className="text-red-600 hover:text-red-700 text-sm font-medium">
+                                    Excluir
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+
+                      {blogPosts.length === 0 && (
+                        <div className="text-center py-8 text-gray-500">
+                          <p>Nenhum post encontrado</p>
+                          <p className="text-sm mt-2">Execute os comandos SQL do Supabase para adicionar posts de exemplo</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
