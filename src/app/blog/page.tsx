@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from 'next/link'; // Adicionado import do Link
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -15,18 +16,17 @@ export default function BlogPage() {
     "Casos de Sucesso",
   ];
 
-  // Busca posts do Supabase
   interface BlogPost {
     id: string;
     title: string;
     excerpt: string;
     category: string;
-    author_name: string; // Changed from author to author_name
+    author_name: string;
     created_at: string;
     featured: boolean;
     image_url?: string;
     read_time?: number;
-    slug: string; // Adicionado campo slug
+    slug: string;
   }
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -41,7 +41,6 @@ export default function BlogPage() {
         const { supabase } = await import("@/app/lib/supabaseClient");
         const { data, error } = await supabase
           .from("blog_posts")
-          // Ensure all fields in BlogPost interface are selected, especially author_name
           .select("id, title, excerpt, category, author_name, created_at, featured, image_url, read_time, slug")
           .eq("published", true)
           .order("created_at", { ascending: false });
@@ -49,28 +48,19 @@ export default function BlogPage() {
         setPosts(
           (data || []).map((post) => ({
             ...post,
-            // Ensure all selected fields are correctly mapped if any transformation is needed
-            // For example, if 'date' and 'readTime' were meant to be formatted versions:
-            // date: post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : "",
-            // readTime: post.read_time ? `${post.read_time} min` : "",
-            // image: post.image_url || "/api/placeholder/600/400", 
-            // However, it's often better to format these at the point of rendering
           }))
         );
-      } catch (rawError: unknown) { // Changed to unknown for type safety
+      } catch (rawError: unknown) {
         let errorMessage = "Erro ao buscar posts. Verifique o console para detalhes.";
 
-        // Log the raw error object
         console.error("Detailed error fetching posts (raw object):", rawError);
 
-        // Attempt to stringify for more details
         try {
           console.error("Detailed error fetching posts (JSON.stringify):", JSON.stringify(rawError, null, 2));
         } catch (stringifyError) {
           console.error("Error trying to JSON.stringify the error object:", stringifyError);
         }
 
-        // Extract message and other properties if it's an object
         if (typeof rawError === 'object' && rawError !== null) {
           const errorAsObject = rawError as { message?: string; code?: string; details?: string; hint?: string; };
           if (errorAsObject.message) {
@@ -99,7 +89,6 @@ export default function BlogPage() {
       ? posts
       : posts.filter((post) => post.category === selectedCategory);
   
-  // Ensure featuredPost also uses the updated BlogPost interface
   const featuredPost = posts.find((post): post is BlogPost & { featured: true } => post.featured);
 
   if (loading) {
@@ -231,10 +220,12 @@ export default function BlogPage() {
                 >
                   {post.image_url && (
                     <Link href={`/blog/${post.slug}`} passHref>
-                      <img
+                      <Image
                         src={post.image_url}
                         alt={post.title}
-                        className="w-full h-48 object-cover cursor-pointer"
+                        width={500}
+                        height={300}
+                        className="w-full h-64 object-cover rounded-lg mb-6"
                       />
                     </Link>
                   )}
@@ -255,7 +246,6 @@ export default function BlogPage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        {/* Placeholder for author image */}
                         <div className="w-8 h-8 bg-gray-300 rounded-full"></div> 
                         <div>
                           <div className="font-semibold text-gray-700 text-sm">{post.author_name}</div>

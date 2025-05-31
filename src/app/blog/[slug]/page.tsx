@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/app/lib/supabaseClient'; // Caminho corrigido
+import Image from 'next/image'; // Import the Image component
+import ReactMarkdown from 'react-markdown'; // Import ReactMarkdown
 
 interface PostPageParams extends Record<string, string | string[]> {
   slug: string;
@@ -94,11 +96,15 @@ export default function PostPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <article className="max-w-3xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
         {post.image_url && (
-          <img
-            src={post.image_url}
-            alt={post.title}
-            className="w-full h-64 object-cover"
-          />
+          <div className="mb-8 relative w-full h-96"> {/* Added relative positioning for Image fill */}
+            <Image
+              src={post.image_url}
+              alt={post.title}
+              layout="fill" // Use layout="fill" for responsive images that fill the container
+              objectFit="cover" // Ensure the image covers the area without distortion
+              className="rounded-lg"
+            />
+          </div>
         )}
         <div className="p-8">
           <div className="mb-6">
@@ -118,15 +124,29 @@ export default function PostPage() {
               </span>
             )}
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
-          <div className="flex items-center text-gray-700 mb-8">
-            {/* You might want to add an author image here if available */}
-            <p className="font-semibold">{post.author_name}</p>
+          <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">{post.title}</h1>
+          <div className="flex items-center text-gray-600 dark:text-gray-400 mb-6">
+            {post.author_avatar_url && (
+              <Image
+                src={post.author_avatar_url}
+                alt={post.author_name || 'Author'}
+                width={40}
+                height={40}
+                className="rounded-full mr-3"
+              />
+            )}
+            <span>Por {post.author_name || 'Autor Desconhecido'}</span>
+            <span className="mx-2">•</span>
+            <span>{new Date(post.created_at).toLocaleDateString()}</span>
           </div>
-          <div
-            className="prose prose-lg max-w-none text-gray-700"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          {/* Use ReactMarkdown to render content and apply prose styles */}
+          <article className="prose dark:prose-invert lg:prose-xl max-w-none">
+            <ReactMarkdown>{post.content}</ReactMarkdown>
+          </article>
+
+          <div className="mt-8">
+            {/* You might want to add some post-interaction components here */}
+          </div>
         </div>
       </article>
     </div>
