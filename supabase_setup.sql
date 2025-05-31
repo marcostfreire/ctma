@@ -117,8 +117,9 @@ CREATE POLICY "Only admins can view donations" ON public.donations FOR ALL USING
 -- COMANDOS FINAIS
 -- =============================================
 
--- Para tornar um usuário administrador, execute:
+-- Para tornar usuários administradores, execute:
 -- UPDATE public.profiles SET role = 'admin' WHERE email = 'seuemail@exemplo.com';
+-- UPDATE public.profiles SET role = 'admin' WHERE email = 'marcostamoyofreire@gmail.com';
 
 -- Para verificar se tudo foi criado corretamente:
 -- SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';

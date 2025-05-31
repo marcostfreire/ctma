@@ -36,11 +36,10 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'courses' | 'donations' | 'admin'>('overview');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [donations, setDonations] = useState<Donation[]>([]);
-  // Configuração do email do administrador - substitua pelo seu email
-  const ADMIN_EMAIL = 'seuemail@exemplo.com'; // Mude para o seu email
+  const [donations, setDonations] = useState<Donation[]>([]);  // Configuração dos emails dos administradores
+  const ADMIN_EMAILS = ['seuemail@exemplo.com', 'marcostamoyofreire@gmail.com']; // Emails dos admins
   const isAdmin = (userEmail: string | undefined) => {
-    return userEmail === ADMIN_EMAIL;
+    return userEmail ? ADMIN_EMAILS.includes(userEmail) : false;
   };
 
   useEffect(() => {
