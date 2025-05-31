@@ -1,7 +1,7 @@
 // Exemplo de como restringir o painel administrativo apenas para um email específico
 
 // 1. Defina o email do administrador
-const ADMIN_EMAIL = 'admin@ctma.com'; // Substitua pelo seu email
+const ADMIN_EMAIL = 'ctma.usa@gmail.com'; // Email do administrador CTMA
 
 // 2. No arquivo src/app/dashboard/page.tsx, adicione a verificação:
 
