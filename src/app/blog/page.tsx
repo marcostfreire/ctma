@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from 'next/link'; // Adicionado import do Link
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -20,14 +21,12 @@ export default function BlogPage() {
     title: string;
     excerpt: string;
     category: string;
-    author: string;
+    author_name: string; // Changed from author to author_name
     created_at: string;
     featured: boolean;
     image_url?: string;
     read_time?: number;
-    date: string;
-    readTime: string;
-    image: string;
+    slug: string; // Adicionado campo slug
   }
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -42,22 +41,52 @@ export default function BlogPage() {
         const { supabase } = await import("@/app/lib/supabaseClient");
         const { data, error } = await supabase
           .from("blog_posts")
-          .select("id, title, excerpt, category, author, created_at, featured, image_url, read_time")
+          // Ensure all fields in BlogPost interface are selected, especially author_name
+          .select("id, title, excerpt, category, author_name, created_at, featured, image_url, read_time, slug")
           .eq("published", true)
           .order("created_at", { ascending: false });
         if (error) throw error;
         setPosts(
           (data || []).map((post) => ({
             ...post,
-            date: post.created_at
-              ? new Date(post.created_at).toLocaleDateString("pt-BR")
-              : "",
-            readTime: post.read_time ? `${post.read_time} min` : "",
-            image: post.image_url || "/api/placeholder/600/400",
+            // Ensure all selected fields are correctly mapped if any transformation is needed
+            // For example, if 'date' and 'readTime' were meant to be formatted versions:
+            // date: post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : "",
+            // readTime: post.read_time ? `${post.read_time} min` : "",
+            // image: post.image_url || "/api/placeholder/600/400", 
+            // However, it's often better to format these at the point of rendering
           }))
         );
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Erro ao buscar posts");
+      } catch (rawError: unknown) { // Changed to unknown for type safety
+        let errorMessage = "Erro ao buscar posts. Verifique o console para detalhes.";
+
+        // Log the raw error object
+        console.error("Detailed error fetching posts (raw object):", rawError);
+
+        // Attempt to stringify for more details
+        try {
+          console.error("Detailed error fetching posts (JSON.stringify):", JSON.stringify(rawError, null, 2));
+        } catch (stringifyError) {
+          console.error("Error trying to JSON.stringify the error object:", stringifyError);
+        }
+
+        // Extract message and other properties if it's an object
+        if (typeof rawError === 'object' && rawError !== null) {
+          const errorAsObject = rawError as { message?: string; code?: string; details?: string; hint?: string; };
+          if (errorAsObject.message) {
+            errorMessage = errorAsObject.message;
+          }
+          console.error(
+            "Supabase error properties: message:", errorAsObject.message,
+            "details:", errorAsObject.details,
+            "hint:", errorAsObject.hint,
+            "code:", errorAsObject.code
+          );
+        } else if (rawError instanceof Error) {
+            errorMessage = rawError.message;
+        }
+
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -69,7 +98,9 @@ export default function BlogPage() {
     selectedCategory === "Todos"
       ? posts
       : posts.filter((post) => post.category === selectedCategory);
-  const featuredPost = posts.find((post) => post.featured);
+  
+  // Ensure featuredPost also uses the updated BlogPost interface
+  const featuredPost = posts.find((post): post is BlogPost & { featured: true } => post.featured);
 
   if (loading) {
     return (
@@ -133,7 +164,7 @@ export default function BlogPage() {
                     <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
                       {featuredPost.category}
                     </span>
-                    <span className="text-gray-500 text-sm">{featuredPost.readTime} de leitura</span>
+                    <span className="text-gray-500 text-sm">{featuredPost.read_time} de leitura</span>
                   </div>
                   <h2 className="text-3xl font-bold text-gray-800 mb-4">
                     {featuredPost.title}
@@ -145,13 +176,15 @@ export default function BlogPage() {
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
                       <div>
-                        <div className="font-semibold text-gray-800">{featuredPost.author}</div>
-                        <div className="text-sm text-gray-500">{featuredPost.date}</div>
+                        <div className="font-semibold text-gray-800">{featuredPost.author_name}</div>
+                        <div className="text-sm text-gray-500">{new Date(featuredPost.created_at).toLocaleDateString("pt-BR")}</div>
                       </div>
                     </div>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
-                      Ler Artigo
-                    </button>
+                    <Link href={`/blog/${featuredPost.slug}`} passHref>
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                        Ler Artigo
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="bg-gray-200 rounded-xl aspect-video flex items-center justify-center">
@@ -194,35 +227,46 @@ export default function BlogPage() {
               {filteredPosts.filter((post) => !post.featured).map((post) => (
                 <article
                   key={post.id}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
                 >
-                  <div className="bg-gray-200 aspect-video flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">Imagem</span>
-                  </div>
+                  {post.image_url && (
+                    <Link href={`/blog/${post.slug}`} passHref>
+                      <img
+                        src={post.image_url}
+                        alt={post.title}
+                        className="w-full h-48 object-cover cursor-pointer"
+                      />
+                    </Link>
+                  )}
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm font-medium">
+                      <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">
                         {post.category}
                       </span>
-                      <span className="text-gray-400 text-sm">{post.readTime}</span>
+                      <span className="text-gray-500 text-xs">{post.read_time} de leitura</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-3 line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+                    <Link href={`/blog/${post.slug}`} passHref>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2 hover:text-blue-600 cursor-pointer">
+                        {post.title}
+                      </h3>
+                    </Link>
+                    <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                        {/* Placeholder for author image */}
+                        <div className="w-8 h-8 bg-gray-300 rounded-full"></div> 
                         <div>
-                          <div className="text-sm font-semibold text-gray-800">{post.author}</div>
-                          <div className="text-xs text-gray-500">{post.date}</div>
+                          <div className="font-semibold text-gray-700 text-sm">{post.author_name}</div>
+                          <div className="text-xs text-gray-500">{new Date(post.created_at).toLocaleDateString("pt-BR")}</div>
                         </div>
                       </div>
-                      <button className="text-blue-600 hover:text-blue-700 font-semibold text-sm">
-                        Ler mais →
-                      </button>
+                      <Link href={`/blog/${post.slug}`} passHref>
+                        <button className="text-blue-600 hover:text-blue-700 font-semibold text-sm">
+                          Ler Mais
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </article>

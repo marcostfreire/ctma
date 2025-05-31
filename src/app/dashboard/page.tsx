@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/app/lib/supabaseClient'; // Import Supabase client
 
 interface UserProfile {
   name: string;
@@ -14,12 +15,21 @@ interface UserProfile {
   joinDate: string;
 }
 
+// Adjusted to expect a single course object or null, matching Supabase typical relation
+interface EnrollmentFromSupabase {
+  id: string;
+  created_at: string;
+  status: string;
+  courses: { name: string; slug: string } | { name: string; slug: string }[] | null; // Can be object, array or null
+}
+
 interface Enrollment {
   id: string;
   courseName: string;
   enrollDate: string;
   status: 'active' | 'completed' | 'pending';
   progress: number;
+  // courses?: CourseForEnrollment; // Optional: if you directly embed course details
 }
 
 interface Donation {
@@ -36,7 +46,11 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'courses' | 'donations' | 'admin'>('overview');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [donations, setDonations] = useState<Donation[]>([]);  // Configuração dos emails dos administradores
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true); // Added loading state
+  const [error, setError] = useState<string | null>(null); // Added error state
+
+  // Configuração dos emails dos administradores
   const ADMIN_EMAILS = ['seuemail@exemplo.com', 'marcostamoyofreire@gmail.com']; // Emails dos admins
   const isAdmin = (userEmail: string | undefined) => {
     return userEmail ? ADMIN_EMAILS.includes(userEmail) : false;
@@ -49,55 +63,93 @@ export default function DashboardPage() {
     }
 
     if (user) {
-      // Mock data - in a real app, you'd fetch this from your database
-      setUserProfile({
-        name: user.user_metadata?.name || user.email?.split('@')[0] || 'Usuário',
-        email: user.email || '',
-        joinDate: user.created_at || new Date().toISOString(),
-        phone: user.user_metadata?.phone || '',
-        bio: user.user_metadata?.bio || '',
-        avatar: user.user_metadata?.avatar || ''
-      });
+      const fetchDashboardData = async () => {
+        setIsLoadingData(true);
+        setError(null);
+        try {
+          // Fetch User Profile
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('full_name, phone, bio, avatar_url') // Adjust column names as per your 'profiles' table
+            .eq('id', user.id)
+            .single();
 
-      // Mock enrollments
-      setEnrollments([
-        {
-          id: '1',
-          courseName: 'Capelão Internacional',
-          enrollDate: '2024-01-15',
-          status: 'active',
-          progress: 65
-        },
-        {
-          id: '2',
-          courseName: 'Diplomata Civil',
-          enrollDate: '2025-11-20',
-          status: 'completed',
-          progress: 100
-        }
-      ]);
+          if (profileError && profileError.code !== 'PGRST116') { // PGRST116: single row not found, which is ok if profile is not yet created
+            throw profileError;
+          }
 
-      // Mock donations
-      setDonations([
-        {
-          id: '1',
-          amount: 10000, // R$ 100,00
-          date: '2024-01-20',
-          type: 'Contribuição Especial',
-          status: 'completed'
-        },
-        {
-          id: '2',
-          amount: 5000, // R$ 50,00
-          date: '2024-01-05',
-          type: 'Contribuição Padrão',
-          status: 'completed'
+          setUserProfile({
+            name: profileData?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Usuário',
+            email: user.email || '',
+            joinDate: user.created_at || new Date().toISOString(),
+            phone: profileData?.phone || user.user_metadata?.phone || '',
+            bio: profileData?.bio || user.user_metadata?.bio || '',
+            avatar: profileData?.avatar_url || user.user_metadata?.avatar_url || ''
+          });
+
+          // Fetch Enrollments
+          const { data: enrollmentsData, error: enrollmentsError } = await supabase
+            .from('enrollments')
+            .select(`
+              id,
+              status,
+              created_at,
+              courses ( name, slug )
+            `)
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+          if (enrollmentsError) throw enrollmentsError;
+
+          setEnrollments(enrollmentsData?.map((e: EnrollmentFromSupabase) => {
+            let courseName = 'Curso Desconhecido';
+            if (e.courses) {
+              if (Array.isArray(e.courses) && e.courses.length > 0) {
+                courseName = e.courses[0].name;
+              } else if (!Array.isArray(e.courses)) {
+                courseName = (e.courses as { name: string }).name;
+              }
+            }
+            return {
+              id: e.id,
+              courseName: courseName,
+              enrollDate: e.created_at,
+              status: e.status === 'completed' ? 'completed' : (e.status === 'active' ? 'active' : 'pending'), // Adjust status mapping
+              progress: e.status === 'completed' ? 100 : (e.status === 'active' ? 50 : 0), // Mocked progress, adjust as needed
+            };
+          }) || []);
+
+          // Fetch Donations
+          const { data: donationsData, error: donationsError } = await supabase
+            .from('donations')
+            .select('id, amount, created_at, type, status') // Assuming 'type' exists for donation type
+            .eq('user_id', user.id) // Assuming donations are linked to user_id, adjust if it's donor_email or similar
+            .order('created_at', { ascending: false });
+
+          if (donationsError) throw donationsError;
+
+          setDonations(donationsData?.map((d: { id: string; amount: number; created_at: string; type: string | null; status: string; }) => ({
+            id: d.id,
+            amount: d.amount,
+            date: d.created_at,
+            type: d.type || 'Doação', // Adjust if type field is different
+            status: d.status === 'completed' ? 'completed' : (d.status === 'pending' ? 'pending' : 'failed'), // Adjust status mapping
+          })) || []);
+
+        } catch (err) {
+          console.error("Error fetching dashboard data:", err);
+          const fetchError = err as { message?: string };
+          setError(fetchError.message || "Erro ao carregar dados do dashboard.");
+        } finally {
+          setIsLoadingData(false);
         }
-      ]);
+      };
+
+      fetchDashboardData();
     }
   }, [user, loading, router]);
 
-  if (loading) {
+  if (loading || isLoadingData) { // Check both loading states
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -107,6 +159,21 @@ export default function DashboardPage() {
 
   if (!user) {
     return null;
+  }
+
+  if (error) { // Display error message if any
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-red-600">
+        <p>Ocorreu um erro ao carregar os dados:</p>
+        <p>{error}</p>
+        <button
+          onClick={() => window.location.reload()} // Simple reload, or a more specific refetch function
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Tentar Novamente
+        </button>
+      </div>
+    );
   }
 
   const formatCurrency = (amount: number) => {

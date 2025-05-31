@@ -268,8 +268,11 @@ export default function AdminPage() {
 
       // Verificar se o Supabase está configurado
       if (!supabase) {
-        console.log('🔧 Supabase não configurado - usando dados mockados');
-        loadMockData();
+        // console.log('🔧 Supabase não configurado - usando dados mockados');
+        // loadMockData();
+        // return;
+        setError("Supabase client is not available. Check configuration.");
+        setIsLoadingData(false);
         return;
       }
 
@@ -378,53 +381,55 @@ export default function AdminPage() {
       setError(`Erro ao carregar dados: ${errorMessage}`);
 
       // Fallback para dados mockados se houver erro de conexão
-      loadMockData();
+      // loadMockData();
     } finally {
       setIsLoadingData(false);
     }
   }, [router, user]);
 
-  const loadMockData = () => {
-    // Dados mockados como fallback durante desenvolvimento
-    console.log('🔧 Usando dados mockados - Configure as credenciais do Supabase para dados reais');
-
-    setStats({
-      totalUsers: 1247,
-      totalEnrollments: 856,
-      totalDonations: 342,
-      totalRevenue: 125600
-    });
-
-    setRecentActivity([
-      {
-        id: '1',
-        type: 'enrollment',
-        description: 'Nova matrícula no curso de Capelão Internacional',
-        amount: 49900,
-        date: '2024-01-20T10:30:00Z',
-        user: 'João Silva'
-      },
-      {
-        id: '2',
-        type: 'donation',
-        description: 'Doação recebida',
-        amount: 10000,
-        date: '2024-01-20T09:15:00Z',
-        user: 'Maria Santos'
-      },
-      {
-        id: '3',
-        type: 'registration',
-        description: 'Novo usuário cadastrado',
-        date: '2024-01-20T08:45:00Z',
-        user: 'Carlos Rodriguez'
-      }
-    ]);
-  };
+  // const loadMockData = () => {
+  //   // Dados mockados como fallback durante desenvolvimento
+  //   console.log('🔧 Usando dados mockados - Configure as credenciais do Supabase para dados reais');
+  //
+  //   setStats({
+  //     totalUsers: 1247,
+  //     totalEnrollments: 856,
+  //     totalDonations: 342,
+  //     totalRevenue: 125600
+  //   });
+  //
+  //   setRecentActivity([
+  //     {
+  //       id: '1',
+  //       type: 'enrollment',
+  //       description: 'Nova matrícula no curso de Capelão Internacional',
+  //       amount: 49900,
+  //       date: '2024-01-20T10:30:00Z',
+  //       user: 'João Silva'
+  //     },
+  //     {
+  //       id: '2',
+  //       type: 'donation',
+  //       description: 'Doação recebida',
+  //       amount: 10000,
+  //       date: '2024-01-20T09:15:00Z',
+  //       user: 'Maria Santos'
+  //     },
+  //     {
+  //       id: '3',
+  //       type: 'registration',
+  //       description: 'Novo usuário cadastrado',
+  //       date: '2024-01-20T08:45:00Z',
+  //       user: 'Carlos Rodriguez'
+  //     }
+  //   ]);
+  // };
 
   useEffect(() => {
-    loadAdminData();
-  }, [loadAdminData]);
+    if (user) { // Ensure user object is available before loading data
+      loadAdminData();
+    }
+  }, [user, loadAdminData]); // Add user to dependency array
 
   if (loading) {
     return (
