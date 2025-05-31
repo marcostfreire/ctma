@@ -14,116 +14,77 @@ export default function BlogPage() {
     "Casos de Sucesso",
   ];
 
-  const posts = [
-    {
-      id: 1,
-      title:
-        "O Papel do Capelão em Situações de Emergência: Lições da Pandemia COVID-19",
-      excerpt:
-        "Durante a pandemia, capelães desempenharam um papel fundamental no apoio emocional e espiritual. Analisamos as principais lições aprendidas e como isso moldou a profissão.",
-      category: "Capelania",
-      author: "Dr. Maria Santos",
-      date: "28 de maio, 2025",
-      readTime: "8 min",
-      image: "/images/blog/lider-global.jpg",
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Diplomacia Civil: Construindo Pontes em Tempos de Polarização",
-      excerpt:
-        "A diplomacia civil emerge como ferramenta essencial para resolver conflitos locais e promover diálogo entre comunidades divididas.",
-      category: "Diplomacia",
-      author: "Carlos Rodriguez",
-      date: "12 de Dezembro, 2025",
-      readTime: "6 min",
-      image: "/api/placeholder/600/400",
-      featured: false,
-    },
-    {
-      id: 3,
-      title:
-        "Monitoramento de Direitos Humanos: Tecnologias Emergentes e Desafios Éticos",
-      excerpt:
-        "Como as novas tecnologias estão transformando o trabalho de monitores internacionais e quais são os dilemas éticos envolvidos.",
-      category: "Direitos Humanos",
-      author: "Ana Carolina Silva",
-      date: "10 de Dezembro, 2025",
-      readTime: "10 min",
-      image: "/api/placeholder/600/400",
-      featured: false,
-    },
-    {
-      id: 4,
-      title:
-        "CTMA Credencia 50 Novos Profissionais em Programa Internacional",
-      excerpt:
-        "Mais uma turma de capelães, diplomatas civis e monitores recebe credenciamento oficial da CTMA, expandindo nossa rede global de profissionais.",
-      category: "Notícias",
-      author: "Equipe CTMA",
-      date: "8 de Dezembro, 2025",
-      readTime: "4 min",
-      image: "/images/blog/credenciamento.jpg",
-      featured: false,
-    },
-    {
-      id: 5,
-      title:
-        "Capelania Hospitalar: Protocolos de Cuidado Integral ao Paciente",
-      excerpt:
-        "Novos protocolos desenvolvidos pela CTMA estabelecem diretrizes para cuidado espiritual e emocional em ambientes hospitalares.",
-      category: "Capelania",
-      author: "Dr. João Pereira",
-      date: "5 de Dezembro, 2025",
-      readTime: "7 min",
-      image: "/images/blog/capelao-internacional.jpg",
-      featured: false,
-    },
-    {
-      id: 6,
-      title:
-        "Caso de Sucesso: Mediação de Conflito Comunitário no Interior de SP",
-      excerpt:
-        "Diplomata civil credenciado pela CTMA medeia com sucesso conflito entre comunidades rurais, estabelecendo acordo duradouro.",
-      category: "Casos de Sucesso",
-      author: "Pedro Oliveira",
-      date: "3 de Dezembro, 2025",
-      readTime: "5 min",
-      image: "/api/placeholder/600/400",
-      featured: false,
-    },
-    {
-      id: 7,
-      title:
-        "Observação Eleitoral: Relatório da Missão Internacional na América Latina",
-      excerpt:
-        "Monitores certificados pela CTMA participam de missão de observação eleitoral, contribuindo para transparência democrática na região.",
-      category: "Direitos Humanos",
-      author: "Equipe Internacional",
-      date: "1 de Dezembro, 2025",
-      readTime: "9 min",
-      image: "/api/placeholder/600/400",
-      featured: false,
-    },
-    {
-      id: 8,
-      title: "Webinar Gratuito: Fundamentos da Capelania Militar",
-      excerpt:
-        "Participe do nosso próximo webinar sobre capelania militar, explorando desafios únicos e competências necessárias para esta área especializada.",
-      category: "Notícias",
-      author: "Departamento de Educação",
-      date: "28 de Novembro, 2025",
-      readTime: "3 min",
-      image: "/api/placeholder/600/400",
-      featured: false,
-    },
-  ];
+  // Busca posts do Supabase
+  interface BlogPost {
+    id: string;
+    title: string;
+    excerpt: string;
+    category: string;
+    author: string;
+    created_at: string;
+    featured: boolean;
+    image_url?: string;
+    read_time?: number;
+    date: string;
+    readTime: string;
+    image: string;
+  }
+
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const { supabase } = await import("@/app/lib/supabaseClient");
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .select("id, title, excerpt, category, author, created_at, featured, image_url, read_time")
+          .eq("published", true)
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        setPosts(
+          (data || []).map((post) => ({
+            ...post,
+            date: post.created_at
+              ? new Date(post.created_at).toLocaleDateString("pt-BR")
+              : "",
+            readTime: post.read_time ? `${post.read_time} min` : "",
+            image: post.image_url || "/api/placeholder/600/400",
+          }))
+        );
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Erro ao buscar posts");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const filteredPosts =
     selectedCategory === "Todos"
       ? posts
       : posts.filter((post) => post.category === selectedCategory);
   const featuredPost = posts.find((post) => post.featured);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <span className="text-gray-500 text-lg">Carregando posts...</span>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <span className="text-red-600 text-lg">{error}</span>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}

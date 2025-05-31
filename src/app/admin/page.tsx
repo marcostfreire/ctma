@@ -77,6 +77,174 @@ interface BlogPost {
 }
 
 export default function AdminPage() {
+  // --- NOVOS STATES PARA CRIAR POST ---
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [newPost, setNewPost] = useState({
+    title: '',
+    category: '',
+    excerpt: '',
+    content: '',
+    published: true,
+    featured: false,
+    author_name: '',
+    image_url: '',
+  });
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [createSuccess, setCreateSuccess] = useState<string | null>(null);
+
+  // Estados para editar post
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [editPost, setEditPost] = useState({
+    title: '',
+    category: '',
+    excerpt: '',
+    content: '',
+    published: true,
+    featured: false,
+    author_name: '',
+    image_url: '',
+  });
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editSuccess, setEditSuccess] = useState<string | null>(null);
+
+  // Estados para deletar post
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingPost, setDeletingPost] = useState<BlogPost | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleCreatePost(e: React.FormEvent) {
+    e.preventDefault();
+    setCreateError(null);
+    setCreateSuccess(null);
+    // slug simples baseado no título
+    const slug = newPost.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/gi, '-')
+      .replace(/(^-|-$)+/g, '');
+    try {
+      const { error } = await supabase.from('blog_posts').insert([
+        {
+          ...newPost,
+          slug,
+          read_time: Math.max(2, Math.round(newPost.content.split(' ').length / 200)),
+        },
+      ]);
+      if (error) throw error;
+      setCreateSuccess('Post criado com sucesso!');
+      setNewPost({
+        title: '',
+        category: '',
+        excerpt: '',
+        content: '',
+        published: true,
+        featured: false,
+        author_name: '',
+        image_url: '',
+      });
+      // Atualiza lista de posts
+      loadAdminData();
+      setTimeout(() => {
+        setShowCreateModal(false);
+        setCreateSuccess(null);
+      }, 1200);
+    } catch (err: unknown) {
+      setCreateError(err instanceof Error ? err.message : 'Erro ao criar post');
+    }
+  }
+
+  // Função para abrir modal de edição
+  function openEditModal(post: BlogPost) {
+    setEditingPost(post);
+    setEditPost({
+      title: post.title,
+      category: post.category,
+      excerpt: post.excerpt,
+      content: post.content,
+      published: post.published,
+      featured: post.featured,
+      author_name: post.author_name,
+      image_url: post.image_url || '',
+    });
+    setEditError(null);
+    setEditSuccess(null);
+    setShowEditModal(true);
+  }
+
+  // Função para editar post
+  async function handleEditPost(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editingPost) return;
+    
+    setEditError(null);
+    setEditSuccess(null);
+    
+    // Gerar slug baseado no título
+    const slug = editPost.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/gi, '-')
+      .replace(/(^-|-$)+/g, '');
+    
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .update({
+          ...editPost,
+          slug,
+          read_time: Math.max(2, Math.round(editPost.content.split(' ').length / 200)),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', editingPost.id);
+        
+      if (error) throw error;
+      
+      setEditSuccess('Post atualizado com sucesso!');
+      
+      // Atualizar lista de posts
+      loadAdminData();
+      
+      setTimeout(() => {
+        setShowEditModal(false);
+        setEditSuccess(null);
+        setEditingPost(null);
+      }, 1200);
+    } catch (err: unknown) {
+      setEditError(err instanceof Error ? err.message : 'Erro ao editar post');
+    }
+  }
+
+  // Função para abrir modal de exclusão
+  function openDeleteModal(post: BlogPost) {
+    setDeletingPost(post);
+    setDeleteError(null);
+    setShowDeleteModal(true);
+  }
+
+  // Função para deletar post
+  async function handleDeletePost() {
+    if (!deletingPost) return;
+    
+    setDeleteError(null);
+    
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .delete()
+        .eq('id', deletingPost.id);
+        
+      if (error) throw error;
+      
+      // Atualizar lista de posts
+      loadAdminData();
+      
+      // Fechar modal
+      setShowDeleteModal(false);
+      setDeletingPost(null);
+    } catch (err: unknown) {
+      setDeleteError(err instanceof Error ? err.message : 'Erro ao deletar post');
+    }
+  }
+
   const { user, loading } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'users' | 'courses' | 'donations' | 'content'>('dashboard');
@@ -86,7 +254,7 @@ export default function AdminPage() {
     totalDonations: 0,
     totalRevenue: 0
   });
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);  const [users, setUsers] = useState<User[]>([]);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]); const [users, setUsers] = useState<User[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [donations, setDonations] = useState<Donation[]>([]);
@@ -352,8 +520,8 @@ export default function AdminPage() {
                 <button
                   onClick={() => setActiveTab('dashboard')}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'dashboard'
-                      ? 'bg-blue-100 text-blue-700 font-medium'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-blue-100 text-blue-700 font-medium'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -367,8 +535,8 @@ export default function AdminPage() {
                 <button
                   onClick={() => setActiveTab('users')}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'users'
-                      ? 'bg-blue-100 text-blue-700 font-medium'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-blue-100 text-blue-700 font-medium'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -382,8 +550,8 @@ export default function AdminPage() {
                 <button
                   onClick={() => setActiveTab('courses')}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'courses'
-                      ? 'bg-blue-100 text-blue-700 font-medium'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-blue-100 text-blue-700 font-medium'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -397,8 +565,8 @@ export default function AdminPage() {
                 <button
                   onClick={() => setActiveTab('donations')}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'donations'
-                      ? 'bg-blue-100 text-blue-700 font-medium'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-blue-100 text-blue-700 font-medium'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -412,8 +580,8 @@ export default function AdminPage() {
                 <button
                   onClick={() => setActiveTab('content')}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'content'
-                      ? 'bg-blue-100 text-blue-700 font-medium'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-blue-100 text-blue-700 font-medium'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -496,20 +664,16 @@ export default function AdminPage() {
                   <div className="space-y-4">
                     {recentActivity.map((activity) => (
                       <div key={activity.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-3">
                           {getActivityIcon(activity.type)}
                           <div>
-                            <p className="font-medium text-gray-800">{activity.description}</p>
-                            <p className="text-sm text-gray-600">
-                              {activity.user} • {formatDate(activity.date)}
-                            </p>
+                            <p className="text-sm font-medium text-gray-800">{activity.description}</p>
+                            <p className="text-xs text-gray-500">{activity.user} • {formatDate(activity.date)}</p>
                           </div>
                         </div>
                         {activity.amount && (
                           <div className="text-right">
-                            <p className="font-semibold text-green-600">
-                              {formatCurrency(activity.amount)}
-                            </p>
+                            <p className="text-sm font-semibold text-green-600">{formatCurrency(activity.amount)}</p>
                           </div>
                         )}
                       </div>
@@ -546,19 +710,17 @@ export default function AdminPage() {
                       <tbody>
                         {users.map((user) => (
                           <tr key={user.id} className="border-b hover:bg-gray-50">
-                            <td className="py-3 px-4">{user.full_name || 'Nome não informado'}</td>
-                            <td className="py-3 px-4">{user.email}</td>
+                            <td className="py-3 px-4 font-medium text-gray-800">{user.full_name || 'N/A'}</td>
+                            <td className="py-3 px-4 text-gray-600">{user.email}</td>
                             <td className="py-3 px-4">
                               <span className={`px-2 py-1 rounded text-xs font-medium ${user.role === 'admin'
-                                  ? 'bg-red-100 text-red-800'
-                                  : 'bg-blue-100 text-blue-800'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-blue-100 text-blue-800'
                                 }`}>
-                                {user.role === 'admin' ? 'Administrador' : 'Usuário'}
+                                {user.role}
                               </span>
                             </td>
-                            <td className="py-3 px-4 text-gray-600">
-                              {formatDate(user.created_at)}
-                            </td>
+                            <td className="py-3 px-4 text-gray-600">{formatDate(user.created_at)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -597,17 +759,14 @@ export default function AdminPage() {
                       <div className="grid gap-4">
                         {courses.map((course) => (
                           <div key={course.id} className="border rounded-lg p-4">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h5 className="font-semibold text-gray-800">{course.name}</h5>
-                                <p className="text-gray-600 text-sm mt-1">{course.description}</p>
-                                <p className="text-blue-600 font-semibold mt-2">
-                                  {formatCurrency(course.price)}
-                                </p>
-                              </div>
-                              <span className="text-xs text-gray-500">
-                                {course.slug}
-                              </span>
+                            <div className="flex justify-between items-start mb-2">
+                              <h5 className="font-medium text-gray-800">{course.name}</h5>
+                              <span className="text-green-600 font-semibold">{formatCurrency(course.price)}</span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-2">{course.description}</p>
+                            <div className="flex justify-between items-center text-xs text-gray-500">
+                              <span>Slug: {course.slug}</span>
+                              <span>{formatDate(course.created_at)}</span>
                             </div>
                           </div>
                         ))}
@@ -627,53 +786,35 @@ export default function AdminPage() {
                         <table className="w-full table-auto">
                           <thead>
                             <tr className="border-b">
-                              <th className="text-left py-3 px-4 font-semibold text-gray-700">Aluno</th>
+                              <th className="text-left py-3 px-4 font-semibold text-gray-700">Usuário</th>
                               <th className="text-left py-3 px-4 font-semibold text-gray-700">Curso</th>
                               <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                              <th className="text-left py-3 px-4 font-semibold text-gray-700">Data</th>
                               <th className="text-left py-3 px-4 font-semibold text-gray-700">Valor</th>
+                              <th className="text-left py-3 px-4 font-semibold text-gray-700">Data</th>
                             </tr>
                           </thead>
                           <tbody>
                             {enrollments.map((enrollment) => (
                               <tr key={enrollment.id} className="border-b hover:bg-gray-50">
-                                <td className="py-3 px-4">
-                                  <div>
-                                    <div className="font-medium">
-                                      {enrollment.profiles?.full_name || 'Nome não informado'}
-                                    </div>
-                                    <div className="text-sm text-gray-600">
-                                      {enrollment.profiles?.email}
-                                    </div>
-                                  </div>
-                                </td>
-                                <td className="py-3 px-4">
-                                  {enrollment.courses?.name}
-                                </td>
+                                <td className="py-3 px-4 text-gray-800">{enrollment.profiles?.full_name || enrollment.profiles?.email}</td>
+                                <td className="py-3 px-4 text-gray-600">{enrollment.courses?.name}</td>
                                 <td className="py-3 px-4">
                                   <span className={`px-2 py-1 rounded text-xs font-medium ${enrollment.status === 'completed'
-                                      ? 'bg-green-100 text-green-800'
-                                      : enrollment.status === 'pending'
-                                        ? 'bg-yellow-100 text-yellow-800'
-                                        : 'bg-red-100 text-red-800'
+                                    ? 'bg-green-100 text-green-800'
+                                    : 'bg-yellow-100 text-yellow-800'
                                     }`}>
-                                    {enrollment.status === 'completed' ? 'Concluída' :
-                                      enrollment.status === 'pending' ? 'Pendente' : 'Cancelada'}
+                                    {enrollment.status}
                                   </span>
                                 </td>
-                                <td className="py-3 px-4 text-gray-600">
-                                  {formatDate(enrollment.created_at)}
-                                </td>
-                                <td className="py-3 px-4 font-semibold text-green-600">
-                                  {formatCurrency(enrollment.courses?.price || 0)}
-                                </td>
+                                <td className="py-3 px-4 text-gray-600">{formatCurrency(enrollment.courses?.price || 0)}</td>
+                                <td className="py-3 px-4 text-gray-600">{formatDate(enrollment.created_at)}</td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
 
                         {enrollments.length === 0 && (
-                          <div className="text-center py-8 text-gray-500">
+                          <div className="text-center py-4 text-gray-500">
                             Nenhuma matrícula encontrada
                           </div>
                         )}
@@ -708,35 +849,26 @@ export default function AdminPage() {
                           <th className="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
                           <th className="text-left py-3 px-4 font-semibold text-gray-700">Valor</th>
                           <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                          <th className="text-left py-3 px-4 font-semibold text-gray-700">Data</th>
                           <th className="text-left py-3 px-4 font-semibold text-gray-700">Mensagem</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-700">Data</th>
                         </tr>
                       </thead>
                       <tbody>
                         {donations.map((donation) => (
                           <tr key={donation.id} className="border-b hover:bg-gray-50">
-                            <td className="py-3 px-4 font-medium">{donation.donor_name}</td>
+                            <td className="py-3 px-4 font-medium text-gray-800">{donation.donor_name}</td>
                             <td className="py-3 px-4 text-gray-600">{donation.donor_email}</td>
-                            <td className="py-3 px-4 font-semibold text-green-600">
-                              {formatCurrency(donation.amount)}
-                            </td>
+                            <td className="py-3 px-4 font-semibold text-green-600">{formatCurrency(donation.amount)}</td>
                             <td className="py-3 px-4">
                               <span className={`px-2 py-1 rounded text-xs font-medium ${donation.status === 'completed'
-                                  ? 'bg-green-100 text-green-800'
-                                  : donation.status === 'pending'
-                                    ? 'bg-yellow-100 text-yellow-800'
-                                    : 'bg-red-100 text-red-800'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-yellow-100 text-yellow-800'
                                 }`}>
-                                {donation.status === 'completed' ? 'Confirmada' :
-                                  donation.status === 'pending' ? 'Pendente' : 'Cancelada'}
+                                {donation.status}
                               </span>
                             </td>
-                            <td className="py-3 px-4 text-gray-600">
-                              {formatDate(donation.created_at)}
-                            </td>
-                            <td className="py-3 px-4 text-gray-600 max-w-xs truncate">
-                              {donation.message || 'Sem mensagem'}
-                            </td>
+                            <td className="py-3 px-4 text-gray-600 max-w-xs truncate">{donation.message || 'N/A'}</td>
+                            <td className="py-3 px-4 text-gray-600">{formatDate(donation.created_at)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -752,15 +884,26 @@ export default function AdminPage() {
               </div>
             )}            {activeTab === 'content' && (
               <div className="bg-white rounded-lg shadow-sm p-6">
+
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold text-gray-800">Gestão de Blog</h3>
-                  <button 
-                    onClick={() => window.open('/blog', '_blank')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    Ver Blog
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowCreateModal(true)}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Novo Post
+                    </button>
+                    <button
+                      onClick={() => window.open('/blog', '_blank')}
+                      className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      Ver Blog
+                    </button>
+                  </div>
                 </div>
+
+
 
                 {isLoadingData ? (
                   <div className="text-center py-8">
@@ -824,11 +967,10 @@ export default function AdminPage() {
                               </td>
                               <td className="py-3 px-4 text-gray-600">{post.author_name}</td>
                               <td className="py-3 px-4">
-                                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                  post.published 
-                                    ? 'bg-green-100 text-green-800' 
-                                    : 'bg-gray-100 text-gray-800'
-                                }`}>
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${post.published
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-gray-100 text-gray-800'
+                                  }`}>
                                   {post.published ? 'Publicado' : 'Rascunho'}
                                 </span>
                               </td>
@@ -837,10 +979,10 @@ export default function AdminPage() {
                               </td>
                               <td className="py-3 px-4">
                                 <div className="flex space-x-2">
-                                  <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                  <button className="text-blue-600 hover:text-blue-700 text-sm font-medium" onClick={() => openEditModal(post)}>
                                     Editar
                                   </button>
-                                  <button className="text-red-600 hover:text-red-700 text-sm font-medium">
+                                  <button className="text-red-600 hover:text-red-700 text-sm font-medium" onClick={() => openDeleteModal(post)}>
                                     Excluir
                                   </button>
                                 </div>
@@ -861,9 +1003,418 @@ export default function AdminPage() {
                 )}
               </div>
             )}
+
+            {/* Modal de edição de post */}
+            {showEditModal && editingPost && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
+                  <button
+                    className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+                    onClick={() => setShowEditModal(false)}
+                    aria-label="Fechar"
+                  >
+                    ×
+                  </button>
+                  <h2 className="text-xl font-bold mb-4">Editar Post</h2>
+                  <form onSubmit={handleEditPost} className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Título</label>
+                      <input 
+                        type="text" 
+                        className="w-full border rounded px-3 py-2" 
+                        required 
+                        value={editPost.title} 
+                        onChange={e => setEditPost({ ...editPost, title: e.target.value })} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Categoria</label>
+                      <input 
+                        type="text" 
+                        className="w-full border rounded px-3 py-2" 
+                        required 
+                        value={editPost.category} 
+                        onChange={e => setEditPost({ ...editPost, category: e.target.value })} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Resumo (excerpt)</label>
+                      <textarea 
+                        className="w-full border rounded px-3 py-2" 
+                        required 
+                        value={editPost.excerpt} 
+                        onChange={e => setEditPost({ ...editPost, excerpt: e.target.value })} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Conteúdo</label>
+                      <textarea 
+                        className="w-full border rounded px-3 py-2 h-32" 
+                        required 
+                        value={editPost.content} 
+                        onChange={e => setEditPost({ ...editPost, content: e.target.value })} 
+                      />
+                    </div>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2 text-sm">
+                        <input 
+                          type="checkbox" 
+                          checked={editPost.published} 
+                          onChange={e => setEditPost({ ...editPost, published: e.target.checked })} 
+                        />
+                        Publicar
+                      </label>
+                      <label className="flex items-center gap-2 text-sm">
+                        <input 
+                          type="checkbox" 
+                          checked={editPost.featured} 
+                          onChange={e => setEditPost({ ...editPost, featured: e.target.checked })} 
+                        />
+                        Destaque
+                      </label>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Autor</label>
+                      <input 
+                        type="text" 
+                        className="w-full border rounded px-3 py-2" 
+                        required 
+                        value={editPost.author_name} 
+                        onChange={e => setEditPost({ ...editPost, author_name: e.target.value })} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">URL da Imagem (opcional)</label>
+                      <input 
+                        type="text" 
+                        className="w-full border rounded px-3 py-2" 
+                        value={editPost.image_url} 
+                        onChange={e => setEditPost({ ...editPost, image_url: e.target.value })} 
+                      />
+                    </div>
+                    <div className="flex justify-end gap-2">
+                      <button 
+                        type="button"
+                        onClick={() => setShowEditModal(false)}
+                        className="bg-gray-300 text-gray-700 px-6 py-2 rounded hover:bg-gray-400"
+                      >
+                        Cancelar
+                      </button>
+                      <button 
+                        type="submit" 
+                        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold"
+                      >
+                        Atualizar
+                      </button>
+                    </div>
+                    {editError && <div className="text-red-600 text-sm mt-2">{editError}</div>}
+                    {editSuccess && <div className="text-green-600 text-sm mt-2">{editSuccess}</div>}
+                  </form>
+                </div>
+              </div>
+            )}
+
+            {/* Modal de confirmação de exclusão */}
+            {showDeleteModal && deletingPost && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+                  <button
+                    className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+                    onClick={() => setShowDeleteModal(false)}
+                    aria-label="Fechar"
+                  >
+                    ×
+                  </button>
+                  <div className="text-center">
+                    <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                      <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.962-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Confirmar Exclusão</h3>                    <p className="text-sm text-gray-500 mb-4">
+                      Tem certeza que deseja excluir o post &quot;<strong>{deletingPost.title}</strong>&quot;? 
+                      Esta ação não pode ser desfeita.
+                    </p>
+                    {deleteError && (
+                      <div className="text-red-600 text-sm mb-4">{deleteError}</div>
+                    )}
+                    <div className="flex justify-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setShowDeleteModal(false)}
+                        className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleDeletePost}
+                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 font-semibold"
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Modal de criação de post */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+              onClick={() => setShowCreateModal(false)}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+            <h2 className="text-xl font-bold mb-4">Novo Post do Blog</h2>
+            <form onSubmit={handleCreatePost} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Título</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={newPost.title}
+                  onChange={e => setNewPost({ ...newPost, title: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Categoria</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={newPost.category}
+                  onChange={e => setNewPost({ ...newPost, category: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Resumo (excerpt)</label>
+                <textarea
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={newPost.excerpt}
+                  onChange={e => setNewPost({ ...newPost, excerpt: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Conteúdo</label>
+                <textarea
+                  className="w-full border rounded px-3 py-2 h-32"
+                  required
+                  value={newPost.content}
+                  onChange={e => setNewPost({ ...newPost, content: e.target.value })}
+                />
+              </div>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={newPost.published}
+                    onChange={e => setNewPost({ ...newPost, published: e.target.checked })}
+                  />
+                  Publicar
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={newPost.featured}
+                    onChange={e => setNewPost({ ...newPost, featured: e.target.checked })}
+                  />
+                  Destaque
+                </label>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Autor</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={newPost.author_name}
+                  onChange={e => setNewPost({ ...newPost, author_name: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">URL da Imagem (opcional)</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  value={newPost.image_url}
+                  onChange={e => setNewPost({ ...newPost, image_url: e.target.value })}
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded hover:bg-gray-400"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold"
+                >
+                  Salvar
+                </button>
+              </div>
+              {createError && <div className="text-red-600 text-sm mt-2">{createError}</div>}
+              {createSuccess && <div className="text-green-600 text-sm mt-2">{createSuccess}</div>}
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de edição de post */}
+      {showEditModal && editingPost && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+              onClick={() => setShowEditModal(false)}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+            <h2 className="text-xl font-bold mb-4">Editar Post</h2>
+            <form onSubmit={handleEditPost} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Título</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={editPost.title}
+                  onChange={e => setEditPost({ ...editPost, title: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Categoria</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={editPost.category}
+                  onChange={e => setEditPost({ ...editPost, category: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Resumo (excerpt)</label>
+                <textarea
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={editPost.excerpt}
+                  onChange={e => setEditPost({ ...editPost, excerpt: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Conteúdo</label>
+                <textarea
+                  className="w-full border rounded px-3 py-2 h-32"
+                  required
+                  value={editPost.content}
+                  onChange={e => setEditPost({ ...editPost, content: e.target.value })}
+                />
+              </div>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={editPost.published}
+                    onChange={e => setEditPost({ ...editPost, published: e.target.checked })}
+                  />
+                  Publicar
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={editPost.featured}
+                    onChange={e => setEditPost({ ...editPost, featured: e.target.checked })}
+                  />
+                  Destaque
+                </label>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Autor</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  required
+                  value={editPost.author_name}
+                  onChange={e => setEditPost({ ...editPost, author_name: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">URL da Imagem (opcional)</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  value={editPost.image_url}
+                  onChange={e => setEditPost({ ...editPost, image_url: e.target.value })}
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded hover:bg-gray-400"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold"
+                >
+                  Salvar
+                </button>
+              </div>
+              {editError && <div className="text-red-600 text-sm mt-2">{editError}</div>}
+              {editSuccess && <div className="text-green-600 text-sm mt-2">{editSuccess}</div>}
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de exclusão de post */}
+      {showDeleteModal && deletingPost && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+              onClick={() => setShowDeleteModal(false)}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+            <h2 className="text-xl font-bold mb-4">Excluir Post do Blog</h2>
+            <p className="mb-4">Tem certeza de que deseja excluir este post?</p>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleDeletePost}
+                className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+              >
+                Excluir
+              </button>
+            </div>
+            {deleteError && <div className="text-red-600 text-sm mt-2">{deleteError}</div>}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

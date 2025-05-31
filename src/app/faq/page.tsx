@@ -37,8 +37,8 @@ const faqMonitorInternacional = [
         answer: (
             <>
                 <p className="mb-2">
-                    O Curso de Monitor Internacional da CTMA capacita líderes estratégicos a se tornarem extensões oficiais da CTMA em suas próprias regiões. 
-                    Seu propósito é formar multiplicadores do nosso ensino de Capelania Internacional e Diplomacia Civil Cristã, permitindo que você organize e aplique nossos cursos 
+                    O Curso de Monitor Internacional da CTMA capacita líderes estratégicos a se tornarem extensões oficiais da CTMA em suas próprias regiões.
+                    Seu propósito é formar multiplicadores do nosso ensino de Capelania Internacional e Diplomacia Civil Cristã, permitindo que você organize e aplique nossos cursos
                     (em formato híbrido: online e presencial) na sua comunidade. Você será a ponte entre a CTMA e novos Capelães e Diplomatas em sua área.
                 </p>
             </>
@@ -64,7 +64,7 @@ const faqMonitorInternacional = [
         answer: (
             <>
                 <p>
-                    Sim, o curso de Monitor Internacional é uma oportunidade de empreendedorismo ministerial. Você poderá monetizar seu trabalho ao formar e gerenciar as turmas em sua região. 
+                    Sim, o curso de Monitor Internacional é uma oportunidade de empreendedorismo ministerial. Você poderá monetizar seu trabalho ao formar e gerenciar as turmas em sua região.
                     A CTMA estabelece um modelo de parceria onde parte do valor das inscrições dos alunos formados por você será sua remuneração, tornando o curso uma forma de sustento e investimento no seu ministério.
                 </p>
             </>
@@ -75,7 +75,7 @@ const faqMonitorInternacional = [
         answer: (
             <>
                 <p>
-                    É altamente recomendável que você já possua uma liderança estabelecida e um bom relacionamento em sua comunidade ou igreja. 
+                    É altamente recomendável que você já possua uma liderança estabelecida e um bom relacionamento em sua comunidade ou igreja.
                     Experiência prévia em ensino ou coordenação de grupos é um diferencial, mas o curso fornecerá todas as ferramentas pedagógicas e administrativas necessárias para você ter sucesso.
                 </p>
             </>
@@ -93,7 +93,8 @@ const faqMonitorInternacional = [
                     <li>Acesso a uma comunidade exclusiva de Monitores, para troca de experiências e mentoria.</li>
                 </ul>
             </>
-        )    },
+        )
+    },
 ];
 
 // Conteúdo do FAQ - Curso de Capelania Internacional
@@ -103,7 +104,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p>
-                    Ser um Capelão Internacional da CTMA significa ser um agente de compaixão, apoio e esperança, preparado para servir pessoas em seus momentos de maior necessidade, em qualquer lugar do mundo. 
+                    Ser um Capelão Internacional da CTMA significa ser um agente de compaixão, apoio e esperança, preparado para servir pessoas em seus momentos de maior necessidade, em qualquer lugar do mundo.
                     Você será capacitado para atuar em hospitais, prisões, escolas, comunidades, em situações de emergência, desastres, e missões transculturais, representando o amor de Deus com ética e excelência.
                 </p>
             </>
@@ -114,7 +115,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p className="mb-2">
-                    O Curso de Capelania Internacional da CTMA possui uma carga horária de Curso Intensivo 7h de conteúdo prático e espiritual intensivo. 
+                    O Curso de Capelania Internacional da CTMA possui uma carga horária de Curso Intensivo 7h de conteúdo prático e espiritual intensivo.
                     Ele é oferecido em duas modalidades flexíveis para se adaptar à sua realidade:
                 </p>
                 <ul className="list-disc list-inside space-y-1 pl-4">
@@ -129,7 +130,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p>
-                    Sim, absolutamente. Sua certificação como Capelão Internacional da CTMA tem base nos Estados Unidos e é reconhecida em mais de 20 países parceiros globalmente. 
+                    Sim, absolutamente. Sua certificação como Capelão Internacional da CTMA tem base nos Estados Unidos e é reconhecida em mais de 20 países parceiros globalmente.
                     Isso valida sua qualificação e abre portas para atuação em diversos contextos internacionais e missões.
                 </p>
             </>
@@ -140,7 +141,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p>
-                    Não é exigida uma formação acadêmica prévia específica para se inscrever. Valorizamos o chamado para servir e o desejo sincero de fazer a diferença. 
+                    Não é exigida uma formação acadêmica prévia específica para se inscrever. Valorizamos o chamado para servir e o desejo sincero de fazer a diferença.
                     O curso é estruturado para capacitar pessoas de diversas origens e experiências, desde que possuam um coração voltado para a fé e o serviço ao próximo.
                 </p>
             </>
@@ -151,8 +152,8 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p>
-                    A CTMA se preocupa com o seu ministério a longo prazo. Por isso, oferecemos suporte aos nossos capelães formados. 
-                    Isso inclui acesso à nossa comunidade global exclusiva, oportunidades de mentoria contínua, participação em missões e um banco de recursos e materiais atualizados para apoiar sua atuação. 
+                    A CTMA se preocupa com o seu ministério a longo prazo. Por isso, oferecemos suporte aos nossos capelães formados.
+                    Isso inclui acesso à nossa comunidade global exclusiva, oportunidades de mentoria contínua, participação em missões e um banco de recursos e materiais atualizados para apoiar sua atuação.
                     Você fará parte de uma família global de capelães.
                 </p>
             </>
@@ -163,7 +164,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p>
-                    Nosso currículo é cuidadosamente elaborado para incluir módulos focados em aconselhamento em crise, primeiros socorros psicológicos e estratégias de atuação em ambientes de alta pressão. 
+                    Nosso currículo é cuidadosamente elaborado para incluir módulos focados em aconselhamento em crise, primeiros socorros psicológicos e estratégias de atuação em ambientes de alta pressão.
                     Você aprenderá a oferecer conforto, esperança e apoio prático em cenários de desastres naturais, conflitos, luto e outras situações emergenciais.
                 </p>
             </>
@@ -191,8 +192,8 @@ const faqLiderGlobal = [
         answer: (
             <>
                 <p>
-                    O Curso de Líder Global da CTMA é um programa de capacitação estratégica projetado para aprimorar e transformar líderes cristãos com uma visão de impacto internacional. 
-                    Ele é destinado a pastores, missionários, diretores de ministérios e ONGs, gestores de projetos sociais, empresários com propósito e qualquer indivíduo que aspire a exercer uma liderança influente e ética em escala global, 
+                    O Curso de Líder Global da CTMA é um programa de capacitação estratégica projetado para aprimorar e transformar líderes cristãos com uma visão de impacto internacional.
+                    Ele é destinado a pastores, missionários, diretores de ministérios e ONGs, gestores de projetos sociais, empresários com propósito e qualquer indivíduo que aspire a exercer uma liderança influente e ética em escala global,
                     tanto no contexto eclesiástico quanto secular.
                 </p>
             </>
@@ -219,7 +220,7 @@ const faqLiderGlobal = [
         answer: (
             <>
                 <p>
-                    Nosso diferencial é a abordagem cristocêntrica e prática. Não apenas ensinamos teoria, mas preparamos líderes para a ação e o impacto real, com ferramentas aplicáveis em diversos cenários globais. 
+                    Nosso diferencial é a abordagem cristocêntrica e prática. Não apenas ensinamos teoria, mas preparamos líderes para a ação e o impacto real, com ferramentas aplicáveis em diversos cenários globais.
                     Focamos na integridade, ética e valores bíblicos como alicerce de uma liderança verdadeiramente transformadora, com o respaldo e a rede internacional da CTMA.
                 </p>
             </>
@@ -245,7 +246,7 @@ const faqLiderGlobal = [
         answer: (
             <>
                 <p>
-                    As informações sobre duração e formato (seja online, presencial, híbrido ou com módulos específicos) serão detalhadas na descrição completa do curso, 
+                    As informações sobre duração e formato (seja online, presencial, híbrido ou com módulos específicos) serão detalhadas na descrição completa do curso,
                     pois podem variar dependendo da complexidade do conteúdo e da interatividade proposta.
                 </p>
             </>
@@ -256,7 +257,7 @@ const faqLiderGlobal = [
         answer: (
             <>
                 <p>
-                    Se você sente o chamado para liderar com um propósito maior e impactar o mundo, clique no botão &ldquo;Desenvolva Sua Influência Global: Inscreva-se Agora!&rdquo; na página do curso. 
+                    Se você sente o chamado para liderar com um propósito maior e impactar o mundo, clique no botão &ldquo;Desenvolva Sua Influência Global: Inscreva-se Agora!&rdquo; na página do curso.
                     Prepare-se para ser um agente de transformação em escala global.
                 </p>
             </>
@@ -271,8 +272,8 @@ const faqDiplomacia = [
         answer: (
             <>
                 <p>
-                    O Curso de Diplomacia Civil Cristã da CTMA é um programa estratégico que capacita líderes cristãos a atuar com sabedoria, graça e impacto em ambientes de influência, negociação e representação. 
-                    Ele é destinado a pastores, líderes de ministérios, missionários, profissionais que atuam em áreas de política, relações governamentais, organizações não-governamentais (ONGs), 
+                    O Curso de Diplomacia Civil Cristã da CTMA é um programa estratégico que capacita líderes cristãos a atuar com sabedoria, graça e impacto em ambientes de influência, negociação e representação.
+                    Ele é destinado a pastores, líderes de ministérios, missionários, profissionais que atuam em áreas de política, relações governamentais, organizações não-governamentais (ONGs),
                     e qualquer indivíduo que deseje aprimorar sua capacidade de representar e defender os valores cristãos de forma eficaz em esferas nacionais e internacionais.
                 </p>
             </>
@@ -283,8 +284,8 @@ const faqDiplomacia = [
         answer: (
             <>
                 <p>
-                    O diferencial reside na integração da fé cristã com as práticas diplomáticas. Enquanto a diplomacia tradicional foca em interesses nacionais, a Diplomacia Civil Cristã, na CTMA, 
-                    prepara você para atuar com uma visão de Reino, buscando a paz, a justiça, a dignidade humana e a reconciliação, sempre com base em princípios bíblicos, 
+                    O diferencial reside na integração da fé cristã com as práticas diplomáticas. Enquanto a diplomacia tradicional foca em interesses nacionais, a Diplomacia Civil Cristã, na CTMA,
+                    prepara você para atuar com uma visão de Reino, buscando a paz, a justiça, a dignidade humana e a reconciliação, sempre com base em princípios bíblicos,
                     mas de forma aplicável e respeitosa em qualquer contexto.
                 </p>
             </>
@@ -310,7 +311,7 @@ const faqDiplomacia = [
         answer: (
             <>
                 <p>
-                    Sim. Um dos pilares do curso é proporcionar conexão e acesso. A CTMA, através de sua rede e parcerias, busca oferecer e indicar oportunidades para que você participe de fóruns internacionais, 
+                    Sim. Um dos pilares do curso é proporcionar conexão e acesso. A CTMA, através de sua rede e parcerias, busca oferecer e indicar oportunidades para que você participe de fóruns internacionais,
                     conferências e eventos especiais que ampliarão sua rede de contatos e permitirão a aplicação prática de seus conhecimentos em cenários de alto impacto.
                 </p>
             </>
@@ -336,7 +337,7 @@ const faqDiplomacia = [
         answer: (
             <>
                 <p>
-                    Se você sente o chamado para ser um agente de influência e transformação em ambientes estratégicos, clique no botão &ldquo;Desenvolva Sua Influência Diplomática: Saiba Mais e Inscreva-se!&rdquo; na página do curso. 
+                    Se você sente o chamado para ser um agente de influência e transformação em ambientes estratégicos, clique no botão &ldquo;Desenvolva Sua Influência Diplomática: Saiba Mais e Inscreva-se!&rdquo; na página do curso.
                     Estamos prontos para te equipar para essa missão vital.
                 </p>
             </>
@@ -499,7 +500,7 @@ export default function FaqPage() {
             <section className="py-12 sm:py-16 md:py-20 bg-ctma-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto">
-                        
+
                         {/* FAQ: Curso de Monitor Internacional */}
                         <div className="mb-16">
                             <h2 className="text-2xl sm:text-3xl font-semibold text-ctma-azul-marinho mb-8 text-center">
@@ -508,10 +509,10 @@ export default function FaqPage() {
                             </h2>
                             <div className="bg-ctma-white rounded-lg shadow-xl overflow-hidden">
                                 {faqMonitorInternacional.map((item, index) => (
-                                    <FaqItem 
-                                        key={index} 
-                                        question={item.question} 
-                                        answer={item.answer} 
+                                    <FaqItem
+                                        key={index}
+                                        question={item.question}
+                                        answer={item.answer}
                                         isOpen={openIndex === index}
                                         toggleOpen={() => toggleFaqItem(index)}
                                     />
@@ -527,10 +528,10 @@ export default function FaqPage() {
                             </h2>
                             <div className="bg-ctma-white rounded-lg shadow-xl overflow-hidden">
                                 {faqCapelaniaInternacional.map((item, index) => (
-                                    <FaqItem 
-                                        key={`capelania-${index}`} 
-                                        question={item.question} 
-                                        answer={item.answer} 
+                                    <FaqItem
+                                        key={`capelania-${index}`}
+                                        question={item.question}
+                                        answer={item.answer}
                                         isOpen={openIndex === (faqMonitorInternacional.length + index)}
                                         toggleOpen={() => toggleFaqItem(faqMonitorInternacional.length + index)}
                                     />
@@ -546,10 +547,10 @@ export default function FaqPage() {
                             </h2>
                             <div className="bg-ctma-white rounded-lg shadow-xl overflow-hidden">
                                 {faqLiderGlobal.map((item, index) => (
-                                    <FaqItem 
-                                        key={`lider-${index}`} 
-                                        question={item.question} 
-                                        answer={item.answer} 
+                                    <FaqItem
+                                        key={`lider-${index}`}
+                                        question={item.question}
+                                        answer={item.answer}
                                         isOpen={openIndex === (faqMonitorInternacional.length + faqCapelaniaInternacional.length + index)}
                                         toggleOpen={() => toggleFaqItem(faqMonitorInternacional.length + faqCapelaniaInternacional.length + index)}
                                     />
@@ -565,10 +566,10 @@ export default function FaqPage() {
                             </h2>
                             <div className="bg-ctma-white rounded-lg shadow-xl overflow-hidden">
                                 {faqDiplomacia.map((item, index) => (
-                                    <FaqItem 
-                                        key={`diplomacia-${index}`} 
-                                        question={item.question} 
-                                        answer={item.answer} 
+                                    <FaqItem
+                                        key={`diplomacia-${index}`}
+                                        question={item.question}
+                                        answer={item.answer}
                                         isOpen={openIndex === (faqMonitorInternacional.length + faqCapelaniaInternacional.length + faqLiderGlobal.length + index)}
                                         toggleOpen={() => toggleFaqItem(faqMonitorInternacional.length + faqCapelaniaInternacional.length + faqLiderGlobal.length + index)}
                                     />
@@ -582,10 +583,10 @@ export default function FaqPage() {
                             </h2>
                             <div className="bg-ctma-white rounded-lg shadow-xl overflow-hidden">
                                 {faqGerais.map((item, index) => (
-                                    <FaqItem 
-                                        key={`gerais-${index}`} 
-                                        question={item.question} 
-                                        answer={item.answer} 
+                                    <FaqItem
+                                        key={`gerais-${index}`}
+                                        question={item.question}
+                                        answer={item.answer}
                                         isOpen={openIndex === (faqMonitorInternacional.length + faqCapelaniaInternacional.length + faqLiderGlobal.length + faqDiplomacia.length + index)}
                                         toggleOpen={() => toggleFaqItem(faqMonitorInternacional.length + faqCapelaniaInternacional.length + faqLiderGlobal.length + faqDiplomacia.length + index)}
                                     />
