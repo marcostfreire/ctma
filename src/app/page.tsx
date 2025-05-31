@@ -39,7 +39,7 @@ const pilaresData = [
   { 
     id: 5, 
     icon: AlertTriangle, 
-    title: "Resposta a Emergências e Desastres", 
+    title: "Resposta a Emergências", 
     description: "Mobilizamos equipes de capelães e diplomatas para oferecer suporte espiritual e humanitário imediato em cenários de catástrofes naturais, guerras e crises. Somos a primeira linha de consolo e auxílio em momentos de extrema vulnerabilidade.", 
     link: "/resposta-emergencias", 
     linkText: "Saiba Mais" 
@@ -210,20 +210,17 @@ export default function HomePage() {
           <p className="text-lg text-ctma-cinza-azulado-claro leading-relaxed mb-10">
             Pronto para dar o próximo passo e se capacitar para uma vida de impacto, especialmente em momentos onde a ajuda é mais urgente? Escolha seu caminho na CTMA e comece a transformar realidades.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
-            <Link
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">            <Link
               href="/cursos/capelao"
               className="block w-full bg-ctma-azul-jeans text-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
             >
               QUERO SER UM CAPELÃO
-            </Link>
-            <Link
+            </Link>            <Link
               href="/cursos/diplomata-civil"
               className="block w-full bg-ctma-azul-jeans text-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
             >
               QUERO SER UM DIPLOMATA CIVIL
-            </Link>
-            <Link
+            </Link>            <Link
               href="/cursos/monitor-internacional"
               className="block w-full bg-ctma-azul-jeans text-ctma-white px-6 py-3 rounded-lg text-base font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
             >

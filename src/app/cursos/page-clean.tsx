@@ -17,10 +17,9 @@ export default function CursosPage() {
           </h1>
           <p className="text-lg sm:text-xl text-ctma-cinza-azulado-claro max-w-3xl mx-auto mb-10">
             Na CTMA, você é preparado para ir além: para acolher, consolar e ser um farol de esperança em momentos de crise, representando o amor de Deus com excelência. Receba certificação internacional, suporte contínuo e reconhecimento global (EUA e mais de 20 países).
-          </p>
-          <Link
+          </p>          <Link
             href="#primeiro-curso"
-            className="inline-block bg-ctma-accent-red text-ctma-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105"
+            className="inline-block bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200 ease-in-out transform hover:scale-105"
           >
             Quero Atender ao Chamado: Comece Aqui
           </Link>
@@ -39,7 +38,7 @@ export default function CursosPage() {
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
             {[
               { title: "Autoridade Internacional Inquestionável", description: "Sua certificação CTMA é reconhecida globalmente, com base nos Estados Unidos, abrindo portas para você atuar em diversos contextos." },
-              { title: "Suporte e Mentoria Vitalícios", description: "Nossa comunidade é sua família. Tenha apoio contínuo, acesso a missões exclusivas e recursos valiosos mesmo após a formação." },
+              { title: "Suporte e Mentoria", description: "Nossa comunidade é sua família. Tenha apoio contínuo, acesso a missões exclusivas e recursos valiosos mesmo após a formação." },
               { title: "Identidade Oficial e Diplomática Cristã", description: "Receba sua credencial que te posiciona como um agente de compaixão e honra, representando o Reino de Deus." },
               { title: "Campo de Atuação Ilimitado", description: "Prepare-se para fazer a diferença em hospitais, abrigos, prisões, emergências, escolas, instituições públicas e onde a necessidade clamar." },
               { title: "Comunidade Global de Capelães", description: "Faça parte de uma rede vibrante de profissionais atuantes em todos os continentes. Conecte-se, colabore e cresça ao lado de quem compartilha do seu propósito." },
@@ -85,8 +84,8 @@ export default function CursosPage() {
                     Torne-se um verdadeiro embaixador da fé e da compaixão.
                   </p>
                   <ul className="space-y-2 text-sm text-ctma-cinza-ardosia mb-6 list-disc list-inside">
-                    <li><span className="font-medium text-ctma-azul-marinho">Imersão Total:</span> Mais de 40 horas de conteúdo prático e profundamente espiritual.</li>
-                    <li><span className="font-medium text-ctma-azul-marinho">Recursos Completos:</span> Manual abrangente, aulas gravadas para revisão ilimitada e acesso vitalício à plataforma.</li>
+                    <li><span className="font-medium text-ctma-azul-marinho">Imersão Total:</span> Curso Intensivo 7h de conteúdo prático e profundamente espiritual.</li>
+                    <li><span className="font-medium text-ctma-azul-marinho">Recursos Completos:</span> Manual abrangente, aulas gravadas para revisão ilimitada e acesso à plataforma.</li>
                     <li><span className="font-medium text-ctma-azul-marinho">Aulas ao Vivo com Líderes Mundiais:</span> Aprenda e interaja com os maiores nomes da capelania internacional.</li>
                     <li><span className="font-medium text-ctma-azul-marinho">Certificação Global:</span> Credencial válida nos EUA e em nossos países parceiros.</li>
                     <li><span className="font-medium text-ctma-azul-marinho">Integração Imediata:</span> Seja incluído no nosso banco exclusivo de capelães ativos da CTMA, pronto para atuar.</li>
@@ -209,7 +208,7 @@ export default function CursosPage() {
                   },
                   {
                     title: "Capelania de Emergência",
-                    description: "Capacite-se para atuar em situações de crise e desastres, sendo luz em momentos de escuridão."
+                    description: "Capacite-se para atuar em situações de crise, sendo luz em momentos de escuridão."
                   },
                   {
                     title: "Capelania Corporativa",
@@ -223,10 +222,9 @@ export default function CursosPage() {
                 ))}
               </div>
               
-              <div className="text-center">
-                <Link
+              <div className="text-center">                <Link
                   href="/cursos/especializados"
-                  className="inline-block bg-ctma-accent-red text-ctma-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105"
+                  className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition-all duration-200 ease-in-out transform hover:scale-105"
                 >
                   Explore Todas as Especializações
                 </Link>
@@ -353,9 +351,8 @@ export default function CursosPage() {
             Não deixe para amanhã o que pode começar hoje.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/contato"
-              className="inline-block bg-ctma-accent-red text-ctma-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105"
+            <Link              href="/contato"
+              className="inline-block bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200 ease-in-out transform hover:scale-105"
             >
               Quero Começar Agora
             </Link>

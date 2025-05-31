@@ -9,7 +9,7 @@ export default function CursosPage() {
   // Dados para "Por Que a CTMA?"
   const porQueCtmaItens = [
     { title: "Autoridade Internacional Inquestionável", description: "Sua certificação CTMA é reconhecida globalmente, com base nos Estados Unidos, abrindo portas para você atuar em diversos contextos." /* icon: Globe */ },
-    { title: "Suporte e Mentoria Vitalícios", description: "Nossa comunidade é sua família. Tenha apoio contínuo, acesso a missões exclusivas e recursos valiosos mesmo após a formação." /* icon: Users */ },
+    { title: "Suporte e Mentoria", description: "Nossa comunidade é sua família. Tenha apoio contínuo, acesso a missões exclusivas e recursos valiosos mesmo após a formação." /* icon: Users */ },
     { title: "Identidade Oficial e Diplomática Cristã", description: "Receba sua credencial que te posiciona como um agente de compaixão e honra, representando o Reino de Deus." /* icon: ShieldCheck */ },
     { title: "Campo de Atuação Ilimitado", description: "Prepare-se para fazer a diferença em hospitais, abrigos, prisões, emergências, escolas, instituições públicas e onde a necessidade clamar." /* icon: MapPin */ },
     { title: "Comunidade Global de Capelães", description: "Faça parte de uma rede vibrante de profissionais atuantes em todos os continentes. Conecte-se, colabore e cresça ao lado de quem compartilha do seu propósito." /* icon: Network */ },
@@ -24,8 +24,8 @@ export default function CursosPage() {
       image: '/images/cursos/capelania-internacional.jpg',
       imageAlt: 'Curso de Capelania Internacional CTMA',
       features: [
-        'Imersão Total: Mais de 40 horas de conteúdo prático e profundamente espiritual.',
-        'Recursos Completos: Manual abrangente, aulas gravadas para revisão ilimitada e acesso vitalício à plataforma.',
+        'Imersão Total: Curso Intensivo 7h de conteúdo prático e profundamente espiritual.',
+        'Recursos Completos: Manual abrangente, aulas gravadas para revisão ilimitada e acesso à plataforma.',
         'Aulas ao Vivo com Líderes Mundiais: Aprenda e interaja com os maiores nomes da capelania internacional.',
         'Certificação Global: Credencial válida nos EUA e em nossos países parceiros.',
         'Integração Imediata: Seja incluído no nosso banco exclusivo de capelães ativos da CTMA, pronto para atuar.'
@@ -132,10 +132,9 @@ export default function CursosPage() {
           </h1>
           <p className="text-lg sm:text-xl text-ctma-cinza-azulado-claro max-w-3xl mx-auto mb-10">
             Na CTMA, você é preparado para ir além: para acolher, consolar e ser um farol de esperança em momentos de crise, representando o amor de Deus com excelência. Receba certificação internacional, suporte contínuo e reconhecimento global (EUA e mais de 20 países).
-          </p>
-          <Link
+          </p>          <Link
             href="#cursos-inicio"
-            className="inline-block bg-ctma-accent-red text-ctma-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105"
+            className="inline-block bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200 ease-in-out transform hover:scale-105"
           >
             Quero Atender ao Chamado: Comece Aqui
           </Link>
@@ -347,10 +346,9 @@ export default function CursosPage() {
           </h2>
           <p className="text-lg sm:text-xl text-ctma-cinza-azulado-claro max-w-3xl mx-auto mb-10">
             Você foi chamado para mais do que viver para si. Você foi chamado para servir, para ser a diferença, para impactar. O mundo precisa de capelães preparados, e o próximo pode ser você. Junte-se à CTMA e atue com excelência, honra e propósito onde vidas estão sendo esquecidas. Sinta a plenitude de um chamado que ecoa por todos os continentes.
-          </p>
-          <Link
+          </p>          <Link
             href="#cursos-inicio"
-            className="inline-block bg-ctma-accent-red text-ctma-white px-12 py-5 rounded-lg text-xl font-semibold shadow-xl hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-400 focus:ring-opacity-50"
+            className="inline-block bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-semibold shadow-xl hover:bg-blue-700 transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50"
           >
             Atenda ao Chamado: Junte-se à CTMA Hoje!
           </Link>

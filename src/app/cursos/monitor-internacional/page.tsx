@@ -44,7 +44,7 @@ export default function MonitorInternacionalPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="#inscricao"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+                className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
               >
                 Torne-se um Monitor CTMA
               </a>
@@ -443,7 +443,7 @@ export default function MonitorInternacionalPage() {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors w-full md:w-auto"
+                className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors w-full md:w-auto"
               >
                 Quero Ser um Monitor Internacional CTMA
               </button>

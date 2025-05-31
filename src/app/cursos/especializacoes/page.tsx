@@ -104,7 +104,7 @@ export default function EspecializacoesPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="#especializacoes"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+                className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
               >
                 Escolha Sua Especialização
               </a>
@@ -313,10 +313,13 @@ export default function EspecializacoesPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-2xl">DH</span>
+          <div className="grid md:grid-cols-3 gap-8">            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4">
+                <img 
+                  src="/images/team/dr-hospital-santos.jpg" 
+                  alt="Dr. Hospital Santos"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Dr. Hospital Santos</h3>
               <p className="text-blue-600 mb-3">Especialista em Capelania Hospitalar</p>
@@ -324,11 +327,13 @@ export default function EspecializacoesPage() {
                 20 anos de experiência em hospitais de grande porte, 
                 pioneiro em protocolos de capelania em UTIs.
               </p>
-            </div>
-
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-2xl">PC</span>
+            </div>            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4">
+                <img 
+                  src="/images/team/pastor-carlos-prisao.jpg" 
+                  alt="Pastor Carlos Prisão"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Pastor Carlos Prisão</h3>
               <p className="text-green-600 mb-3">Especialista em Capelania Prisional</p>
@@ -336,11 +341,13 @@ export default function EspecializacoesPage() {
                 15 anos atuando no sistema prisional, responsável por 
                 programas de ressocialização reconhecidos internacionalmente.
               </p>
-            </div>
-
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-2xl">ME</span>
+            </div>            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4">
+                <img 
+                  src="/images/team/dra-maria-emergencia.jpg" 
+                  alt="Dra. Maria Emergência"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Dra. Maria Emergência</h3>
               <p className="text-purple-600 mb-3">Especialista em Catástrofes</p>
@@ -363,10 +370,13 @@ export default function EspecializacoesPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  L
+            <div className="bg-white p-8 rounded-lg shadow-sm">              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <img 
+                    src="/images/team/professor-4.jpg" 
+                    alt="Capelã Luciana M."
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="ml-4">
                   <h4 className="text-lg font-bold text-gray-900">Capelã Luciana M.</h4>
@@ -380,10 +390,13 @@ export default function EspecializacoesPage() {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  R
+            <div className="bg-white p-8 rounded-lg shadow-sm">              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <img 
+                    src="/images/team/professor-5.jpg" 
+                    alt="Pastor Roberto F."
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="ml-4">
                   <h4 className="text-lg font-bold text-gray-900">Pastor Roberto F.</h4>
@@ -570,7 +583,7 @@ export default function EspecializacoesPage() {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors w-full md:w-auto"
+                className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors w-full md:w-auto"
               >
                 Escolher Minha Especialização
               </button>

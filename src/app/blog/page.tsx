@@ -7,8 +7,7 @@ export default function BlogPage() {
 
   const categories = ['Todos', 'Capelania', 'Diplomacia', 'Direitos Humanos', 'Notícias', 'Casos de Sucesso'];
 
-  const posts = [
-    {
+  const posts = [    {
       id: 1,
       title: "O Papel do Capelão em Situações de Emergência: Lições da Pandemia COVID-19",
       excerpt: "Durante a pandemia, capelães desempenharam um papel fundamental no apoio emocional e espiritual. Analisamos as principais lições aprendidas e como isso moldou a profissão.",
@@ -16,7 +15,7 @@ export default function BlogPage() {
       author: "Dr. Maria Santos",
       date: "28 de maio, 2025",
       readTime: "8 min",
-      image: "/api/placeholder/600/400",
+      image: "/images/blog/lider-global.jpg",
       featured: true
     },
     {
@@ -42,25 +41,23 @@ export default function BlogPage() {
       featured: false
     },
     {
-      id: 4,
-      title: "CTMA Credencia 50 Novos Profissionais em Programa Internacional",
+      id: 4,      title: "CTMA Credencia 50 Novos Profissionais em Programa Internacional",
       excerpt: "Mais uma turma de capelães, diplomatas civis e monitores recebe credenciamento oficial da CTMA, expandindo nossa rede global de profissionais.",
       category: "Notícias",
       author: "Equipe CTMA",
       date: "8 de Dezembro, 2025",
       readTime: "4 min",
-      image: "/api/placeholder/600/400",
+      image: "/images/blog/credenciamento.jpg",
       featured: false
     },
     {
-      id: 5,
-      title: "Capelania Hospitalar: Protocolos de Cuidado Integral ao Paciente",
+      id: 5,      title: "Capelania Hospitalar: Protocolos de Cuidado Integral ao Paciente",
       excerpt: "Novos protocolos desenvolvidos pela CTMA estabelecem diretrizes para cuidado espiritual e emocional em ambientes hospitalares.",
       category: "Capelania",
       author: "Dr. João Pereira",
       date: "5 de Dezembro, 2025",
       readTime: "7 min",
-      image: "/api/placeholder/600/400",
+      image: "/images/blog/capelao-internacional.jpg",
       featured: false
     },
     {
@@ -103,10 +100,18 @@ export default function BlogPage() {
     : posts.filter(post => post.category === selectedCategory);
   const featuredPost = posts.find(post => post.featured);
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-20">
-        <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gray-50">      {/* Hero Section */}
+      <section 
+        className="bg-gradient-to-r from-blue-900/90 to-indigo-800/90 text-white py-20 relative"
+        style={{
+          backgroundImage: 'url("/images/blog/lider-global.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-800/80"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold mb-6">
               Blog CTMA
@@ -116,7 +121,7 @@ export default function BlogPage() {
               de profissionais certificados ao redor do mundo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+              <button className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg font-semibold transition-colors">
                 Assinar Newsletter
               </button>
               <button className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg font-semibold transition-colors">
@@ -325,7 +330,7 @@ export default function BlogPage() {
             Contribua com a comunidade CTMA compartilhando suas experiências, 
             insights e conhecimentos através de nosso blog.
           </p>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+          <button className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg font-semibold transition-colors">
             Enviar Proposta de Artigo
           </button>        </div>
       </section>

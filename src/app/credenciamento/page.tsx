@@ -62,7 +62,7 @@ export default function CredenciamentoPage() {
     {
       category: "Formação Acadêmica",
       items: [
-        "Diploma de ensino superior (reconhecido pelo MEC)",
+        "Diploma de ensino superior",
         "Histórico escolar completo",
         "Certificados de cursos complementares",
         "Tradução juramentada (se aplicável)"
@@ -120,7 +120,7 @@ export default function CredenciamentoPage() {
               Processo rigoroso e reconhecido mundialmente.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+              <button className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg font-semibold transition-colors">
                 Iniciar Credenciamento
               </button>
               <button className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg font-semibold transition-colors">
@@ -309,7 +309,7 @@ export default function CredenciamentoPage() {
               <p className="text-gray-600 mb-6">
                 Credenciamento para monitoramento de direitos humanos, observação eleitoral e supervisão de acordos.
               </p>
-              <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+              <button className="bg-orange-600 hover:bg-[#3E567B] text-white px-6 py-3 rounded-lg font-semibold transition-colors">
                 Saiba Mais
               </button>
             </div>
@@ -328,7 +328,7 @@ export default function CredenciamentoPage() {
             reconhecidos internacionalmente pela CTMA.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+            <button className="bg-orange-500 hover:bg-[#3E567B] text-white px-8 py-4 rounded-lg font-semibold transition-colors">
               Iniciar Credenciamento
             </button>
             <button className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg font-semibold transition-colors">

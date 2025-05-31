@@ -105,7 +105,7 @@ export default function CapelaointernacionalPage() {
                             </div>
                             <div className="flex items-center bg-ctma-white/20 px-3 py-2 rounded-full">
                                 <Clock className="w-4 h-4 mr-2" />
-                                +40 Horas de Conteúdo
+                                Curso Intensivo 7h de Conteúdo
                             </div>
                             <div className="flex items-center bg-ctma-white/20 px-3 py-2 rounded-full">
                                 <Video className="w-4 h-4 mr-2" />
@@ -147,7 +147,7 @@ export default function CapelaointernacionalPage() {
                                     <Users className="w-8 h-8" />
                                 </div>
                                 <h3 className="text-lg font-semibold text-ctma-azul-marinho mb-2">
-                                    Suporte Vitalício
+                                    Suporte Contínuo
                                 </h3>
                                 <p className="text-ctma-cinza-ardosia">
                                     Mentoria contínua e acesso à nossa comunidade global de capelães.
@@ -191,7 +191,7 @@ export default function CapelaointernacionalPage() {
                                 O Que Você Vai Aprender
                             </h2>
                             <p className="text-xl text-ctma-cinza-ardosia">
-                                Mais de 40 horas de conteúdo prático e profundamente espiritual
+                                Curso Intensivo 7h de conteúdo prático e profundamente espiritual
                             </p>
                         </div>
 
@@ -241,7 +241,7 @@ export default function CapelaointernacionalPage() {
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                                        <span>Acesso vitalício à plataforma</span>
+                                        <span>Acesso à plataforma</span>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
@@ -409,7 +409,7 @@ export default function CapelaointernacionalPage() {
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                                        <span>Acesso vitalício ao conteúdo</span>
+                                        <span>Acesso ao conteúdo</span>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />

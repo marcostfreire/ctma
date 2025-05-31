@@ -69,7 +69,7 @@ export default function SobreNosPage() {
                                     Cremos que seremos a principal agência mundial de capelania e liderança cristã, com uma presença influente em todos os continentes na promoção da paz, da equidade e do cuidado ao próximo.
                                 </p>
                                 <p>
-                                    Visualizamos um futuro onde cada nação tenha líderes e capelães bem preparados, capazes de integrar ajuda humanitária e apoio espiritual. Queremos ser sinônimo de excelência, de unidade no Corpo de Cristo e de impacto transformador, oferecendo conforto, direção e dignidade a pessoas de todas as culturas e em todos os contextos, especialmente em meio a crises, desastres e conflitos.
+                                    Visualizamos um futuro onde cada nação tenha líderes e capelães bem preparados, capazes de integrar ajuda humanitária e apoio espiritual. Queremos ser sinônimo de excelência, de unidade no Corpo de Cristo e de impacto transformador, oferecendo conforto, direção e dignidade a pessoas de todas as culturas e em todos os contextos, especialmente em meio a crises e conflitos.
                                 </p>
                             </div>
                         </div>
@@ -124,8 +124,7 @@ export default function SobreNosPage() {
                         <p className="text-ctma-cinza-ardosia leading-relaxed mb-8 max-w-xl mx-auto">
                             Você também sente o desejo de fazer a diferença? A CTMA convida você a ser parte dessa história. Seja capacitando-se como capelão, diplomata civil, tornando-se um monitor em sua região ou apoiando nossos projetos, há um lugar para você em nossa família global.
                         </p>
-                        <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4">
-                            <Link
+                        <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4">                            <Link
                                 href="/cursos"
                                 className="bg-ctma-azul-jeans text-ctma-white px-7 py-3 rounded-lg font-semibold shadow-md hover:bg-[#3E567B] transition-all duration-200 ease-in-out transform hover:scale-105"
                             >
@@ -136,8 +135,7 @@ export default function SobreNosPage() {
                                 className="bg-transparent text-ctma-azul-jeans border-2 border-ctma-azul-jeans font-semibold hover:bg-ctma-azul-jeans hover:text-ctma-white py-2.5 px-7 rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105"
                             >
                                 Seja um Parceiro
-                            </Link>
-                            <Link
+                            </Link>                            <Link
                                 href="/doacao" // Link para página de doação
                                 className="bg-ctma-accent-red text-ctma-white px-7 py-3 rounded-lg font-semibold shadow-md hover:bg-[#9D1A1A] transition-all duration-200 ease-in-out transform hover:scale-105"
                             >

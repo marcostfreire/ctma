@@ -114,7 +114,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p className="mb-2">
-                    O Curso de Capelania Internacional da CTMA possui uma carga horária de 40 horas de conteúdo prático e espiritual intensivo. 
+                    O Curso de Capelania Internacional da CTMA possui uma carga horária de Curso Intensivo 7h de conteúdo prático e espiritual intensivo. 
                     Ele é oferecido em duas modalidades flexíveis para se adaptar à sua realidade:
                 </p>
                 <ul className="list-disc list-inside space-y-1 pl-4">
@@ -151,7 +151,7 @@ const faqCapelaniaInternacional = [
         answer: (
             <>
                 <p>
-                    A CTMA se preocupa com o seu ministério a longo prazo. Por isso, oferecemos suporte vitalício aos nossos capelães formados. 
+                    A CTMA se preocupa com o seu ministério a longo prazo. Por isso, oferecemos suporte aos nossos capelães formados. 
                     Isso inclui acesso à nossa comunidade global exclusiva, oportunidades de mentoria contínua, participação em missões e um banco de recursos e materiais atualizados para apoiar sua atuação. 
                     Você fará parte de uma família global de capelães.
                 </p>
@@ -416,11 +416,11 @@ const faqGerais = [
         )
     },
     {
-        question: "A CTMA atua em situações de emergência e desastres?",
+        question: "A CTMA atua em situações de emergência?",
         answer: (
             <>
                 <p className="mb-3">
-                    Sim! A CTMA possui um programa especializado de Resposta a Emergências e Desastres. Mobilizamos equipes de capelães e diplomatas para oferecer suporte espiritual e humanitário imediato em cenários de:
+                    Sim! A CTMA possui um programa especializado de Resposta a Emergências. Mobilizamos equipes de capelães e diplomatas para oferecer suporte espiritual e humanitário imediato em cenários de:
                 </p>
                 <ul className="list-disc list-inside space-y-1 pl-4 mb-3">
                     <li>Catástrofes naturais</li>
