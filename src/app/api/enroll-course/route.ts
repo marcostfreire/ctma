@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe, COURSE_PRICES } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe-server';
+import { COURSE_PRICES } from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
     // Create payment intent for course enrollment
     const paymentIntent = await stripe.paymentIntents.create({
       amount: coursePrice.amount,
-      currency: 'brl',
+      currency: 'usd',
       metadata: {
         type: 'course_enrollment',
         course_id: courseId,
