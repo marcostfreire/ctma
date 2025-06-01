@@ -30,6 +30,10 @@ export default function LiderGlobalPage() {
     })
   }
 
+  // Consider making this dynamic if it's not meant to be a static part of the course description.
+  // For example, fetch instructor details from a CMS or database.
+  const instructorName = "Pastor Marcos T."; // Placeholder or to be made dynamic
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}

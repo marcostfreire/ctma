@@ -50,8 +50,8 @@ export default function DashboardPage() {
   const [isLoadingData, setIsLoadingData] = useState(true); // Added loading state
   const [error, setError] = useState<string | null>(null); // Added error state
 
-  // Configuração dos emails dos administradores
-  const ADMIN_EMAILS = ['seuemail@exemplo.com', 'marcostamoyofreire@gmail.com']; // Emails dos admins
+  // TODO: Move this to an environment variable or a more secure configuration
+  const ADMIN_EMAILS = [process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@example.com"]; // Emails dos admins
   const isAdmin = (userEmail: string | undefined) => {
     return userEmail ? ADMIN_EMAILS.includes(userEmail) : false;
   };

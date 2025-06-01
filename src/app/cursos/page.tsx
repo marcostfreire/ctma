@@ -1,7 +1,6 @@
 "use client";
-// C:\Users\Marcos\Documents\VS Code\clientes\ctma\ctmaweb\src\app\cursos\page.tsx
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 // Se precisar de ícones para a seção "Por Que a CTMA?", pode importá-los:
 // import { Globe, Users, ShieldCheck, MapPin, Network, CheckCircle } from 'lucide-react';
 

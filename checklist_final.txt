@@ -1,0 +1,149 @@
+# CHECKLIST FINAL DE REVISÃO - CTMA WEB
+# Data da Revisão: 31 de Maio de 2025
+
+## I. ANÁLISE DE SEGURANÇA (CHAVES, SEGREDOS, PII)
+
+### A. Variáveis de Ambiente e Configurações
+- [X] Revisão do arquivo `.env` (com base no anexo `file:///c%3A/Users/Marcos/Documents/VS%20Code/clientes/ctmaweb/.env`):
+    - [X] `NEXT_PUBLIC_SUPABASE_URL=https://krwkqzhkqqyuvhkegjjx.supabase.co` (Presente)
+    - [X] `NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` (Presente)
+    - [X] `STRIPE_SECRET_KEY=`: (VAZIO - CORRETO, deve ser preenchido em ambiente seguro, não versionado)
+    - [X] `STRIPE_WEBHOOK_SECRET=`: (VAZIO - CORRETO, deve ser preenchido em ambiente seguro, não versionado)
+    - [X] `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=`: (VAZIO - PRECISA SER PREENCHIDO, mas correto não estar versionado com valor de produção aqui)
+    - [X] `RESEND_API_KEY=`: (VAZIO - CORRETO, deve ser preenchido em ambiente seguro, não versionado)
+    - NOTA: O arquivo `.env` parece estar configurado para não versionar segredos de produção, o que é uma boa prática. As chaves devem ser configuradas no ambiente de deploy (e.g., Vercel). **No entanto, segredos CRÍTICOS foram encontrados hardcoded em outros arquivos (ver Seção D).**
+- [ ] Revisão de `.env.example` por segredos (deve conter apenas placeholders).
+- [ ] Revisão de `.env.local` (se existir) por segredos (não deve ser versionado se contiver segredos reais).
+- [ ] Revisão de `next.config.ts` por segredos hardcoded.
+- [ ] Revisão de `tailwind.config.ts` por segredos hardcoded.
+- [ ] Revisão de `postcss.config.mjs` por segredos hardcoded.
+- [ ] Revisão de `eslint.config.mjs` por segredos hardcoded.
+
+### B. Código Fonte (`src/`)
+- [X] `src/lib/supabaseClient.ts`:
+    - [X] Verifica se `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` são carregados de `process.env`. (CONFIRMADO)
+- [X] `src/lib/stripe.ts`:
+    - [X] Verifica se `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` é carregado de `process.env`. (CONFIRMADO)
+- [X] `src/lib/stripe-server.ts`:
+    - [X] Verifica se `STRIPE_SECRET_KEY` é carregado de `process.env`. (CONFIRMADO)
+- [ ] `src/app/api/`:
+    - [X] `create-payment-intent/route.ts`: Verifica uso seguro de chaves e não exposição. (CONFIRMADO - usa `stripe` instance que carrega a chave do env)
+    - [X] `enroll-course/route.ts`: Verifica uso seguro de chaves e não exposição. (CONFIRMADO - usa `stripe` instance que carrega a chave do env)
+    - [ ] Outros arquivos em `api/` por segredos hardcoded (Nenhum outro encontrado).
+- [X] Busca por PII (Informações Pessoais Identificáveis) do usuário "Marcos" (e.g., email, nome completo, senhas) em todo o código:
+    - [X] `src/app/dashboard/page.tsx` (ADMIN_EMAILS): **[!] ALERTA PII ENCONTRADO!** Email `marcostamoyofreire@gmail.com` hardcoded. **RECOMENDAÇÃO: Mover para variável de ambiente ou configuração segura.**
+    - [X] `src/app/cursos/lider-global/page.tsx`: **[!] ALERTA PII ENCONTRADO!** Nome "Pastor Marcos T." hardcoded. **RECOMENDAÇÃO: Considerar se é intencional para a versão do cliente ou se deve ser dinâmico/removido.**
+    - [ ] Outros locais.
+- [X] Busca por caminhos de sistema locais (e.g., `C:\\Users\\Marcos\\...`) em comentários ou código.
+    - [X] `src/app/cursos/page.tsx`: **[!] ALERTA CAMINHO LOCAL ENCONTRADO!** Comentário `// C:\\Users\\Marcos\\Documents\\VS Code\\clientes\\ctma\\ctmaweb\\src\\app\\cursos\\page.tsx`. **RECOMENDAÇÃO: Remover comentário.**
+    - [ ] `.next/` directory: Contém muitos caminhos de build com `C:\Users\Marcos`. Estes são artefatos de build. A remoção do comentário acima é a ação principal no código fonte.
+
+### C. Arquivos SQL
+- [X] `add_admin_marcos.sql`:
+    - [X] **[!] ALERTA PII ENCONTRADO!** Email `marcostamoyofreire@gmail.com` e nome "Marcos Tamoyo" hardcoded. **RECOMENDAÇÃO: Generalizar o script para o novo administrador ou fornecer instruções claras para substituição. Considerar se este script é necessário para o cliente.**
+- [X] `supabase_setup.sql`:
+    - [X] Contém comentário: `-- UPDATE public.profiles SET role = 'admin' WHERE email = 'marcostamoyofreire@gmail.com';` **RECOMENDAÇÃO: Remover este comentário contendo PII.**
+- [X] `supabase_linter_fixes.sql`: Verifica por dados sensíveis. (Revisado, parece OK - contém DDL e comentários sobre otimizações).
+
+### D. Documentação, `projeto/` e Outros Arquivos
+- [X] `projeto/info.txt`: **[!!!!!!] ALERTA DE SEGURANÇA CRÍTICO EXTREMO !!!!!!!!!!**
+    - [X] **Chave aplicável Stripe (Publishable Key): `pk_test_51RQ1ubGUwtyp4lt2mCam7cJtfAPnk4f395eDeF2w3Sg12DtA2Rf8Ykb7R1PGNVMke2WBQYZ9bPbI3zygrYmAH9Ae00u0z1SvEt` EXPOSTA!**
+    - [X] **Chave secreta Stripe (Secret Key): `sk_test_51RQ1ubGUwtyp4lt22ec2faXxQbqL2naXHRGZL3QYDr95I4AXY027MuBujOoYgrXsWdEt2cIXDphbsTusFJY1DtNp00SmYuSdof` EXPOSTA!**
+    - [X] **Email: `ctma.usa@gmail.com` e Senha: `ch@p1ain` EXPOSTOS!**
+    - **AÇÃO IMEDIATA REQUERIDA: DELETAR ESTE ARQUIVO IMEDIATAMENTE. ROTACIONAR AS CHAVES STRIPE. MUDAR A SENHA DO EMAIL. REMOVER DO HISTÓRICO GIT SE VERSIONADO.**
+- [X] `projeto/web.md`: **[!!!!!!] ALERTA DE SEGURANÇA CRÍTICO !!!!!!!!!!**
+    - [X] **Senha Supabase: `k9#P2m$Jq@8x!R3vL5` EXPOSTA!**
+    - **AÇÃO IMEDIATA REQUERIDA: REMOVER ESTA SENHA DO ARQUIVO IMEDIATAMENTE. MUDAR A SENHA NO SUPABASE. REMOVER DO HISTÓRICO GIT SE VERSIONADO.**
+- [X] `RESTRICAO_ADMIN.js`:
+    - [X] Contém `ADMIN_EMAIL = 'ctma.usa@gmail.com'`. **RECOMENDAÇÃO: Tornar configurável pelo cliente, preferencialmente via variável de ambiente.**
+- [X] `README.md` (Raiz do projeto):
+    - [X] Exemplos de `.env.local` usam placeholders seguros. (CONFIRMADO - OK)
+- [ ] Revisar arquivos na pasta `documentacao/` por PII ou segredos (especialmente os que foram movidos da raiz).
+    - [ ] `documentacao/CONFIGURACAO_RESEND.md`
+    - [ ] `documentacao/COMO_TESTAR_STRIPE.md`
+    - [ ] `documentacao/MARCOS_ADMIN_SETUP.md` (Já generalizado, mas confirmar que não há resquícios)
+    - [ ] `documentacao/PAINEL_ADMIN.md`
+    - [ ] `documentacao/RESET_PASSWORD_SETUP.md`
+    - [ ] `documentacao/SUAS_CHAVES_STRIPE.md` (Verificar se instrui corretamente sem expor chaves de exemplo perigosas)
+    - [ ] `documentacao/TESTE_STRIPE.md`
+    - [ ] `documentacao/TESTE_STRIPE_SEM_CONTA.md`
+    - [ ] `documentacao/README.md` (se movido para cá)
+- [ ] Verificar se algum outro arquivo `.md` permanece na raiz indevidamente. (Atualmente `README.md` está na raiz).
+
+## II. VERIFICAÇÃO DE FUNCIONALIDADES (BASEADO NA PASTA `projeto/`)
+
+### A. Páginas Implementadas (Conforme `PROJETO_COMPLETO.MD` e `DEPLOYMENT.MD`)
+- [ ] **Páginas Principais (6)**:
+    - [ ] Homepage (`/`)
+    - [ ] Cursos (`/cursos`)
+    - [ ] Contato (`/contato`)
+    - [ ] Projetos (`/projetos`)
+    - [ ] Sobre Nós (`/sobre-nos`)
+    - [ ] FAQ (`/faq`)
+- [ ] **Landing Pages de Cursos (5)**:
+    - [ ] `/cursos/capelao-internacional`
+    - [ ] `/cursos/diplomata-civil`
+    - [ ] `/cursos/monitor-internacional`
+    - [ ] `/cursos/lider-global`
+    - [ ] `/cursos/especializacoes`
+- [ ] **Páginas Institucionais (5)**:
+    - [ ] `/credenciamento`
+    - [ ] `/blog`
+    - [ ] `/missao-visao-valores`
+    - [ ] `/termos-de-uso`
+    - [ ] `/politica-de-privacidade`
+- [ ] **Páginas do Sistema**
+    - [ ] Login (e.g., `/login`)
+    - [ ] Registro (e.g., `/registro`)
+    - [ ] Dashboard (e.g. `/dashboard`)
+    - [ ] Reset de senha (e.g. `/reset-password`, `src/app/reset-password/page.tsx` existe)
+    - [ ] Doar (e.g., `/doar`)
+    - [ ] Checkout (e.g., `/checkout`)
+    - [ ] Pagamento Sucesso (e.g. `/pagamento-sucesso`)
+
+### B. Funcionalidades Chave
+- [ ] Sistema de Autenticação (Supabase):
+    - [ ] Login com email/senha
+    - [ ] Cadastro de usuários
+    - [ ] Logout
+    - [ ] Reset de senha (Funcionalidade no `AuthContext.tsx` e página `reset-password` existem)
+    - [ ] `AuthContext` (verificar `src/contexts/AuthContext.tsx` - Sim, existe e parece funcional)
+- [ ] Sistema de Pagamentos (Stripe):
+    - [ ] Doações (`/doar`)
+    - [ ] Pagamento de Cursos
+    - [ ] `client_secret` manuseado corretamente (Verificado em `CheckoutForm.tsx`, `create-payment-intent`, `enroll-course`).
+- [ ] E-mail Transacional (Resend):
+    - [ ] Confirmação de cadastro (Verificar código que chamaria Resend API - Nenhuma chamada explícita à API Resend encontrada nos arquivos `grep`ped para `resend_api_key`, mas a chave está no `.env`. A implementação do envio de email precisa ser verificada.)
+    - [ ] Email de boas-vindas
+    - [ ] Email de reset de senha (Supabase gerencia isso, mas Resend pode ser usado para outros emails)
+    - [ ] Email de confirmação de pagamento/matrícula.
+- [ ] Formulário de Contato (`/contato`):
+    - [ ] Envio para Resend (Verificar `src/app/contato/page.tsx` ou API route associada - Nenhuma chamada explícita à API Resend encontrada nos arquivos `grep`ped. Verificar implementação.)
+
+## III. DOCUMENTAÇÃO PARA O CLIENTE
+- [X] `documentacao/CONFIGURACAO_RESEND.md` (Criado e com instruções sobre domínios)
+- [X] `documentacao/MARCOS_ADMIN_SETUP.md` (Generalizado para "Admin")
+- [ ] Verificar se toda documentação movida para `documentacao/` está clara e completa para o cliente.
+- [ ] Manual do Cliente (`projeto/MANUAL_CLIENTE.md`) - Revisar e mover para `documentacao/` se for para o cliente final.
+
+## IV. LIMPEZA FINAL E ORGANIZAÇÃO
+- [X] Arquivos `.md` da raiz movidos para `documentacao/` (Confirmar status da pasta `documentacao` e se `README.md` deve ser movido).
+- [ ] Remover arquivos desnecessários do projeto (e.g., `add_admin_marcos.sql` se generalizado ou não necessário para o cliente, `projeto/info.txt`, `projeto/web.md` APÓS AÇÕES CRÍTICAS).
+- [ ] Verificar se o `.gitignore` está adequado e não versionando arquivos sensíveis como `.env.local` ou `node_modules/`. (Parece OK).
+
+## V. RECOMENDAÇÕES PÓS-ENTREGA (Para o Cliente)
+- [ ] Instruir o cliente a configurar suas próprias chaves API (Supabase, Stripe, Resend) nas variáveis de ambiente do servidor de produção (e.g., Vercel).
+- [ ] Instruir o cliente a mudar senhas de acesso (e.g., Supabase, email `ctma.usa@gmail.com` se a conta for transferida).
+- [ ] Instruir sobre a importância de não commitar segredos no repositório Git.
+
+## SUMÁRIO DAS AÇÕES CRÍTICAS IMEDIATAS:
+1.  **DELETAR `projeto/info.txt`**
+2.  **ROTACIONAR CHAVES STRIPE (Secret e Publishable)**
+3.  **MUDAR SENHA DO EMAIL `ctma.usa@gmail.com`**
+4.  **REMOVER SENHA DO SUPABASE DE `projeto/web.md` E DELETAR/LIMPAR O ARQUIVO**
+5.  **MUDAR SENHA DO PROJETO SUPABASE**
+6.  **REMOVER TODOS OS ARQUIVOS/INFORMAÇÕES ACIMA DO HISTÓRICO GIT SE ESTIVEREM VERSIONADOS.**
+7.  **Generalizar/Remover PII de `add_admin_marcos.sql`, `src/app/dashboard/page.tsx`, `src/app/cursos/lider-global/page.tsx`, `RESTRICAO_ADMIN.js`, `supabase_setup.sql`.**
+8.  **Remover comentário com caminho local de `src/app/cursos/page.tsx`.**
+
+Este checklist foi atualizado com base na revisão.
