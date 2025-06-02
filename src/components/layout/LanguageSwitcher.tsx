@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Flag from 'react-world-flags';
 import { ChevronDown } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
 
 interface Language {
   code: string;
@@ -11,26 +12,48 @@ interface Language {
 }
 
 const languages: Language[] = [
-  { code: 'pt', name: 'Português', flagCode: 'BR' },
   { code: 'en', name: 'English', flagCode: 'US' },
   { code: 'es', name: 'Español', flagCode: 'ES' },
+  { code: 'pt', name: 'Português', flagCode: 'BR' },
   { code: 'zh', name: '中文', flagCode: 'CN' },
   { code: 'uk', name: 'Українська', flagCode: 'UA' },
 ];
 
 export default function LanguageSwitcher() {
+  const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>(languages[0]);
+  // Set initial selected language based on current i18n language or default to English
+  const currentLanguageCode = i18n.language || 'en';
+  const initialLanguage = languages.find(lang => lang.code === currentLanguageCode) || languages.find(lang => lang.code === 'en') || languages[0];
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>(initialLanguage);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelectLanguage = (language: Language) => {
-    setSelectedLanguage(language);
+    // setSelectedLanguage(language); // No longer set directly
+    i18n.changeLanguage(language.code); // Only change i18n state
     setIsOpen(false);
-    // Aqui viria a lógica para alterar o idioma do site (ex: router.push ou i18n.changeLanguage)
-    console.log(`Idioma selecionado: ${language.name}`);
+    // console.log(`Idioma selecionado: ${language.name}, Código: ${language.code}`);
   };
+
+  useEffect(() => {
+    // This effect now correctly syncs selectedLanguage from i18n.language
+    if (i18n.language) {
+      const langToSet = languages.find(l => l.code === i18n.language);
+      if (langToSet && langToSet.code !== selectedLanguage.code) {
+        setSelectedLanguage(langToSet);
+      } else if (!langToSet) {
+        // Fallback if i18n.language is not in our list (e.g. 'en-US' and we only have 'en')
+        // Try to find a base language match or default
+        const baseLanguageCode = i18n.language.split('-')[0];
+        const baseLangToSet = languages.find(l => l.code === baseLanguageCode) || initialLanguage;
+        if (baseLangToSet.code !== selectedLanguage.code) {
+          setSelectedLanguage(baseLangToSet);
+        }
+      }
+    }
+  }, [i18n.language, selectedLanguage.code, initialLanguage]); // initialLanguage helps re-evaluate if default changes
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

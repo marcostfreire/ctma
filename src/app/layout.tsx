@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
+"use client"; // Required for appWithTranslation
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { appWithTranslation } from 'next-i18next';
+import i18nConfig from '../../next-i18next.config.js'; // Import the config
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,12 +18,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "CTMA - Chaplain Training Management Agency",
-  description: "Formamos capelães, diplomatas civis e líderes para um impacto global de compaixão, paz e esperança, especialmente em momentos de crise.",
-};
+// Metadata has been moved to src/app/metadata.ts
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -41,3 +41,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default appWithTranslation(RootLayout, i18nConfig);

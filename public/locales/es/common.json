@@ -1,0 +1,6 @@
+{
+  "greeting": "¡Hola!",
+  "footer": {
+    "copyright": "© {currentYear} CTMA (Chaplain Training Management Agency). Todos los derechos reservados."
+  }
+}

@@ -1,7 +1,11 @@
+"use client"; // Required for useTranslation
+
 import Link from "next/link";
 import { Linkedin, Facebook, Instagram, Youtube } from "lucide-react";
+import { useTranslation } from 'next-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation('common');
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
@@ -57,7 +61,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-ctma-cinza-ardosia pt-8 text-center">
-          <p>© {currentYear} CTMA (Chaplain Training Management Agency). Todos os direitos reservados.</p>
+          <p>{t('footer.copyright', { currentYear })}</p>
         </div>
       </div>
     </footer>
