@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FFFFFF; /* ctma-white */
+  --foreground: #101B35; /* ctma-azul-marinho para texto padrão */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Custom CSS variables for Tailwind theme */
+:root {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--color-background); /* Garante fundo branco */
+  color: var(--color-foreground);   /* Garante texto azul marinho */
+}
